@@ -40,8 +40,8 @@ body {
   padding: 0em; }
 #TOC ul li {
   display: block;
-  padding-top: 0.3em;
-  padding-bottom: 0.3em;
+  padding-top: 0.5ex;
+  padding-bottom: 0.5ex;
   border-top: 1px solid #CCCCCC; }
 #TOC ul li:first-child {
   border-top: 0px; }
