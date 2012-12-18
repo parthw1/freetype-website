@@ -1,0 +1,295 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+          "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type"
+        content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type"
+        content="text/css">
+  <meta http-equiv="Content-Script-Type"
+        content="text/javascript">
+
+  <meta name="description"
+        content="The FreeType Project:
+                 a free, high-quality and portable Font engine">
+  <meta name="keywords"
+        content="FreeType fonts renderer TrueType OpenType Type1
+                 TTF OTF TTC library free fast quality">
+
+  <link rel="stylesheet"
+        type="text/css"
+        href="freetype2.css">
+
+  <script type="text/javascript"
+          src="jquery-1.8.3.min.js">
+  </script>
+  <script type="text/javascript"
+          src="jquery.ba-resize.min.js">
+  </script>
+  <script type="text/javascript"
+          src="freetype2.js">
+  </script>
+
+  <title>The FreeType Project</title>
+</head>
+
+
+<body>
+
+<div id="top"
+     class="bar">
+  <h1>FreeType</h1>
+</div>
+
+
+<div id="wrapper">
+
+<div class="colmask leftmenu">
+  <div class="colright">
+    <div class="col1wrap">
+      <div class="col1">
+
+
+        <!-- ************************************************** -->
+
+        <div id="intro">
+          <p class="large">FreeType is a freely available software
+            library to render fonts.</p>
+
+          <p>It is written in&nbsp;C, designed to be small, efficient,
+            highly customizable, and portable while capable of
+            producing high-quality output (glyph images) of most
+            vector and bitmap font formats.</p>
+
+          <p>Some products which use FreeType for rendering fonts on
+            screen or on paper, either exclusively or partially:</p>
+
+          <ul>
+            <li><a href="http://www.ghostscript.com/">GNU/Linux</a> and
+              other free Unix operating system derivates like
+              <a href="http://www.freebsd.org/">FreeBSD</a>
+              or <a href="http://www.netbsd.org/">NetBSD</a></li>
+            <li><a href="http://www.apple.com/ios/">iOS</a>, Apple's
+              mobile operating system for iPhones and iPads</li>
+            <li><a href="http://www.android.com/">Android</a>,
+              Google's operating system for smartphones and tablet
+              computers</li>
+            <li><a href="http://www.ghostscript.com/">Ghostscript</a>,
+              a PostScript interpreter used in many printers</li>
+          </ul>
+
+          <p>Counting the above products only, you get more than a
+            <em>billion</em> devices which contain FreeType.</p>
+        </div>
+
+
+        <!-- ************************************************** -->
+
+        <div id="news">
+          <h2>News &amp; Updates</h2>
+
+          <h4>FreeType's homepage redesigned</h4>
+          <div class="date">2012-12-12</div>
+
+          <p>This is the first news entry of the redesigned FreeType
+            homepage!
+
+          <h4>FreeType 2.4.10</h4>
+          <div class="date">2012-06-15</div>
+
+          <p>FreeType 2.4.10 has been released.  This is minor
+            release, fixing mainly a problem for GhostScript.
+            See <a href="http://sourceforge.net/projects/freetype/files/freetype2/2.4.10/README/view">this
+              file</a> for the release notes which give more
+            details.</p>
+
+          <h4>FreeType 2.4.9</h4>
+          <div class="date">2012-03-08</div>
+
+          <p>FreeType 2.4.9 has been released.  This is mainly a
+            security release, fixing many potential vulnerabilities.
+            All users should upgrade.
+            See <a href="http://sourceforge.net/projects/freetype/files/freetype2/2.4.9/README/view">this
+              file</a> for the release notes which give more
+            details.</p>
+
+          <h4>FreeType 2.4.8</h4>
+          <div class="date">2011-11-15</div>
+
+          <p>FreeType 2.4.8 has been released.  This is a security
+            release, also providing a new API for accessing dictionary
+            data in Type&nbsp;1 fonts.  All users should upgrade.
+            See <a href="http://sourceforge.net/projects/freetype/files/freetype2/2.4.8/README/view">this
+              file</a> for the release notes which give more
+            details.</p>
+
+          <h4>FreeType 2.4.7</h4>
+          <div class="date">2011-10-18</div>
+
+          <p>FreeType 2.4.7 has been released.  This is a security
+            release.  All users should upgrade.
+            See <a href="http://sourceforge.net/projects/freetype/files/freetype2/2.4.7/README/view">this
+              file</a> for the release notes which give more
+            details.</p>
+
+          <h4>FreeType 2.4.6</h4>
+          <div class="date">2011-07-29</div>
+
+          <p>FreeType 2.4.6 has been released.  This is a security
+            release.  All users should upgrade.
+            See <a href="http://sourceforge.net/projects/freetype/files/freetype2/2.4.6/README/view">this
+              file</a> for the release notes which give more
+            details.</p>
+
+          <h4>FreeType 2.4.5</h4>
+          <div class="date">2011-06-24</div>
+
+          <p>FreeType 2.4.5 has been released.  This is a maintainance
+            release.  All users should upgrade, especially if you
+            still experience rendering degradations with version
+            2.4.4.
+            See <a href="http://sourceforge.net/projects/freetype/files/freetype2/2.4.5/README/view">this
+              file</a> for the release notes which give more
+            details.</p>
+
+          <h4>FreeType 2.4.4</h4>
+          <div class="date">2010-11-28</div>
+
+          <p>FreeType 2.4.4 has been released.  This is a maintainance
+            release.  All users should upgrade, especially if you
+            experience rendering degradations of PDF files with
+            version 2.4.3.
+            See <a href="http://sourceforge.net/projects/freetype/files/freetype2/2.4.4/NEWS/view">this
+              file</a> for the release notes which give more
+            details.</p>
+
+          <h4>FreeType 2.4.3</h4>
+          <div class="date">2010-10-03</div>
+        
+          <p>FreeType 2.4.3 has been released.  A rendering regression
+            of S-shaped cubic arcs (introduced in version 2.4.0) has
+            been fixed.  Besides that, a bunch of fixes have been
+            applied to improve handling of broken fonts.  All users
+            should upgrade.
+            See <a href="http://sourceforge.net/projects/freetype/files/freetype2/2.4.3/NEWS/view">this
+            file</a> for the release notes which give more
+            details.</p>
+        
+          <h4>FreeType 2.4.2</h4>
+          <div class="date">2010-08-06</div>
+        
+          <p>FreeType 2.4.2 has been released.  Another serious bug in
+            the CFF font module has been found, together with more
+            exploitable vulnerabilities in the Type&nbsp;42 font
+            driver.  All users should upgrade immediately.
+            See <a href="http://sourceforge.net/projects/freetype/files/freetype2/2.4.2/NEWS/view">this
+            file</a> for the release notes which give more
+            details.</p>
+
+          <h4>FreeType 2.4.1</h4>
+          <div class="date">2010-07-18</div>
+        
+          <p>FreeType 2.4.1 has been released.  A serious bug in the
+            CFF font module has been found.  No need to upgrade from
+            version 2.4.0 if you don't use such fonts.
+            See <a href="http://sourceforge.net/projects/freetype/files/freetype2/2.4.1/NEWS/view">this
+              file</a> for the release notes which give more
+            details.</p>
+
+          <h4>FreeType 2.4.0</h4>
+          <div class="date">2010-07-12</div>
+        
+          <p>FreeType 2.4.0 has been released.  This is the first
+            release of the 2.4 series.  In addition to many bugfixes,
+            the TrueType bytecode interpreter is now enabled by
+            default.  All users should upgrade.
+            See <a href="http://sourceforge.net/projects/freetype/files/freetype2/2.4.0/NEWS/view">this
+              file</a> for the release notes which give more
+            details.</p>
+        </div>
+
+
+        <!-- ************************************************** -->
+
+        <div class="webmaintainer">
+          <p>This page is maintained by
+            <a href="mailto:wl@gnu.org">Werner Lemberg.</a>  The
+            FreeType logo has been designed
+            by <a href="http://www.colom.org">Manuel Colom</a>.</p>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ************************************************** -->
+
+    <div class="col2">
+    </div>
+  </div>
+</div>
+
+
+<!-- ************************************************** -->
+
+<div id="TOC">
+  <ul>
+    <li id="funding">
+      <a href="http://pledgie.com/campaigns/18808">
+        <img alt="Click here to lend your support to the FreeType project and make a donation at pledgie.com!"
+             src="http://pledgie.com/campaigns/18808.png?skin_name=chrome"
+             border="0"
+             align="middle">
+      </a><br>
+      <a href="http://flattr.com/thing/882217/The-FreeType-Project"
+         target="_blank">
+        <img class="with-border"
+             src="http://api.flattr.com/button/flattr-badge-large.png"
+             alt="Flattr this"
+             title="Flattr this"
+             border="0"
+             align="middle">
+      </a>
+    </li>
+    <li>
+      <a href="index.html">Home</a>
+    </li>
+    <li>
+      <a href="freetype2/index.html">Overview</a>
+    </li>
+    <li>
+      <a href="#news">News</a>
+    </li>
+    <li>
+      <a href="freetype2/documentation.html">Documentation</a>
+    </li>
+    <li>
+      <a href="developer.html">Development</a>
+    </li>
+    <li>
+      <a href="license.html">Licenses</a>
+    </li>
+    <li>
+      <a href="contact.html"
+         class="emphasis">Contact</a>
+    </li>
+    <li>
+      <a href="download.html">Download</a>
+    </li>
+    <li>
+      <a href="history.html">History</a>
+    </li>
+    <li>
+      <a href="miscellaneous.html">Miscellaneous</a>
+    </li>
+  </ul>
+</div>
+
+</div> <!-- id="wrapper" -->
+
+<div id="TOC-bottom">
+</div>
+
+</body>
+</html>

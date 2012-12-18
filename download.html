@@ -1,0 +1,235 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+          "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type"
+        content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type"
+        content="text/css">
+  <meta http-equiv="Content-Script-Type"
+        content="text/javascript">
+  <meta name="description"
+        content="FreeType Overview">
+
+  <link rel="stylesheet"
+        type="text/css"
+        href="freetype2_-60.css">
+
+  <script type="text/javascript"
+          src="jquery-1.8.3.min.js">
+  </script>
+  <script type="text/javascript"
+          src="jquery.ba-resize.min.js">
+  </script>
+  <script type="text/javascript"
+          src="freetype2.js">
+  </script>
+
+  <title>FreeType Downloads</title>
+</head>
+
+
+<body>
+
+<div id="top"
+     class="bar">
+  <h1>FreeType Downloads</h1>
+</div>
+
+
+<div id="wrapper">
+
+<div class="colmask leftmenu">
+  <div class="colright">
+    <div class="col1wrap">
+      <div class="col1">
+
+
+        <!-- ************************************************** -->
+
+        <div id="stable-releases">
+          <h2>Stable Releases</h2>
+
+          <p>Stable releases of the FreeType packages, including
+            source code, documentation, demo programs, and support
+            tools can be downloaded directly from</p>
+
+          <div class="quote">
+            <a href="http://download.savannah.gnu.org/releases/freetype/">http://savannah.nongnu.org/download/freetype/</a>
+          </div>
+
+          <p>or from</p>
+
+          <div class="quote">
+            <a href="http://sourceforge.net/projects/freetype/files/">http://sourceforge.net/projects/freetype/files/</a>
+          </div>
+
+          <p>Both sites have mirrors worldwide.</p>
+
+          <p>Windows binaries of FreeType can also be downloaded
+            directly from
+            this <a href="http://gnuwin32.sourceforge.net/packages/freetype.htm">download
+            page</a> (version 2.3.5) of
+            the <a href="http://gnuwin32.sourceforge.net/">GnuWin32</a>
+            project, or from
+            <a href="http://www.gtk.org/download/win32.php">GTK's
+              download page</a> (version 2.4.2).</p>
+
+          <p>The latest Freetype&nbsp;1 release, today mainly of
+            historical interest only, can be
+            downloaded <a href="http://sourceforge.net/projects/gnuwin32/files/freetype/1.4/">here</a>.
+            Other projects related to FreeType are only available as
+            CVS source code modules; see
+            the <a href="developer.html#source-code">developer
+            page</a> for more details.</p>
+        </div>
+
+
+        <!-- ************************************************** -->
+
+        <div id="snapshots">
+          <h2>Development Versions</h2>
+
+          <p>Using
+            Savannah's <a href="http://git.savannah.gnu.org/cgit/freetype/">cgit</a>
+            interface you can download snapshots created on the fly
+            for any commit entry.</p>
+
+          <p>Downloading and compiling a development snapshot is one
+            of the first things to do when you encounter something
+            that looks like a bug in FreeType.  Note that we do not
+            guarantee that all development snapshots work on a given
+            day, though this should be the normal case.</p>
+        </div>
+
+
+        <!-- ************************************************** -->
+
+        <div id="tools-and-binaries">
+          <h2>Support Tools and Binaries</h2>
+
+          <h3>GNU Make for Win32</h3>
+
+          <p><a href="http://sourceforge.net/projects/mingw/files/MinGW/Extension/make/">GNU
+              Make</a> is required to use the FreeType build system
+              from a command line prompt.</p>
+        
+          <p>Note that the binary comes from the
+            excellent <a href="http://www.mingw.org/">MinGW
+            distribution</a>, which we highly recommend over Cygwin,
+            if you don't need POSIX-compliance, in terms of ease of
+            use and performance.</p>
+
+          <p>After installation you should check that it is correctly
+            invoked by typing:</p>
+
+          <pre class="code">
+            make -v</pre>
+
+          <p>The first lines should read:</p>
+
+          <pre class="code">
+            GNU Make 3.81
+            Copyright (C) 2006  Free Software Foundation, Inc.
+            This is free software; see the source for copying conditions.
+            There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A
+            PARTICULAR PURPOSE.</pre>
+
+          <p>Newer version work also, of course.</p>
+
+          <p>Note that the FreeType source code bundle also contains
+            project files for various versions of Microsoft
+            Visual&nbsp;C and Visual Studio for Windows&nbsp;32 and
+            Windows&nbsp;CE.  However, these files have been
+            contributed and might be out of date, thus use them with
+            care.
+        </div>
+
+
+        <!-- ************************************************** -->
+
+        <div id="ftjam">
+          <h3>FreeType Jam for Win32 and GNU/Linux</h3>
+
+          <p>Since release 2.0.2, FreeType and its demo programs can
+            be compiled with an alternative build tool called
+            &lsquo;jam&rsquo;.  Jam is a small, portable, and
+            open-source replacement for &lsquo;make&rsquo; that is a
+            lot easier to use, and which transparently supports
+            multiple platforms <em>and</em> compilers.</p>
+
+          <p>Binaries are available from
+            the <a href="http://sourceforge.net/project/showfiles.php?group_id=3157">download
+            page on SourceForge</a>.</p>
+
+          <p><a href="jam/index.html">This page</a> gives more
+            information regarding Jam and FreeType.</p>
+
+          <p class="warning">Due to lack of resources, there is no Jam
+            support currently for FreeType.  Volunteers are highly
+            welcomed.</p>
+        </div>
+
+
+        <!-- ************************************************** -->
+
+        <div class="updated">
+          <p>Last update: 12-Dec-2012</p>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ************************************************** -->
+
+    <div class="col2">
+    </div>
+  </div>
+</div>
+
+
+<!-- ************************************************** -->
+
+<div id="TOC">
+  <ul>
+    <li id="funding">
+      <a href="http://pledgie.com/campaigns/18808">
+        <img alt="Click here to lend your support to the FreeType project and make a donation at pledgie.com!"
+             src="http://pledgie.com/campaigns/18808.png?skin_name=chrome"
+             border="0"
+             align="middle">
+      </a><br>
+      <a href="http://flattr.com/thing/882217/The-FreeType-Project"
+         target="_blank">
+        <img class="with-border"
+             src="http://api.flattr.com/button/flattr-badge-large.png"
+             alt="Flattr this"
+             title="Flattr this"
+             border="0"
+             align="middle">
+      </a>
+    </li>
+    <li>
+      <a href="index.html">Home</a>
+    </li>
+    <li>
+      <a href="#stable-releases">Stable Releases</a>
+    </li>
+    <li>
+      <a href="#snapshots">Development Versions</a>
+    </li>
+    <li>
+      <a href="#tools-and-binaries">Support Tools</a>
+    </li>
+  </ul>
+</div>
+
+</div> <!-- id="wrapper" -->
+
+<div id="TOC-bottom">
+</div>
+
+</body>
+</html>

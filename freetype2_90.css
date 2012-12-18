@@ -1,0 +1,10 @@
+/* freetype2_90.css */
+
+@import "freetype2.css";
+
+.bar {
+  background: #4c065E
+              url("image/fond3_90.png")
+              no-repeat
+              right
+              top; }

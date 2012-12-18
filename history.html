@@ -1,0 +1,192 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+          "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type"
+        content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type"
+        content="text/css">
+  <meta http-equiv="Content-Script-Type"
+        content="text/javascript">
+
+  <meta name="description"
+        content="FreeType History">
+  <meta name="keywords"
+        content="FreeType 1 FreeType 2 history Werner Lemberg David Turner
+                 Robert Wilhelm libttf libfreetype Pascal ftpascal">
+
+  <link rel="stylesheet"
+        type="text/css"
+        href="freetype2_-60.css">
+
+  <script type="text/javascript"
+          src="jquery-1.8.3.min.js">
+  </script>
+  <script type="text/javascript"
+          src="jquery.ba-resize.min.js">
+  </script>
+  <script type="text/javascript"
+          src="freetype2.js">
+  </script>
+
+  <title>FreeType History</title>
+</head>
+
+<body>
+
+<div id="top"
+     class="bar">
+  <h1>FreeType History</h1>
+</div>
+
+
+<div id="wrapper">
+
+<div class="colmask leftmenu">
+  <div class="colright">
+    <div class="col1wrap">
+      <div class="col1">
+
+
+        <!-- ************************************************** -->
+
+        <div id="freetype1">
+          <h3>FreeType&nbsp;1</h3>
+
+          <p>The main author of FreeType was David Turner, who created
+            the library in 1996 to render TrueType fonts, including an
+            interpreter for handling TrueType bytecode.  It was
+            originally written in
+            the <a href="http://en.wikipedia.org/wiki/Pascal_%28programming_language%29">Pascal</a>
+            programming language.  In 1997, Robert Wilhelm ported it
+            to&nbsp;<a href="http://en.wikipedia.org/wiki/C_%28programming_language%29">C</a>,
+            and Werner Lemberg joined the team.  Originally, the C and
+            Pascal versions were developed in parallel, however,
+            development of the Pascal version stopped in 2000.</p>
+
+          <p>Using
+            <a href="miscellaneous.html#freetype1">FreeType&nbsp;1</a>,
+            as this original version is called today, some programs
+            were written which then had some impact, for
+            example <a href="ft_os2/index.html">FreeType/2</a>, a
+            better TrueType font driver for
+            the <a href="http://en.wikipedia.org/wiki/Os/2">OS/2</a>
+            operating system,
+            or <a href="http://www.tug.org/svn/texlive/trunk/Build/source/texk/ttf2pk/">ttf2pk</a>,
+            a converter from TrueType fonts
+            to <a href="http://en.wikipedia.org/wiki/TeX">TeX</a>'s PK
+            bitmap format (this program is still part
+            of <a href="http://www.tug.org/texlive/">TeXLive</a>).</p>
+
+          <p>Robert Wilhelm stopped working on FreeType in 2000.</p>
+        </div>
+
+
+        <!-- ************************************************** -->
+
+        <div id="freetype2">
+          <h3>FreeType&nbsp;2</h3>
+
+          <p>After several beta releases, version 2.0 of FreeType was
+            released in 2000, providing a complete rewrite to make it
+            modular.  To distinguish it from FreeType&nbsp;1, it was
+            then called FreeType&nbsp;2 (which is no longer necessary
+            today).  Most important new features were the support of
+            multiple font formats, in particular PostScript fonts
+            (together with hinting engine), a much improved rendering
+            backend for gray-level images, and a module for caching
+            glyphs images and glyph metrics.  Later versions added
+            support for even more font formats and LCD rendering
+            modes.</p>
+
+          <p>In the year 1999 we were informed by Apple Inc. that
+            FreeType was infringing patents related to TrueType
+            hinting (see <a href="patents.html">here</a> for more).
+            As a consequence, we disabled the bytecode interpreter
+            completely by default.  Later on we were able to refine
+            this radical cut by disabling only the patented
+            instructions, handling more than 95% of the other
+            instructions just fine and circumventing problems with the
+            remaining 5% to a certain extent.  Another consequence was
+            the invention of the auto-hinter which needs no hints at
+            all (you can
+            find <a href="http://www.tug.org/TUGboat/tb24-3/lemberg.pdf">here</a>
+            an early scholarly paper).  Today, the TrueType patents
+            have expired.</p>
+
+          <p>Around 2004 it was decided to restrict FreeType to a
+            single target: Creating (rasterized) glyph images.
+            Attempts to handle OpenType layout features and text
+            shaping were abandoned since this could be handled much
+            better with a separate library on top of FreeType
+            (cf. <a href="http://www.icu-project.org/">ICU</a> or
+            <a href="http://harfbuzz.org">Harfbuzz</a>).
+
+          <p>In 2009, the source code repository has been migrated
+            from <a href="http://www.nongnu.org/cvs/">CVS</a>
+            to <a href="http://git-scm.com/">git</a>, and David Turner
+            stopped active development on FreeType.  Since then the
+            only maintainer is Werner Lemberg, with the help of others
+            who contribute fixes and improvements.</p>
+        </div>
+
+
+        <!-- ************************************************** -->
+
+        <div class="updated">
+          <p>Last update: 12-Dec-2012</p>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ************************************************** -->
+
+    <div class="col2">
+    </div>
+  </div>
+</div>
+
+
+<!-- ************************************************** -->
+
+<div id="TOC">
+  <ul>
+    <li id="funding">
+      <a href="http://pledgie.com/campaigns/18808">
+        <img alt="Click here to lend your support to the FreeType project and make a donation at pledgie.com!"
+             src="http://pledgie.com/campaigns/18808.png?skin_name=chrome"
+             border="0"
+             align="middle">
+      </a><br>
+      <a href="http://flattr.com/thing/882217/The-FreeType-Project"
+         target="_blank">
+        <img class="with-border"
+             src="http://api.flattr.com/button/flattr-badge-large.png"
+             alt="Flattr this"
+             title="Flattr this"
+             border="0"
+             align="middle">
+      </a>
+    </li>
+    <li>
+      <a href="index.html">Home</a>
+    </li>
+    <li>
+      <a href="#freetype1">FreeType&nbsp;1</a>
+    </li>
+    <li>
+      <a href="#freetype2">FreeType&nbsp;2</a>
+    </li>
+  </ul>
+</div>
+
+</div> <!-- id="wrapper" -->
+
+<div id="TOC-bottom">
+</div>
+
+</body>
+</html>

@@ -1,0 +1,309 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+          "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type"
+        content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type"
+        content="text/css">
+  <meta http-equiv="Content-Script-Type"
+        content="text/javascript">
+
+  <meta name="description"
+        content="FreeType Development">
+  <meta name="keywords"
+        content="FreeType fonts renderer TrueType OpenType Type1
+                 TTF OTF TTC library free fast quality">
+
+  <link rel="stylesheet"
+        type="text/css"
+        href="freetype2_-60.css">
+
+  <script type="text/javascript"
+          src="jquery-1.8.3.min.js">
+  </script>
+  <script type="text/javascript"
+          src="jquery.ba-resize.min.js">
+  </script>
+  <script type="text/javascript"
+          src="freetype2.js">
+  </script>
+
+  <title>FreeType Development</title>
+</head>
+
+<body>
+
+<div id="top"
+     class="bar">
+  <h1>FreeType Development</h1>
+</div>
+
+
+<div id="wrapper">
+
+<div class="colmask leftmenu">
+  <div class="colright">
+    <div class="col1wrap">
+      <div class="col1">
+
+
+        <!-- ************************************************** -->
+
+        <div id="source-code">
+          <h2>Accessing the Source Code</h2>
+
+          <p>There are several ways to access the source code for the
+            FreeType packages.</p>
+
+          <ul>
+            <li class="emph">
+              <p><a href="download.html">Download a source
+                  archive</a></p>
+
+              <p>Use this to browse, compile, and use the source
+                locally.</p>
+            </li>
+            <li class="emph">
+              <p><a href="http://git.savannah.gnu.org/cgit/freetype/">Use
+                  the cgit page</a></p>
+
+              <p>It will let you view our source code and the changes
+                that occurred lately.</p>
+            </li>
+            <li class="emph">
+              <p>Use git access</p>
+
+              <p>The complete FreeType repositories can be downloaded
+                using git.  Enter these commands for anonymous
+                read-only access of the repositories:</p>
+
+              <div class="quote">
+                <tt>git clone git://git.sv.nongnu.org/freetype/freetype2.git<br>
+                  git clone git://git.sv.nongnu.org/freetype/freetype2-demos.git</tt>
+              </div>
+
+              <p>If you are behind a Firewall which disables port
+                9418, you might try the HTTP protocol:</p>
+
+              <div class="quote">
+                <tt>git clone http://git.sv.nongnu.org/r/freetype/freetype2.git<br>
+                  git clone http://git.sv.nongnu.org/r/freetype/freetype2-demos.git</tt>
+              </div>
+
+              <p>Please read</p>
+        
+              <div class="quote">
+                <a href="http://sv.nongnu.org/maintenance/UsingGit">http://sv.nongnu.org/maintenance/UsingGit</a>
+              </div>
+
+              <p>for more details on the git setup of Savannah (for
+                example, how to check out the git repositories with a
+                CVS client, if necessary).</p>
+            </li>
+            <li class="emph">
+              <p>Use anonymous CVS access</p>
+
+              <p>Other, no longer maintained FreeType repositories
+                which exist for historical interest only can be
+                downloaded through CVS and
+                viewed <a href="http://cvs.savannah.gnu.org/viewvc/?root=freetype">here</a>.
+                Use the following value for the <tt>CVSROOT</tt>
+                environment variable (or the equivalent <tt>-d</tt>
+                command line option of the cvs client):</p>
+
+              <div class="quote">
+                <tt>:pserver:anonymous@cvs.sv.nongnu.org:/sources/freetype</tt>
+              </div>
+
+              <p>When asked for a password, simply press Enter
+                  for <tt>cvs login</tt>.  The module names
+                  are <tt>freetype</tt> (Freetype version&nbsp;1.x,
+                  C&nbsp;code), <tt>freetype1-contrib</tt>
+                  (contributed programs), and <tt>ftpascal</tt>
+                  (Freetype version&nbsp;1.x, Pascal code).</p>
+
+              <p>The <tt>freetype2</tt> and <tt>ft2demos</tt> modules
+                have been transformed to git (see above) and shouldn't
+                be used anymore.</p>
+            </li>
+          </ul>
+        </div>
+
+
+        <!-- ************************************************** -->
+
+        <div id="support-tools">
+          <h2>Support Tools</h2>
+
+          <p>One of the simplest way to compile FreeType is from the
+            command line using one of the following tools.</p>
+
+        
+          <h3>GNU Make</h3>
+
+          <p>FreeType comes with a sophisticated build system that is
+            based on GNU Make.  This really means a set of Makefiles
+            and sub-Makefiles that are used to perform the following
+            operations.</p>
+
+          <ul>
+            <li>
+              <p>Detect the current operating system in order to
+              select the appropriate default compiler settings for the
+              build.</p>
+            </li>
+            <li>
+              <p>Select the settings corresponding to a given compiler
+                for a given platform.  For example, on Windows, the
+                following compilers are supported: Visual C++, GCC,
+                Borland C++, Watcom C++, Win32-LCC.  On Unix, gcc, lcc
+                and standard cc are also supported through a
+                traditional <tt>configure</tt> script.</p>
+            </li>
+            <li>
+              <p>Build the list of FreeType modules automatically from
+              the sub-directories present in the <tt>src</tt>
+              directory.</p>
+            </li>
+            <li>
+              <p>Finally, build the library and its module as a static
+              library or DLL, depending on the platform and
+              compiler.</p>
+            </li>
+          </ul>
+
+          <p>The build system is capable of supporting several
+            compilers, on several platforms.  However, you <b>must</b>
+            have a recent version of GNU Make installed to use it.
+            The build does <em>not work</em> with other <tt>make</tt>
+            tools (like BSD Make, NMake, etc.).</p>
+
+          <p>See the <a href="download.html">download section</a> for
+            binaries of GNU Make for Windows.</p>
+
+
+          <h3>FT&nbsp;Jam</h3>
+
+          <p>Unfortunately, the GNU Make-based build system described
+            above is rather complex due to various technical reasons,
+            one of them being the <em>really</em> weird syntax used in
+            Makefiles.  Since release 2.0.2, the FreeType library can
+            also be created with an alternative build tool
+            named <b>Jam</b>.</p>
+
+          <p>Briefly, Jam is a small, efficient, portable and
+            open-source replacement for <tt>make</tt> that is both a
+            lot easier to use and more powerful.</p>
+
+          <ul>
+            <li>
+              <p>Jam control files (named <em>Jamfiles</em>) are
+              portable among platforms and compilers and thus do not
+              need to be edited for each specific build (unlike the
+              ugly <tt>Makefile.in</tt> trick used commonly on
+              Unix).</p>
+            </li>
+            <li>
+              <p>The syntax of Jamfiles is simple, expressive and
+              allows you to define your own functions.</p>
+            </li>
+            <li>
+              <p>Jam performs lots of nifty things for you, like
+              automatic header dependencies computations.</p>
+            </li>
+            <li>
+              <p>Jam only does project builds, it is not a
+              configuration tool and is trivially compatible with
+              Autoconf on Unix.</p>
+            </li>
+          </ul>
+
+          <p>Find more information on <a href="jam/index.html">the
+              FT&nbsp;Jam page</a>.</p>
+        </div>
+
+
+        <!-- ************************************************** -->
+
+        <div id="bug-report">
+          <h2>Reporting a Bug</h2>
+
+          <p>In case you find a bug which you think is related to
+            FreeType, please check the problematic font with one of
+            our demo programs, for example <b>ftview</b>
+            or <b>ftstring</b>.  In case the problem persists, go to
+            the <a href="https://savannah.nongnu.org/bugs/?group=freetype">Savannah
+            bug database for FreeType</a> and check whether the
+            problem has been reported already.  Otherwise, please
+            submit a bug report.  It might be useful to use the git
+            version (see above) of FreeType for testing since we don't
+            release FreeType very often.</p>
+        </div>
+
+
+        <!-- ************************************************** -->
+
+        <div class="updated">
+          <p>Last update: 11-Dec-2012</p>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ************************************************** -->
+
+    <div class="col2">
+    </div>
+  </div>
+</div>
+
+
+<!-- ************************************************** -->
+
+<div id="TOC">
+  <ul>
+    <li id="funding">
+      <a href="http://pledgie.com/campaigns/18808">
+        <img alt="Click here to lend your support to the FreeType project and make a donation at pledgie.com!"
+             src="http://pledgie.com/campaigns/18808.png?skin_name=chrome"
+             border="0"
+             align="middle">
+      </a><br>
+      <a href="http://flattr.com/thing/882217/The-FreeType-Project"
+         target="_blank">
+        <img class="with-border"
+             src="http://api.flattr.com/button/flattr-badge-large.png"
+             alt="Flattr this"
+             title="Flattr this"
+             border="0"
+             align="middle">
+      </a>
+    </li>
+    <li>
+      <a href="index.html">Home</a>
+    </li>
+    <li>
+      <a href="#source-code">Source Code</a>
+    </li>
+    <li>
+      <a href="#support-tools">Support Tools</a>
+    </li>
+    <li>
+      <a href="#bug-report">Bug Reports</a>
+    </li>
+    <li>
+      <a href="contact.html#mailing-lists">Mailing Lists</a>
+    </li>
+  </ul>
+</div>
+
+</div> <!-- id="wrapper" -->
+
+<div id="TOC-bottom">
+</div>
+
+</body>
+</html>
