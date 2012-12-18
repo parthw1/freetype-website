@@ -66,6 +66,13 @@ body {
 #TOC a.emphasis:hover {
   color: #FF0000; }
 
+div.primary {
+  border-bottom: 1px solid #CCCCCC;
+  margin-bottom: 3ex; }
+div.secondary {
+  border-top: 1px solid #CCCCCC;
+  margin-top: 3ex; }
+
 /* top bar */
 #top h1 {
   position: absolute;
