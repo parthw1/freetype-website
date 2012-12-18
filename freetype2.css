@@ -14,7 +14,7 @@ body {
   border: 0em;
   text-align: left;
   font-size: large;
-  font-family: "Droid Serif", serif;
+  font-family: "Droid Serif", "serif";
   line-height: 140%; }
 
 /* table of contents; */
@@ -22,7 +22,7 @@ body {
 #TOC {
   background: #F8F8F8;
   position: fixed;
-  font-family: "Droid Sans", sans-serif;
+  font-family: "Droid Sans", "sans-serif";
   font-size: 115%;
   left: 0em;
   width: 10em; }
@@ -90,7 +90,7 @@ div.secondary {
               right
               top;
   text-align: left;
-  font-family: "Droid Sans", sans-serif;
+  font-family: "Droid Sans", "sans-serif";
   font-weight: bold;
   padding: 0em;
   margin: 0em;
@@ -277,7 +277,7 @@ p.large {
     max-width: 100%;
     margin: 0em;
     padding: 0em;
-    font-family: sans-serif;
+    font-family: "sans-serif";
   }
 
   #TOC-bottom {
