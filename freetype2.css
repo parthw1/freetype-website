@@ -20,7 +20,7 @@ body {
 /* table of contents; */
 /* width and offsets must be synchronized with col2 below */
 #TOC {
-  background: #EEE;
+  background: #F8F8F8;
   position: fixed;
   font-family: "Droid Sans", sans-serif;
   font-size: 115%;
@@ -28,7 +28,7 @@ body {
   width: 10em; }
 
 #TOC-bottom {
-  background: #EEE;
+  background: #F8F8F8;
   left: 0em;
   width: 11.5em; }
 
