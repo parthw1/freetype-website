@@ -3,8 +3,10 @@
 @import "freetype2.css";
 
 .bar {
-  background: #4c065E
+  background: #4C065E
               url("image/fond3_90.png")
               no-repeat
               right
               top; }
+#top a {
+  border-bottom: 4px solid #5C166E; }

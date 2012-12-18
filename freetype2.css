@@ -91,6 +91,20 @@ body {
   height: 134px;
   vertical-align: bottom; }
 
+#top a {
+  color: white;
+  /* pale underline for links */
+  text-decoration: none;
+  border-bottom: 4px solid #16536E; }
+#top a:link {
+  color: white; }
+#top a:visited {
+  color: white; }
+#top a:active {
+  color: white; }
+#top a:hover {
+  color: #CCCCCC; }
+
 /* column container */
 .colmask {
   /* this fixes the IE7 overflow hidden bug */
