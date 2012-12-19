@@ -38,13 +38,21 @@ body {
   text-align: center;
   margin: 0em;
   padding: 0em; }
+/* separate items with line */
 #TOC ul li {
   display: block;
   padding-top: 0.5ex;
   padding-bottom: 0.5ex;
-  border-top: 1px solid #CCCCCC; }
-#TOC ul li:first-child {
-  border-top: 0px; }
+  border-bottom: 1px solid #CCCCCC; }
+/* give more vertical spacing for funding icons */
+#TOC ul li.funding {
+  padding-top: 1ex;
+  padding-bottom: 1ex;
+}
+#TOC ul li.funding p {
+  margin-top: 1.5ex;
+  margin-bottom: 1.5ex;
+}
 
 /* this is gray getting black */
 #TOC a:link {
