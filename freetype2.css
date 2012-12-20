@@ -68,15 +68,26 @@ body {
 #TOC a:hover {
   color: #000000; }
 
-/* this is pale red getting red */
+/* this is pale red getting red
+
+  #TOC a.emphasis:link {
+    color: #FF6666; }
+  #TOC a.emphasis:visited {
+    color: #FF6666; }
+  #TOC a.emphasis:active {
+    color: #FF6666; }
+  #TOC a.emphasis:hover {
+    color: #FF0000; }
+*/
+
 #TOC a.emphasis:link {
-  color: #FF6666; }
+  color: #666666; }
 #TOC a.emphasis:visited {
-  color: #FF6666; }
+  color: #666666; }
 #TOC a.emphasis:active {
-  color: #FF6666; }
+  color: #666666; }
 #TOC a.emphasis:hover {
-  color: #FF0000; }
+  color: #000000; }
 
 /* top bar */
 #top h1 {
