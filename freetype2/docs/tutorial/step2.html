@@ -243,7 +243,7 @@
         <tt>metrics.horiAdvance</tt> that is returned in the glyph slot is
         normally rounded to integer pixel coordinates (i.e., it will be a
         multiple of&nbsp;64) by the font driver used to load the glyph
-        image.  <tt>linearHoriAdvance</tt> is a 16.16 fixed float number
+        image.  <tt>linearHoriAdvance</tt> is a 16.16 fixed-point number
         that gives the value of the original glyph advance width in
         1/65536th of pixels.  It can be use to perform pseudo
         device-independent text layouts.</p>
@@ -348,7 +348,7 @@
       <tt>FT_Done_Glyph</tt></a>.</p>
 
       <p>The glyph object contains exactly one glyph image and a 2D vector
-      representing the glyph's advance in 16.16 fixed float coordinates.
+      representing the glyph's advance in 16.16 fixed-point coordinates.
       The latter can be accessed directly as <tt>glyph-&gt;advance</tt></p>
 
       <p><font color="red">Note that unlike other FreeType objects, the
@@ -1581,7 +1581,7 @@
           <tt>x_scale</tt>
         </td>
         <td>
-          <p>This is a 16.16 fixed float scale that is used to directly
+          <p>This is a 16.16 fixed-point scale that is used to directly
           scale horizontal distances from design space to 1/64th of device
           pixels.</p>
         </td>
@@ -1591,7 +1591,7 @@
           <tt>y_scale</tt>
         </td>
         <td>
-          <p>This is a 16.16 fixed float scale that is used to directly
+          <p>This is a 16.16 fixed-point scale that is used to directly
           scale vertical distances from design space to 1/64th of device
           pixels.</p>
         </td>

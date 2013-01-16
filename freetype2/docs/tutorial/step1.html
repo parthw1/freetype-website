@@ -787,11 +787,11 @@
 
       <p>Note that the matrix pointer can be set to NULL, in which case the
       identity transform will be used.  Coefficients of the matrix are
-      otherwise in 16.16 fixed float units.</p>
+      otherwise in 16.16 fixed-point units.</p>
 
       <p>The vector pointer can also be set to NULL (in which case a delta
       of (0,0) will be used).  The vector coordinates are expressed in
-      1/64th of a pixel (also known as 26.6 fixed floats).</p>
+      1/64th of a pixel (also known as 26.6 fixed-point numbers).</p>
 
       <p><font color="red">NOTE: The transformation is applied to every
       glyph that is loaded through <tt>FT_Load_Glyph</tt> and is
