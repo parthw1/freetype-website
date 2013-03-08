@@ -13,7 +13,7 @@
   <meta name="author"
         content="Werner Lemberg" />
   <meta name="version"
-        content="0.93" />
+        content="0.95" />
 
   <title>ttfautohint</title>
 
@@ -63,7 +63,7 @@
       clear: both;
       float: left;
       width: 100%;
-      /* this chops off any overhanging <div>s */
+      /* this chops off any overhanging `div's */
       overflow: hidden; }
     /* two-column left menu settings (col1 is right, col2 is left) */
     .leftmenu {
@@ -229,11 +229,11 @@
 <div id="header">
 <h1 class="title">ttfautohint</h1>
 <h2 class="author">Werner Lemberg</h2>
-<h3 class="date">Version 0.93</h3>
+<h3 class="date">Version 0.95</h3>
 </div>
 
 <!--
-  Copyright (C) 2011-2012 by Werner Lemberg.
+  Copyright (C) 2011-2013 by Werner Lemberg.
 
   This file is part of the ttfautohint library, and may only be used,
   modified, and distributed under the terms given in `COPYING'.  By
@@ -344,7 +344,7 @@
 <dl>
 <dt><code>--increase-x-height=</code><em>n</em>, <code>-x</code> <em>n</em></dt>
 <dd><p>Normally, ttfautohint rounds the x height to the pixel grid, with a slight preference for rounding up. If this flag is set, values in the range 6 PPEM to <em>n</em> PPEM are much more often rounded up. The default value for <em>n</em> is 14. Use this flag to increase the legibility of small sizes if necessary; you might get weird rendering results otherwise for glyphs like ‘a’ or ‘e’, depending on the font design.</p>
-<p>To switch off this feature, use <code>--increase-x-height=0</code> (or check the ‘No x Height Increase’ box in the GUI).</p>
+<p>To switch off this feature, use <code>--increase-x-height=0</code> (or check the ‘No x Height Increase’ box in the GUI). To switch off rounding the x height to the pixel grid in general, either partially or completely, see <a href="#x-height-snapping-exceptions">‘x Height Snapping Exceptions’</a>.</p>
 <p>The following images again use the font ‘Mertz Bold’.</p>
 <div class="figure">
 <img src="img/e-17px-x14.png" alt="At 17px, without option -x and -w &quot;&quot;, the hole in glyph e looks very grey in the FontForge snapshot, and the GDI ClearType rendering (which is the default on older Windows versions) fills it completely with black because it uses B/W rendering along the y axis. FreeType’s light autohint mode (which corresponds to ttfautohint’s smooth stem width algorithm) intentionally aligns horizontal lines to non-integer (but still discrete) values to avoid large glyph shape distortions." /><p class="caption">At 17px, without option <code>-x</code> and ‘<code>-w &quot;&quot;</code>’, the hole in glyph ‘e’ looks very grey in the FontForge snapshot, and the GDI ClearType rendering (which is the default on older Windows versions) fills it completely with black because it uses B/W rendering along the y axis. FreeType’s ‘light’ autohint mode (which corresponds to ttfautohint’s ‘smooth’ stem width algorithm) intentionally aligns horizontal lines to non-integer (but still discrete) values to avoid large glyph shape distortions.</p>
@@ -352,6 +352,22 @@
 <div class="figure">
 <img src="img/e-17px-x17.png" alt="The same, this time with option -x 17 (and -w &quot;&quot;)." /><p class="caption">The same, this time with option <code>-x 17</code> (and ‘<code>-w &quot;&quot;</code>’).</p>
 </div>
+</dd>
+</dl>
+<h3 id="x-height-snapping-exceptions"><a href="#TOC">x Height Snapping Exceptions</a></h3>
+<dl>
+<dt><code>--x-height-snapping-exceptions=</code><em>string</em>, <code>-X</code> <em>string</em></dt>
+<dd><p>A list of comma separated PPEM values or value ranges at which no x-height snapping shall be applied. A value range has the form <em>value1</em><code>-</code><em>value2</em>, meaning <em>value1</em> &lt;= PPEM &lt;= <em>value2</em>. <em>value1</em> or <em>value2</em> (or both) can be missing; a missing value is replaced by the beginning or end of the whole interval of valid PPEM values, respectively (6 to 32767). Whitespace is not significant; superfluous commas are ignored, and ranges must be specified in increasing order. For example, the string <code>&quot;7-9, 11, 13-&quot;</code> means the values 7, 8, 9, 11, 13, 14, 15, etc. Consequently, if the supplied argument is <code>&quot;-&quot;</code>, no x-height snapping takes place at all. The default is the empty string (<code>&quot;&quot;</code>), meaning no snapping exceptions.</p>
+<p>Normally, x-height snapping means a slight increase in the overall vertical glyph size so that the height of lowercase glyphs gets aligned to the pixel grid (this is a global feature, affecting <em>all</em> glyphs of a font). However, having larger vertical glyph sizes is not always desired, especially if it is not possible to adjust the <code>usWinAscent</code> and <code>usWinDescent</code> values from the font’s <code>OS/2</code> table so that they are not too tight. See <a href="#windows-compatibility">‘Windows Compatibility’</a> for more details.</p>
+</dd>
+</dl>
+<h3 id="windows-compatibility"><a href="#TOC">Windows Compatibility</a></h3>
+<dl>
+<dt><code>--windows-compatibility</code>, <code>-W</code></dt>
+<dd><p>This option makes ttfautohint add two artificial blue zones, positioned at the <code>usWinAscent</code> and <code>usWinDescent</code> values (from the font’s <code>OS/2</code> table). The idea is to help ttfautohint so that the hinted glyphs stay within this horizontal stripe since Windows clips everything falling outside.</p>
+<p>There is a general problem with tight values for <code>usWinAscent</code> and <code>usWinDescent</code>; a good description is given in the <a href="http://typophile.com/node/13081">Vertical Metrics How-To</a>. Additionally, there is a special problem with tight values if used in combination with ttfautohint because the auto-hinter tends to slightly increase the vertical glyph dimensions at smaller sizes to improve legibility. This enlargement can make the heights and depths of glyphs exceed the range given by <code>usWinAscent</code> and <code>usWinDescent</code>.</p>
+<p>If ttfautohint is part of the font creation tool chain, and the font designer can adjust those two values, a better solution instead of using option <code>-W</code> is to reserve some vertical space for ‘padding’: For the auto-hinter, the difference between a top or bottom outline point before and after hinting is less than 1px, thus a vertical padding of 2px is sufficient. Assuming a minimum hinting size of 6ppem, adding two pixels gives an increase factor of 8÷6 = 1.33. This is near to the default baseline-to-baseline distance used by TeX and other sophisticated text processing applications, namely 1.2×designsize, which gives satisfying results in most cases. It is also near to the factor 1.25 recommended in the abovementioned How-To. For example, if the vertical extension of the largest glyph is 2000 units (assuming that it approximately represents the designsize), the sum of <code>usWinAscent</code> and <code>usWinDescent</code> could be 1.25×2000 = 2500.</p>
+<p>In case ttfautohint is used as an auto-hinting tool for fonts which can be no longer modified to change the metrics, option <code>-W</code> in combination with ‘<code>-X &quot;-&quot;</code>’ to suppress any vertical enlargement should prevent almost all clipping.</p>
 </dd>
 </dl>
 <h3 id="pre-hinting"><a href="#TOC">Pre-Hinting</a></h3>
@@ -370,7 +386,13 @@
 <h3 id="symbol-font"><a href="#TOC">Symbol Font</a></h3>
 <dl>
 <dt><code>--symbol</code>, <code>-s</code></dt>
-<dd>Use default values for standard stem width and height instead of deriving them from latin character ‘o’. Use this option (usually in combination with option <code>--latin-fallback</code>) to hint symbol or dingbat fonts or math glyphs, for example, which lack character ‘o’, at the expense of possibly poor hinting results at small sizes.
+<dd>Use default values for standard (horizontal) stem width and height instead of deriving them from latin character ‘o’. Use this option (usually in combination with option <code>--latin-fallback</code>) to hint symbol or dingbat fonts or math glyphs, for example, which lack character ‘o’, at the expense of possibly poor hinting results at small sizes.
+</dd>
+</dl>
+<h3 id="dehint"><a href="#TOC">Dehint</a></h3>
+<dl>
+<dt><code>--dehint</code>, <code>-d</code></dt>
+<dd>Strip off all hints without generating new hints. Consequently, all other hinting options are ignored. This option is intended for testing purposes.
 </dd>
 </dl>
 <h3 id="add-ttfautohint-info"><a href="#TOC">Add ttfautohint Info</a></h3>
@@ -382,7 +404,7 @@
 <h3 id="strong-stem-width-and-positioning"><a href="#TOC">Strong Stem Width and Positioning</a></h3>
 <dl>
 <dt><code>--strong-stem-width=</code><em>string</em>, <code>-w</code> <em>string</em></dt>
-<dd><p>ttfautohint offers two different routines to handle stem widths and stem positions: ‘smooth’ and ‘strong’. The former uses discrete values which slightly increase the stem contrast with almost no distortion of the outlines, while the latter snaps both stem widths and stem positions to integer pixel values as much as possible, yielding a crisper appearance at the cost of much more distortion.</p>
+<dd><p>ttfautohint offers two different routines to handle (horizontal) stem widths and stem positions: ‘smooth’ and ‘strong’. The former uses discrete values which slightly increase the stem contrast with almost no distortion of the outlines, while the latter snaps both stem widths and stem positions to integer pixel values as much as possible, yielding a crisper appearance at the cost of much more distortion.</p>
 <p>These two routines are mapped onto three possible rendering targets:</p>
 <ul>
 <li><p>grayscale rendering, with or without optimization for subpixel positioning (e.g. Mac OS X)</p></li>
@@ -392,7 +414,7 @@
 <p>GDI ClearType uses a mode similar to B/W rendering along the vertical axis, while DW ClearType applies grayscale rendering. Additionally, only DW ClearType provides subpixel positioning along the x axis. For what it’s worth, the rasterizers version 36 and version 38 in Microsoft Windows are two completely different rendering engines.</p>
 <p>The command line option expects <em>string</em> to contain up to three letters with possible values ‘<code>g</code>’ for grayscale, ‘<code>G</code>’ for GDI ClearType, and ‘<code>D</code>’ for DW ClearType. If a letter is found in <em>string</em>, the strong stem width routine is used for the corresponding rendering target. The default value is ‘<code>G</code>’ which means that strong stem width handling is activated for GDI ClearType only. To use smooth stem width handling for all three rendering targets, use the empty string as an argument, usually connoted with ‘<code>&quot;&quot;</code>’.</p>
 <p>In the GUI, simply set the corresponding check box to select the stem width routine for a given rendering target.</p>
-<p>The following FontForge snapshot images use the font <a href="http://code.newtypography.co.uk/?p=2449">‘Mertz Bold’</a> (still under development) from <a href="http://code.newtypography.co.uk">Vernon Adams</a>.</p>
+<p>The following FontForge snapshot images use the font <a href="http://code.newtypography.co.uk/mertz-sans/">‘Mertz Bold’</a> (still under development) from <a href="http://code.newtypography.co.uk">Vernon Adams</a>.</p>
 <div class="figure">
 <img src="img/ff-g-26px.png" alt="The left part shows the glyph g unhinted at 26px, the right part with hints, using the smooth stem algorithm." /><p class="caption">The left part shows the glyph ‘g’ unhinted at 26px, the right part with hints, using the ‘smooth’ stem algorithm.</p>
 </div>
@@ -435,7 +457,7 @@
 <p>An <em>edge</em> corresponds to a single coordinate value on the main dimension that collects one or more segments (allowing for a small threshold). While finding segments is done on the unscaled outline, finding edges is bound to the device resolution. See <a href="#hint-sets">below</a> for an example.</p>
 <p>The analysis to find segments and edges is specific to a script.</p>
 <h2 id="feature-analysis"><a href="#TOC">Feature Analysis</a></h2>
-<p>The auto-hinter analyzes a font in two steps.</p>
+<p>The auto-hinter analyzes a font in two steps. Right now, everything described below happens for the horizontal axis only, providing vertical hinting.</p>
 <ul>
 <li><p>Global Analysis</p>
 <p>This affects the hinting of all glyphs, trying to give them a uniform appearance.</p>
@@ -713,7 +735,7 @@
 <li><p><code>cvt</code>, <code>prep</code>, and <code>fpgm</code>: These tables get replaced with data necessary for the new hinting bytecode.</p></li>
 <li><p><code>gasp</code>: Set up to always use grayscale rendering with grid-fitting for standard hinting, and symmetric grid-fitting and symmetric smoothing for horizontal subpixel hinting (ClearType).</p></li>
 <li><p><code>DSIG</code>: If it exists, it gets replaced with a dummy version. ttfautohint can’t digitally sign a font; you have to do that afterwards.</p></li>
-<li><p><code>name</code>: The ‘version’ entries are modified to add information about the parameters which have been used for calling ttfautohint. This can be controlled with the <a href="#ttfautohint-info"><code>--no-info</code></a> option.</p></li>
+<li><p><code>name</code>: The ‘version’ entries are modified to add information about the parameters which have been used for calling ttfautohint. This can be controlled with the <a href="#add-ttfautohint-info"><code>--no-info</code></a> option.</p></li>
 <li><p><code>GPOS</code>, <code>hmtx</code>, <code>loca</code>, <code>head</code>, <code>maxp</code>, <code>post</code>: Updated to fit the additional ‘.ttfautohint’ glyph, the additional subglyphs in composites, and the new hinting bytecode.</p></li>
 <li><p><code>LTSH</code>, <code>hdmx</code>: Since ttfautohint doesn’t do any horizontal hinting, those tables are superfluous and thus removed.</p></li>
 <li><p><code>VDMX</code>: Removed, since it depends on the original bytecode which ttfautohint removes. A font editor might recompute the necessary data later on.</p></li>
@@ -759,6 +781,7 @@
 <p>Read a TrueType font, remove existing bytecode (in the SFNT tables <code>prep</code>, <code>fpgm</code>, <code>cvt</code>, and <code>glyf</code>), and write a new TrueType font with new bytecode based on the autohinting of the FreeType library.</p>
 <p>It expects a format string <em>options</em> and a variable number of arguments, depending on the fields in <em>options</em>. The fields are comma separated; whitespace within the format string is not significant, a trailing comma is ignored. Fields are parsed from left to right; if a field occurs multiple times, the last field’s argument wins. The same is true for fields which are mutually exclusive. Depending on the field, zero or one argument is expected.</p>
 <p>Note that fields marked as ‘not implemented yet’ are subject to change.</p>
+<h3 id="io"><a href="#TOC">I/O</a></h3>
 <dl>
 <dt><code>in-file</code></dt>
 <dd><p>A pointer of type <code>FILE*</code> to the data stream of the input font, opened for binary reading. Mutually exclusive with <code>in-buffer</code>.</p>
@@ -778,6 +801,9 @@
 <dt><code>out-buffer-len</code></dt>
 <dd><p>A pointer of type <code>size_t*</code> to a value giving the length of the output buffer. Needs <code>out-buffer</code>.</p>
 </dd>
+</dl>
+<h3 id="messages-and-callbacks"><a href="#TOC">Messages and Callbacks</a></h3>
+<dl>
 <dt><code>progress-callback</code></dt>
 <dd><p>A pointer of type <a href="#callback-ta_progress_func"><code>TA_Progress_Func</code></a>, specifying a callback function for progress reports. This function gets called after a single glyph has been processed. If this field is not set or set to NULL, no progress callback function is used.</p>
 </dd>
@@ -787,6 +813,18 @@
 <dt><code>error-string</code></dt>
 <dd><p>A pointer of type <code>unsigned char**</code> to a string (in UTF-8 encoding) which verbally describes the error code. You must not change the returned value.</p>
 </dd>
+<dt><code>info-callback</code></dt>
+<dd><p>A pointer of type <a href="#callback-ta_info_func"><code>TA_Info_Func</code></a>, specifying a callback function for manipulating the <code>name</code> table. This function gets called for each <code>name</code> table entry. If not set or set to NULL, the table data stays unmodified.</p>
+</dd>
+<dt><code>info-callback-data</code></dt>
+<dd><p>A pointer of type <code>void*</code> to user data which is passed to the info callback function.</p>
+</dd>
+<dt><code>debug</code></dt>
+<dd><p>If this integer is set to 1, lots of debugging information is print to stderr. The default value is 0.</p>
+</dd>
+</dl>
+<h3 id="general-hinting-options"><a href="#TOC">General Hinting Options</a></h3>
+<dl>
 <dt><code>hinting-range-min</code></dt>
 <dd><p>An integer (which must be larger than or equal to 2) giving the lowest PPEM value used for autohinting. If this field is not set, it defaults to <code>TA_HINTING_RANGE_MIN</code>.</p>
 </dd>
@@ -796,6 +834,15 @@
 <dt><code>hinting-limit</code></dt>
 <dd><p>An integer (which must be larger than or equal to the value of <code>hinting-range-max</code>) which gives the largest PPEM value at which hinting is applied. For larger values, hinting is switched off. If this field is not set, it defaults to <code>TA_HINTING_LIMIT</code>. If it is set to 0, no hinting limit is added to the bytecode.</p>
 </dd>
+<dt><code>hint-with-components</code></dt>
+<dd><p>If this integer is set to 1 (which is the default), ttfautohint handles composite glyphs as a whole. This implies adding a special glyph to the font, as documented <a href="#the-.ttfautohint-glyph">here</a>. Setting it to 0, the components of composite glyphs are hinted separately. While separate hinting of subglyphs makes the resulting bytecode much smaller, it might deliver worse results. However, this depends on the processed font and must be checked by inspection.</p>
+</dd>
+<dt><code>pre-hinting</code></dt>
+<dd><p>An integer (1 for ‘on’ and 0 for ‘off’, which is the default) to specify whether native TrueType hinting shall be applied to all glyphs before passing them to the (internal) autohinter. The used resolution is the em-size in font units; for most fonts this is 2048ppem. Use this if the hints move or scale subglyphs independently of the output resolution.</p>
+</dd>
+</dl>
+<h3 id="hinting-algorithms"><a href="#TOC">Hinting Algorithms</a></h3>
+<dl>
 <dt><code>gray-strong-stem-width</code></dt>
 <dd><p>An integer (1 for ‘on’ and 0 for ‘off’, which is the default) which specifies whether horizontal stems should be snapped and positioned to integer pixel values for normal grayscale rendering.</p>
 </dd>
@@ -808,35 +855,32 @@
 <dt><code>increase-x-height</code></dt>
 <dd><p>An integer. For PPEM values in the range 6 &lt;= PPEM &lt;= <code>increase-x-height</code>, round up the font’s x height much more often than normally. If it is set to 0, this feature is switched off. If this field is not set, it defaults to <code>TA_INCREASE_X_HEIGHT</code>. Use this flag to improve the legibility of small font sizes if necessary.</p>
 </dd>
-<dt><code>hint-with-components</code></dt>
-<dd><p>If this integer is set to 1 (which is the default), ttfautohint handles composite glyphs as a whole. This implies adding a special glyph to the font, as documented <a href="#the-.ttfautohint-glyph">here</a>. Setting it to 0, the components of composite glyphs are hinted separately. While separate hinting of subglyphs makes the resulting bytecode much smaller, it might deliver worse results. However, this depends on the processed font and must be checked by inspection.</p>
-</dd>
-<dt><code>pre-hinting</code></dt>
-<dd><p>An integer (1 for ‘on’ and 0 for ‘off’, which is the default) to specify whether native TrueType hinting shall be applied to all glyphs before passing them to the (internal) autohinter. The used resolution is the em-size in font units; for most fonts this is 2048ppem. Use this if the hints move or scale subglyphs independently of the output resolution.</p>
-</dd>
-<dt><code>info-callback</code></dt>
-<dd><p>A pointer of type <a href="#callback-ta_info_func"><code>TA_Info_Func</code></a>, specifying a callback function for manipulating the <code>name</code> table. This function gets called for each <code>name</code> table entry. If not set or set to NULL, the table data stays unmodified.</p>
-</dd>
-<dt><code>info-callback-data</code></dt>
-<dd><p>A pointer of type <code>void*</code> to user data which is passed to the info callback function.</p>
-</dd>
 <dt><code>x-height-snapping-exceptions</code></dt>
-<dd><p>A pointer of type <code>const char*</code> to a null-terminated string which gives a list of comma separated PPEM values or value ranges at which no x-height snapping shall be applied. A value range has the form <em>value1</em><code>-</code><em>value2</em>, meaning <em>value1</em> &lt;= PPEM &lt;= <em>value2</em>. Whitespace is not significant; a trailing comma is ignored. If the supplied argument is NULL, no x-height snapping takes place at all. By default, there are no snapping exceptions. Not implemented yet.</p>
+<dd><p>A pointer of type <code>const char*</code> to a null-terminated string which gives a list of comma separated PPEM values or value ranges at which no x-height snapping shall be applied. A value range has the form <em>value1</em><code>-</code><em>value2</em>, meaning <em>value1</em> &lt;= PPEM &lt;= <em>value2</em>. <em>value1</em> or <em>value2</em> (or both) can be missing; a missing value is replaced by the beginning or end of the whole interval of valid PPEM values, respectively. Whitespace is not significant; superfluous commas are ignored, and ranges must be specified in increasing order. For example, the string <code>&quot;3, 5-7, 9-&quot;</code> means the values 3, 5, 6, 7, 9, 10, 11, 12, etc. Consequently, if the supplied argument is <code>&quot;-&quot;</code>, no x-height snapping takes place at all. The default is the empty string (<code>&quot;&quot;</code>), meaning no snapping exceptions.</p>
 </dd>
-<dt><code>ignore-restrictions</code></dt>
-<dd><p>If the font has set bit 1 in the ‘fsType’ field of the <code>OS/2</code> table, the ttfautohint library refuses to process the font since a permission to do that is required from the font’s legal owner. In case you have such a permission you might set the integer argument to value 1 to make ttfautohint handle the font. The default value is 0.</p>
+<dt><code>windows-compatibility</code></dt>
+<dd><p>If this integer is set to 1, two artificial blue zones are used, positioned at the <code>usWinAscent</code> and <code>usWinDescent</code> values (from the font’s <code>OS/2</code> table). The idea is to help ttfautohint so that the hinted glyphs stay within this horizontal stripe since Windows clips everything falling outside. The default is 0.</p>
 </dd>
+</dl>
+<h3 id="scripts-1"><a href="#TOC">Scripts</a></h3>
+<dl>
 <dt><code>fallback-script</code></dt>
 <dd><p>An integer which specifies the default script for glyphs not in the ‘latin’ range. If set to 1, the ‘latin’ script is used (other scripts are not supported yet). By default, no script is used (value 0; this disables autohinting for such glyphs).</p>
 </dd>
 <dt><code>symbol</code></dt>
 <dd><p>Set this integer to 1 if you want to process a font which lacks the characters of a supported script, for example, a symbol font. ttfautohint then uses default values for the standard stem width and height instead of deriving these values from a script’s key character (for the latin script, it is character ‘o’). The default value is 0.</p>
 </dd>
-<dt><code>debug</code></dt>
-<dd><p>If this integer is set to 1, lots of debugging information is print to stderr. The default value is 0.</p>
+</dl>
+<h3 id="miscellaneous-1"><a href="#TOC">Miscellaneous</a></h3>
+<dl>
+<dt><code>ignore-restrictions</code></dt>
+<dd><p>If the font has set bit 1 in the ‘fsType’ field of the <code>OS/2</code> table, the ttfautohint library refuses to process the font since a permission to do that is required from the font’s legal owner. In case you have such a permission you might set the integer argument to value 1 to make ttfautohint handle the font. The default value is 0.</p>
+</dd>
+<dt><code>dehint</code></dt>
+<dd><p>If set to 1, remove all hints from the font. All other hinting options are ignored.</p>
 </dd>
 </dl>
-<p>Remarks:</p>
+<h3 id="remarks"><a href="#TOC">Remarks</a></h3>
 <ul>
 <li><p>Obviously, it is necessary to have an input and an output data stream. All other options are optional.</p></li>
 <li><p><code>hinting-range-min</code> and <code>hinting-range-max</code> specify the range for which the autohinter generates optimized hinting code. If a PPEM value is smaller than the value of <code>hinting-range-min</code>, hinting still takes place but the configuration created for <code>hinting-range-min</code> is used. The analogous action is taken for <code>hinting-range-max</code>, only limited by the value given with <code>hinting-limit</code>. The font’s <code>gasp</code> table is set up to always use grayscale rendering with grid-fitting for standard hinting, and symmetric grid-fitting and symmetric smoothing for horizontal subpixel hinting (ClearType).</p></li>
@@ -855,12 +899,12 @@ TTF_autohint(<span class="dt">const</span> <span class="dt">char</span>* options
 <h2 id="mac-os-x"><a href="#TOC">Mac OS X</a></h2>
 <p>TODO</p>
 <h1 id="authors"><a href="#TOC">Authors</a></h1>
-<p>Copyright © 2011-2012 by <script type="text/javascript">
+<p>Copyright © 2011-2013 by <script type="text/javascript">
 <!--
 h='&#x67;&#110;&#x75;&#46;&#x6f;&#114;&#x67;';a='&#64;';n='&#x77;&#108;';e=n+a+h;
 document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'">'+'Werner Lemberg'+'<\/'+'a'+'>');
 // -->
-</script><noscript>&#x57;&#x65;&#114;&#110;&#x65;&#114;&#32;&#76;&#x65;&#x6d;&#98;&#x65;&#114;&#x67;&#32;&#40;&#x77;&#108;&#32;&#x61;&#116;&#32;&#x67;&#110;&#x75;&#32;&#100;&#x6f;&#116;&#32;&#x6f;&#114;&#x67;&#x29;</noscript>.<br />Copyright © 2011-2012 by <script type="text/javascript">
+</script><noscript>&#x57;&#x65;&#114;&#110;&#x65;&#114;&#32;&#76;&#x65;&#x6d;&#98;&#x65;&#114;&#x67;&#32;&#40;&#x77;&#108;&#32;&#x61;&#116;&#32;&#x67;&#110;&#x75;&#32;&#100;&#x6f;&#116;&#32;&#x6f;&#114;&#x67;&#x29;</noscript>.<br />Copyright © 2011-2013 by <script type="text/javascript">
 <!--
 h='&#x75;&#110;&#100;&#x65;&#114;&#x73;&#116;&#x61;&#110;&#100;&#x69;&#110;&#x67;&#102;&#x6f;&#110;&#116;&#x73;&#46;&#x63;&#x6f;&#x6d;';a='&#64;';n='&#100;&#x61;&#118;&#x65;';e=n+a+h;
 document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'">'+'Dave Crossland'+'<\/'+'a'+'>');
@@ -891,9 +935,12 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'">'+'Dave Crossland'+'<\/'+'a'+
 <li><a href="#fallback-script">Fallback Script</a></li>
 <li><a href="#hinting-limit">Hinting Limit</a></li>
 <li><a href="#x-height-increase-limit">x Height Increase Limit</a></li>
+<li><a href="#x-height-snapping-exceptions">x Height Snapping Exceptions</a></li>
+<li><a href="#windows-compatibility">Windows Compatibility</a></li>
 <li><a href="#pre-hinting">Pre-Hinting</a></li>
 <li><a href="#hint-with-components">Hint With Components</a></li>
 <li><a href="#symbol-font">Symbol Font</a></li>
+<li><a href="#dehint">Dehint</a></li>
 <li><a href="#add-ttfautohint-info">Add ttfautohint Info</a></li>
 <li><a href="#strong-stem-width-and-positioning">Strong Stem Width and Positioning</a></li>
 <li><a href="#font-license-restrictions">Font License Restrictions</a></li>
@@ -915,7 +962,15 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'">'+'Dave Crossland'+'<\/'+'a'+
 <li><a href="#preprocessor-macros-and-typedefs">Preprocessor Macros and Typedefs</a></li>
 <li><a href="#callback-ta_progress_func">Callback: <code>TA_Progress_Func</code></a></li>
 <li><a href="#callback-ta_info_func">Callback: <code>TA_Info_Func</code></a></li>
-<li><a href="#function-ttf_autohint">Function: <code>TTF_autohint</code></a></li>
+<li><a href="#function-ttf_autohint">Function: <code>TTF_autohint</code></a><ul>
+<li><a href="#io">I/O</a></li>
+<li><a href="#messages-and-callbacks">Messages and Callbacks</a></li>
+<li><a href="#general-hinting-options">General Hinting Options</a></li>
+<li><a href="#hinting-algorithms">Hinting Algorithms</a></li>
+<li><a href="#scripts-1">Scripts</a></li>
+<li><a href="#miscellaneous-1">Miscellaneous</a></li>
+<li><a href="#remarks">Remarks</a></li>
+</ul></li>
 </ul></li>
 <li><a href="#compilation-and-installation">Compilation and Installation</a><ul>
 <li><a href="#unix-platforms">Unix Platforms</a></li>
