@@ -797,7 +797,7 @@
       glyph that is loaded through <tt>FT_Load_Glyph</tt> and is
       <em>completely independent of any hinting process</em>.  This means
       that you won't get the same results if you load a glyph at the size of
-      24&nbsp;pixels, or a glyph at the size at 12&nbsp;pixels scaled
+      24&nbsp;pixels, or a glyph at the size of 12&nbsp;pixels scaled
       by&nbsp;2 through a transform, because the hints will have been
       computed differently (except you have disabled hints).</font></p>
 
@@ -807,6 +807,8 @@
       compute a new character pixel size, then the other one to call
       <tt>FT_Set_Transform</tt>.  This is explained in details in a later
       section of this tutorial.</p>
+
+      <p><font color="red">NOTE2: Rotation usually disables hinting.</font></p>
 
       <p>Loading a glyph bitmap with a non-identity transformation works;
       the transformation is ignored in this case.</p>
@@ -1098,7 +1100,7 @@
   <a href="step2.html">FreeType&nbsp;2 Tutorial Step&nbsp;2</a>
 </h3>
 
-<p><font size=-3>Last update: 20-Sep-2012</font></p>
+<p><font size=-3>Last update: 10-Apr-2013</font></p>
 
 </body>
 </html>
