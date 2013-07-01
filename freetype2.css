@@ -21,7 +21,7 @@ body {
   font-family: "Droid Serif", "serif";
   line-height: 140%; }
 
-/* table of contents; */
+/* table of contents column; */
 /* width and offsets must be synchronized with col2 below */
 #TOC {
   background: #F8F8F8;
@@ -51,12 +51,10 @@ body {
 /* give more vertical spacing for funding icons */
 #TOC ul li.funding {
   padding-top: 1ex;
-  padding-bottom: 1ex;
-}
+  padding-bottom: 1ex; }
 #TOC ul li.funding p {
   margin-top: 1.5ex;
-  margin-bottom: 1.5ex;
-}
+  margin-bottom: 1.5ex; }
 
 /* this is gray getting black */
 #TOC a:link {
@@ -165,11 +163,15 @@ body {
   position: relative;
   right: 11em; } /* wd2 + pad2_r */
 
+/* table of contents */
+#contents ul {
+  list-style: none; }
+
 blockquote {
   font-style: italic; }
 
 code {
-  font-family: "Droid Sans Mono", monospace; }
+  font-family: "Droid Sans Mono", "monospace"; }
 
 a {
   color: #0000EF;
@@ -252,13 +254,20 @@ dd > p:first-child {
 
 /* indented text */
 div.quote {
-  margin-left: 1.5em;
-}
+  margin-left: 1.5em; }
+
+/* list for subsections */
+li.tertiary {
+  font-size: smaller;
+  text-align: left;
+  margin-left: 2em; }
 
 /* list with item headers */
 li.emph p:first-child {
-  font-weight: bold;
-}
+  font-weight: bold; }
+
+ol.algorithm {
+  font-family: "Droid Sans Mono", "monospace"; }
 
 /* miscellaneous */
 div.date {
