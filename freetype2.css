@@ -87,6 +87,15 @@ body {
 #TOC a.emphasis:hover {
   color: #000000; }
 
+#TOC a.current:link {
+  color: #000000; }
+#TOC a.current:visited {
+  color: #000000; }
+#TOC a.current:active {
+  color: #000000; }
+#TOC a.current:hover {
+  color: #000000; }
+
 /* top bar */
 #top h1 {
   position: absolute;
