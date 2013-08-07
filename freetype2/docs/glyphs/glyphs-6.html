@@ -379,9 +379,9 @@
             distances in the 26.6&nbsp;format to the grid:</p>
 
           <pre>
-    round( x )   == ( x + 32 ) &amp; -64
-    floor( x )   ==          x &amp; -64
-    ceiling( x ) == ( x + 63 ) &amp; -64</pre>
+round( x )   == ( x + 32 ) &amp; -64
+floor( x )   ==          x &amp; -64
+ceiling( x ) == ( x + 63 ) &amp; -64</pre>
 
           <p>Once a glyph outline is grid-fitted or transformed, it
             often is interesting to compute the glyph image's pixel
@@ -407,21 +407,21 @@
               <p>grid-fit the bounding box with the following:</p>
 
               <pre>
-    xmin = floor( bbox.xMin )
-    xmax = ceiling( bbox.xMax )
-    ymin = floor( bbox.yMin )
-    ymax = ceiling( bbox.yMax )</pre>
+xmin = floor( bbox.xMin )
+xmax = ceiling( bbox.xMax )
+ymin = floor( bbox.yMin )
+ymax = ceiling( bbox.yMax )</pre>
             </li>
             <li>
               <p>return pixel dimensions, i.e.</p>
 
               <pre>
-    width = (xmax - xmin)/64</pre>
+width = (xmax - xmin)/64</pre>
 
               <p>and</p>
 
               <pre>
-    height = (ymax - ymin)/64</pre>
+height = (ymax - ymin)/64</pre>
             </li>
           </ul>
 
