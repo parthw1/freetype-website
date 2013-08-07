@@ -182,6 +182,9 @@ blockquote {
 code {
   font-family: "Droid Sans Mono", "monospace"; }
 
+tt {
+  font-family: "Droid Sans Mono", "monospace"; }
+
 pre {
   font-family: "Droid Sans Mono", "monospace";
   margin-left: 1.5em; }

@@ -1,0 +1,302 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+	  "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type"
+        content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type"
+        content="text/css">
+  <meta http-equiv="Content-Script-Type"
+        content="text/javascript">
+
+  <meta name="description"
+        content="ttfautohint for OS X">
+  <meta name="keywords"
+        content="FreeType TrueType digital font TTF engine autohint
+                 hint OSX">
+
+  <link rel="icon"
+        sizes="16x16"
+        href="../image/favicon_90.ico">
+  <link rel="shortcut icon"
+        href="../image/favicon_90.ico">
+  <link rel="stylesheet"
+        type="text/css"
+        href="../freetype2_90.css">
+
+  <script type="text/javascript"
+          src="../jquery-1.8.3.min.js">
+  </script>
+  <script type="text/javascript"
+          src="../jquery.ba-resize.min.js">
+  </script>
+  <script type="text/javascript"
+          src="../freetype2.js">
+  </script>
+
+  <title>Installation of ttfautohint on Mac OS&nbsp;X</title>
+</head>
+
+<body>
+
+<div id="top"
+     class="bar">
+  <h1><a href="index.html">ttfautohint</a> on OS&nbsp;X</h1>
+</div>
+
+
+<div id="wrapper">
+
+<div class="colmask leftmenu">
+  <div class="colright">
+    <div class="col1wrap">
+      <div class="col1">
+
+
+	<p>This page describes how to compile both ttfautohint and
+	  ttfautohintGUI on Mac OS&nbsp; X.</p>
+
+
+        <!-- ************************************************** -->
+
+	<div id="homebrew">
+	  <h2>Compilation with Homebrew</h2>
+
+	  <p>If you
+	    have <a href="http://mxcl.github.io/homebrew">Homebrew</a>
+	    and are comfortable with it, you can run</p>
+
+	  <pre>
+brew edit ttfautohint</pre>
+
+	  <p>and replace the file with this one</p>
+
+	  <pre>
+require 'formula'
+
+class Ttfautohint < Formula
+  homepage 'http://www.freetype.org/ttfautohint'
+  url 'http://download.savannah.gnu.org/releases/freetype/ttfautohint-0.96.tar.gz'
+  sha1 '007188d3003355b9823e708d973b8c829c5dc8a3'
+  head 'git://repo.or.cz/ttfautohint.git'
+
+  depends_on :freetype
+  depends_on qt
+
+  def install
+    system "./configure", "--disable-dependency-tracking",
+                          "--prefix=#{prefix}",
+                          "--with-doc=no"
+    system "make install"
+  end
+
+  test do
+    system "#{bin}/ttfautohintGUI", "-V"
+  end
+end</pre>
+
+	  <p>Now simply run</p>
+
+	  <pre>
+brew install ttfautohint</pre>
+
+	  <p>and then to start the GUI, you can from Terminal type</p>
+
+	  <pre>
+ttfautohintGUI</pre>
+	</div>
+
+
+        <!-- ************************************************** -->
+
+	<div id="scratch">
+	  <h2>Compilation From Scratch</h2>
+
+	  <p>If you don't
+	    have <a href="http://mxcl.github.io/homebrew">Homebrew</a>,
+	    you should check it out because its extremely useful.  But
+	    supposing you don't want ot use it, you can install the
+	    GUI on Mac OS&nbsp;X from scratch.</p>
+
+	  <p>We start by installing XCode from the App Store, and then the Command Line
+	    Tools.  Instructions are at
+	    <a href="http://guide.macports.org/chunked/installing.xcode.html">http://guide.macports.org/chunked/installing.xcode.html</a>.</p>
+	
+	  <p>Next we install FreeType, the system that ttfautohint is
+	    based on.</p>
+
+	  <p>Create a folder in your Home folder
+	  called &lsquo;<tt>src</tt>&rsquo;.</p>
+
+	  <p>In your browser, download
+	    <a href="http://downloads.sourceforge.net/project/freetype/freetype2/2.5.0/freetype-2.5.0.1.tar.gz">http://downloads.sourceforge.net/project/freetype/freetype2/2.5.0/freetype-2.5.0.1.tar.gz</a>.</p>
+
+	  <p>In Finder, go to your Downloads folder and double click the
+	    <tt>freetype-2.5.0.1.tar.bz2</tt> file to unpack it into a
+	    folder named &lsquo;<tt>freetype-2.5.0.1</tt>&rsquo;.</p>
+
+	  <p>In Finder, rename the folder <tt>freetype-2.5.0.1</tt> to
+	    <tt>freetype2</tt> and then move that folder into the
+	    <tt>src</tt> folder you created in your Home folder.</p>
+
+	  <p>Open Terminal.app, type</p>
+
+	  <pre>
+cd ~/src/freetype2</pre>
+
+	  <p>and press the return key.  Continue with</p>
+
+	  <pre>
+./configure</pre>
+	
+	  <p>and press the return key again.  You will see a bunch of
+	    text rolling through the Terminal app.  When it is done,
+	    type</p>
+
+	  <pre>
+make</pre>
+
+	  <p>and press the return key to see more text rolling
+	    through.  When it is done, type</p>
+
+	  <pre>
+sudo make install</pre>
+
+	  <p>and press the return key.  Enter your Mac login password,
+	    then press the return key again.</p>
+
+	  <p>Now install
+	    the <a href="http://qt-project.org/">Qt&nbsp;4</a>
+	    libraries for making ttfautohint's Graphical User
+	    Interface.</p>
+
+	  <p>With your browser, download the latest &lsquo;Qt
+	    Libraries for Mac&rsquo; <tt>.dmg</tt> file from
+	    <a href="http://qt-project.org/downloads#qt-lib">http://qt-project.org/downloads#qt-lib</a>
+	    and install Qt in the normal way.  Currently the direct
+	    link is
+	    <a href="http://download.qt-project.org/official_releases/qt/4.8/4.8.5/qt-mac-opensource-4.8.5.dmg">http://download.qt-project.org/official_releases/qt/4.8/4.8.5/qt-mac-opensource-4.8.5.dmg</a>.</p>
+
+	  <p>Now
+	    visit <a href="http://freetype.org/ttfautohint">http://freetype.org/ttfautohint</a>
+	    and in the download section, download the latest version
+	    of the source code.  Currently the direct link is
+	    <a href="http://sourceforge.net/projects/freetype/files/ttfautohint/0.96/ttfautohint-0.96.tar.gz/download">http://sourceforge.net/projects/freetype/files/ttfautohint/0.96/ttfautohint-0.96.tar.gz/download</a>.</p>
+
+	  <p>In Finder, go to your Downloads folder and double click the
+	    <tt>ttfautohint-0.96.tar.gz</tt> file to unpack it into a
+	    folder named &lsquo;<tt>ttfautohint-0.96</tt>&rsquo;.
+	    Move the <tt>ttfautohint-0.96</tt> folder to
+	    the <tt>src</tt> folder in your Home folder.</p>
+
+	  <p>In Terminal, type</p>
+
+	  <pre>
+cd ~/src/ttfautohint-0.96</pre>
+
+	  <p>and press the return key.  Now type</p>
+
+	  <pre>
+./configure --without-doc</pre>
+
+	  <p>and press the return key again.  You will see a bunch of
+	    text rolling through the Terminal app.  When it is done,
+	    type</p>
+
+	  <pre>
+make</pre>
+
+	  <p>and press the return key.  Again you will see a bunch of
+	    text rolling through the Terminal app.  When it is done,
+	    type</p>
+
+	  <pre>
+sudo make install</pre>
+
+	  <p>followed by a press to the return key.  As above, enter
+	    your Mac login password, then press the return key
+	    again.  You will see a bunch of text rolling through the
+	    Terminal app.  When it is done, type</p>
+
+	  <pre>
+ttfautohintGUI</pre>
+
+	  <p>and press the return key: You should now see the GUI!</p>
+	</div>
+
+
+        <!-- ************************************************** -->
+
+        <div class="webmaintainer">
+          <p>This page is maintained by
+            <a href="mailto:wl@gnu.org">Werner Lemberg</a>, based on
+            instructions written
+            by <a href="mailto:dave@understandingfonts.com">David
+            Crossland</a>.</p>
+        </div>
+        <div class="updated">
+          <p>Last update: 7-Aug-2013</p>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ************************************************** -->
+
+    <div class="col2">
+    </div>
+  </div>
+</div>
+
+
+<!-- ************************************************** -->
+
+<div id="TOC">
+  <ul>
+    <li class="funding">
+      <p><a href="http://pledgie.com/campaigns/15816">
+        <img alt="Click here to lend your support to ttfautohint and make a donation at pledgie.com!"
+             src="http://pledgie.com/campaigns/15816.png?skin_name=chrome"
+             border="0"
+             align="middle">
+      </a></p>
+
+      <p><a href="http://flattr.com/thing/421351/TTFautohint"
+         target="_blank">
+        <img class="with-border"
+             src="http://api.flattr.com/button/flattr-badge-large.png"
+             alt="Flattr this"
+             title="Flattr this"
+             border="0"
+             align="middle">
+      </a></p>
+    </li>
+    <li class="primary">
+      <a href="index.html">Home</a>
+    </li>
+
+    <li>
+      &nbsp; <!-- separate primary from secondary entries -->
+    </li>
+
+    <li class="secondary">
+      <a href="osx.html" class="current">ttfautohint on OS&nbsp;X</a>
+    </li>
+    <li class="tertiary">
+      <a href="#homebrew">Compilation With Homebrew</a>
+    </li>
+    <li class="tertiary">
+      <a href="#scratch">Compilation From Scratch</a>
+    </li>
+  </ul>
+</div>
+
+</div> <!-- id="wrapper" -->
+
+<div id="TOC-bottom">
+</div>
+
+</body>
+</html>

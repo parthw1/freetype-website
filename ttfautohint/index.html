@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-  "http://www.w3.org/TR/html4/loose.dtd">
+	  "http://www.w3.org/TR/html4/loose.dtd">
 
-<html>
+<html lang="en">
 
 <head>
   <meta http-equiv="Content-Type"
@@ -11,9 +11,16 @@
   <meta http-equiv="Content-Script-Type"
         content="text/javascript">
 
+  <meta name="description"
+        content="ttfautohint: a free auto-hinter for TrueType fonts">
   <meta name="keywords"
         content="FreeType TrueType digital font TTF engine autohint hint">
 
+  <link rel="icon"
+        sizes="16x16"
+        href="../image/favicon_60.ico">
+  <link rel="shortcut icon"
+        href="../image/favicon_60.ico">
   <link rel="stylesheet"
         type="text/css"
         href="../freetype2_60.css">
@@ -35,7 +42,7 @@
 
 <div id="top"
      class="bar">
-  <h1>ttfautohint</h1>
+  <h1><a href="index.html">ttfautohint</a></h1>
 </div>
 
 
@@ -87,6 +94,24 @@
         <!-- ************************************************** -->
 
         <div id="news">
+	  <h4>7th August 2013</h4>
+
+	  <p>I'm happy to announce release 0.96.  Its main purpose is
+	    to fix the &lsquo;exploding outlines&rsquo; issue which
+	    happens on some printers
+	    (see <a href="http://sourceforge.net/projects/freetype/files/ttfautohint/0.96/">here</a>
+	    for more), however, it also contains minor hinting
+	    improvements.</p>
+
+	  <p>The major work on FreeType (integration of a new CFF
+	    hinter contributed by Adobe and color support contributed
+	    by Google) has been done, so I can now fully return to
+	    ttfautohint development.  I expect to have the
+	    long-awaited support for more scripts implemented until
+	    October so that I can announce it during the ATypI
+	    conference in Amsterdam.</p>
+
+
           <h4>8th March 2013</h4>
 
           <p>Today I've released version 0.95.  This is a small
@@ -98,6 +123,7 @@
             payed work) without having much time to continue the
             development of ttfautohint.  I estimate that this dormant
             phase will end in about two months, so stay tuned!</p>
+
 
           <h4>28th November 2012</h4>
 
@@ -621,20 +647,20 @@
         <div id="download">
           <h2>Download</h2>
 
-          <p>Current version: 0.95 (8th March 2013)</p>
+          <p>Current version: 0.96 (7th August 2013)</p>
 
 
           <h3>Binaries</h3>
 
           <p><strong>
-              <a href="http://sourceforge.net/projects/freetype/files/ttfautohint/0.95/ttfautohint-0.95-win32.7z/download">Windows</a>
+              <a href="http://sourceforge.net/projects/freetype/files/ttfautohint/0.96/ttfautohint-0.96-win32.7z/download">Windows</a>
             </strong><br>
-            <tt>ttfautohint 0.95</tt> (both command line and GUI)</p>
+            <tt>ttfautohint 0.96</tt> (both command line and GUI)</p>
 
           <p><strong>
-              <a href="http://sourceforge.net/projects/freetype/files/ttfautohint/0.95/ttfautohint-0.95-tty-osx.tar.gz/download">Apple</a>
+              <a href="http://sourceforge.net/projects/freetype/files/ttfautohint/0.96/ttfautohint-0.96-tty-osx.tar.gz/download">Apple</a>
             </strong><br>
-            <tt>ttfautohint 0.95</tt> (currently, command line only;
+            <tt>ttfautohint 0.96</tt> (currently command line only;
             thanks to Karsten L&uuml;cke for creating this &ndash; it
             has been compiled under OS&nbsp;X 10.5.8, but should run
             with newer versions also).</p>
@@ -662,12 +688,9 @@
             <a href="../download.html">FreeType's download page</a>
             for more information.</p>
 
-          <p><a href="https://gist.github.com/3783491">Compile
+          <p><a href="osx.html">Compile
               <tt>ttfautohint</tt> for Mac OS X</a>, including the
-              GUI.  While this link uses version 0.92 of
-            <tt>ttfautohint</tt>, it works the same with recent
-            versions also: simply replace &lsquo;0.92&rsquo; with the
-            current version number.</p>
+              GUI.</p>
         </div>
 
 
@@ -693,48 +716,52 @@
 
 <div id="TOC">
   <ul>
-    <li id="funding">
-      <a href="http://pledgie.com/campaigns/15816">
+    <li class="funding">
+      <p><a href="http://pledgie.com/campaigns/15816">
         <img alt="Click here to lend your support to ttfautohint and make a donation at pledgie.com!"
              src="http://pledgie.com/campaigns/15816.png?skin_name=chrome"
              border="0"
              align="middle">
-      </a><br>
-      <a href="http://flattr.com/thing/421351/TTFautohint"
-         target="_blank">
+      </a></p>
+
+      <p><a href="http://flattr.com/thing/421351/TTFautohint"
+            target="_blank">
         <img class="with-border"
              src="http://api.flattr.com/button/flattr-badge-large.png"
              alt="Flattr this"
              title="Flattr this"
              border="0"
              align="middle">
-      </a>
+      </a></p>
     </li>
-    <li>
+    <li class="primary">
+      <a href="index.html" class="current">Home</a>
+    </li>
+    <li class="primary">
       <a href="#goal">Goal</a>
     </li>
-    <li>
+    <li class="primary">
       <a href="#video">Watch The Video</a>
     </li>
-    <li>
+    <li class="primary">
       <a href="#news">News</a>
     </li>
-    <li>
+    <li class="primary">
       <a href="#introduction">Introduction</a>
     </li>
-    <li>
+    <li class="primary">
       <a href="doc/ttfautohint.html">Documentation</a>
     </li>
-    <li>
+    <li class="primary">
       <a href="#roadmap">Roadmap</a>
     </li>
-    <li>
+    <li class="primary">
       <a href="#samples">Visual Samples</a>
     </li>
-    <li>
+    <li class="primary">
       <a href="#works">How It Works</a>
     </li>
-    <li>
+    <li class="primary">
       <a href="#contact"
          class="emphasis">Contact</a>
     </li>
