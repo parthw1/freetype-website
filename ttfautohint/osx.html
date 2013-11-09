@@ -56,13 +56,13 @@
 
 
 	<p>This page describes how to compile both ttfautohint and
-	  ttfautohintGUI on Mac OS&nbsp; X.</p>
+	  ttfautohintGUI on Mac OS&nbsp;X.</p>
 
 
         <!-- ************************************************** -->
 
 	<div id="homebrew">
-	  <h2>Compilation with Homebrew</h2>
+	  <h2>Compilation With Homebrew</h2>
 
 	  <p>If you
 	    have <a href="http://mxcl.github.io/homebrew">Homebrew</a>
@@ -71,15 +71,15 @@
 	  <pre>
 brew edit ttfautohint</pre>
 
-	  <p>and replace the file with this one</p>
+	  <p>and replace the file contents with the following.</p>
 
 	  <pre>
 require 'formula'
 
 class Ttfautohint < Formula
   homepage 'http://www.freetype.org/ttfautohint'
-  url 'http://download.savannah.gnu.org/releases/freetype/ttfautohint-0.96.tar.gz'
-  sha1 '007188d3003355b9823e708d973b8c829c5dc8a3'
+  url 'http://download.savannah.gnu.org/releases/freetype/ttfautohint-0.97.tar.gz'
+  sha1 '8e11226a9d6d2f8210c752dc97c614d5b753651a'
   head 'git://repo.or.cz/ttfautohint.git'
 
   depends_on :freetype
@@ -183,18 +183,18 @@ sudo make install</pre>
 	    visit <a href="http://freetype.org/ttfautohint">http://freetype.org/ttfautohint</a>
 	    and in the download section, download the latest version
 	    of the source code.  Currently the direct link is
-	    <a href="http://sourceforge.net/projects/freetype/files/ttfautohint/0.96/ttfautohint-0.96.tar.gz/download">http://sourceforge.net/projects/freetype/files/ttfautohint/0.96/ttfautohint-0.96.tar.gz/download</a>.</p>
+	    <a href="http://sourceforge.net/projects/freetype/files/ttfautohint/0.97/ttfautohint-0.97.tar.gz/download">http://sourceforge.net/projects/freetype/files/ttfautohint/0.97/ttfautohint-0.97.tar.gz/download</a>.</p>
 
 	  <p>In Finder, go to your Downloads folder and double click the
-	    <tt>ttfautohint-0.96.tar.gz</tt> file to unpack it into a
-	    folder named &lsquo;<tt>ttfautohint-0.96</tt>&rsquo;.
-	    Move the <tt>ttfautohint-0.96</tt> folder to
+	    <tt>ttfautohint-0.97.tar.gz</tt> file to unpack it into a
+	    folder named &lsquo;<tt>ttfautohint-0.97</tt>&rsquo;.
+	    Move the <tt>ttfautohint-0.97</tt> folder to
 	    the <tt>src</tt> folder in your Home folder.</p>
 
 	  <p>In Terminal, type</p>
 
 	  <pre>
-cd ~/src/ttfautohint-0.96</pre>
+cd ~/src/ttfautohint-0.97</pre>
 
 	  <p>and press the return key.  Now type</p>
 
@@ -237,7 +237,7 @@ ttfautohintGUI</pre>
             Crossland</a>.</p>
         </div>
         <div class="updated">
-          <p>Last update: 7-Aug-2013</p>
+          <p>Last update: 9-Nov-2013</p>
         </div>
       </div>
     </div>
