@@ -94,16 +94,34 @@
         <!-- ************************************************** -->
 
         <div id="news">
-	  <h4>9th November 2013</h4>
+          <h4>11th February 2014</h4>
 
-	  <p>Version 0.97 is now available.  It comes with new support
-	    for the Hebrew script and improved handling of Cyrillic
-	    and Greek, which are no longer handled together with
-	    Latin.  This brings ttfautohint a big step nearer to
-	    version 1.0, which is scheduled to be released in the end
-	    of this year.</p>
+          <p>I proudly present the first release candidate for
+            version 1.00!  Its main improvement is the use of the
+            <a href="http://harfbuzz.org">HarfBuzz</a> library to
+            handle OpenType features, allowing the hinting of glyphs
+            that don't have an entry in a font's &lsquo;cmap&rsquo;
+            table, for example superscripts or small caps.
+            ttfautohint can now hint basically all glyphs of a
+            supported script.</p>
 
-	  <p>The list of other changes can be
+          <p>Another improvement is much better GDI ClearType hinting
+            in the range 30-80ppem (approx.), avoiding overly flat
+            tops and bottoms of round glyphs.  The list of the
+            remaining changes can be
+            found <a href="http://sourceforge.net/projects/freetype/files/ttfautohint/1.00rc1/">here</a>.</p>
+
+
+          <h4>9th November 2013</h4>
+
+          <p>Version 0.97 is now available.  It comes with new support
+            for the Hebrew script and improved handling of Cyrillic
+            and Greek, which are no longer handled together with
+            Latin.  This brings ttfautohint a big step nearer to
+            version 1.0, which is scheduled to be released in the end
+            of this year.</p>
+
+          <p>The list of other changes can be
             found <a href="http://sourceforge.net/projects/freetype/files/ttfautohint/0.97/">here</a>.</p>
 
           <h4>7th August 2013</h4>
@@ -465,20 +483,11 @@
                 a GUI is in place.</p>
             </li>
             <li>
-              <p><strong>Add full OpenType Feature support</strong>
-                &ndash; currently, all glyphs which can't be directly
-                addressed with a character code in the
-                &lsquo;cmap&rsquo; table are handled with a fallback
-                mechanism only.</p>
-            </li>
-            <li>
-              <p><strong>Add support for all the world's writing
-                  systems</strong> &ndash; since FreeType's autohinting
-                system supports the Arabic and CJK (Chinese, Korean,
-                Japanese) writing systems, <tt>ttfautohint</tt> could do
-                so too.  (So far the primary goal is to make
-                <tt>ttfautohint</tt> work well with the latin
-                script.)</p>
+              <p><strong>Add support for more writing systems</strong>
+                  &ndash; since FreeType's autohinting system supports
+                  the Arabic and CJK (Chinese, Korean, Japanese)
+                  writing systems, <tt>ttfautohint</tt> could do so
+                  too.</p>
             </li>
             <li>
               <p><strong>Add hooks for other tools</strong> &ndash; to
@@ -514,10 +523,15 @@
             over at his
             <a href="http://code.newtypography.co.uk/very-latest-ttfautohint-screenshots/">blog, <em>New
                 Typography</em></a>.  While doing so, he created
-                a <a href="http://cloud-fonts.com/screendump/ttfautohint-15july.zip">large
-                set (ZIP)</a> of test images.  A few of them are shown
-                below, with image descriptions always above an
-                image:</p>
+            a <a href="http://cloud-fonts.com/screendump/ttfautohint-15july.zip">large
+              set (ZIP)</a> of test images.  A few of them are shown
+            below, with image descriptions always above an
+            image.</p>
+
+          <p class="warning">These images show the results of an early
+            version of ttfautohint.  The recent release contains
+            significant improvements, especially with GDI ClearType.
+            Updates to the snapshots will follow.</p>
 
           <p>Ubuntu Regular, Windows DirectWrite ClearType:</p>
 
@@ -659,7 +673,7 @@
         <div id="download">
           <h2>Download</h2>
 
-          <p>Current version: 0.97 (9th November 2013)</p>
+          <p>Current version: 1.00rc1 (11th February 2014)</p>
 
 
           <h3>Binaries</h3>
@@ -669,18 +683,18 @@
             directly after uncompressing the archive.</p>
 
           <p><strong>
-              <a href="http://sourceforge.net/projects/freetype/files/ttfautohint/0.97/ttfautohint-0.97-win32.7z/download">Windows</a>
+              <a href="http://sourceforge.net/projects/freetype/files/ttfautohint/1.00rc1/ttfautohint-1.00rc1-win32.7z/download">Windows</a>
             </strong><br>
-            <tt>ttfautohint 0.97</tt> (both command line and GUI)</p>
+            <tt>ttfautohint 1.00rc1</tt> (both command line and GUI)</p>
 
           <p><strong>
-              <a href="http://sourceforge.net/projects/freetype/files/ttfautohint/0.97/ttfautohint-0.97-tty-osx.tar.gz/download">Apple</a>
+              <a href="http://sourceforge.net/projects/freetype/files/ttfautohint/1.00rc1/ttfautohint-1.00rc1-tty-osx.tar.gz/download">Apple</a>
             </strong><br>
-            <tt>ttfautohint 0.97</tt> (currently command line only;
-            thanks to Karsten L&uuml;cke for creating this &ndash; it
-            has been compiled under OS&nbsp;X 10.5.8, but should run
-            with newer versions also).</p>
-
+            <tt>ttfautohint 1.00rc1</tt> (currently command line only;
+            thanks to Karsten L&uuml;cke for creating this &ndash;
+            this universal binary for the i386 and x86_64
+            architectures has been compiled under OS&nbsp;X 10.5.8 and
+            should run with newer versions also).</p>
 
           <h3>Source Code and Documentation</h3>
 
@@ -699,14 +713,17 @@
             <a href="http://repo.or.cz/w/ttfautohint.git">repo.or.cz</a>
             repository homepage for details.</p>
 
-          <p>Note: A prerequisite for compiling the library is FreeType
-            version 2.4.5 or newer; see
-            <a href="../download.html">FreeType's download page</a>
-            for more information.</p>
+          <p>Note: Prerequisites for compiling the library is FreeType
+            version 2.4.5 or newer and HarfBuzz version 0.9.19 or
+            newer; see <a href="../download.html">FreeType's download
+              page</a>
+            and <a href="http://www.freedesktop.org/software/harfbuzz/release/">HarfBuzz's
+              download page</a> for more information.</p>
 
           <p><a href="osx.html">Compile
               <tt>ttfautohint</tt> for Mac OS X</a>, including the
               GUI.</p>
+
         </div>
 
 
