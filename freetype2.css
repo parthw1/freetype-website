@@ -223,6 +223,9 @@ h2.author {
  text-align: center; }
 h3.date {
  text-align: center; }
+h3 + div.date {
+  margin-top: -3ex;
+  margin-bottom: 3ex; }
 h4 + div.date {
   margin-top: -3ex; }
 

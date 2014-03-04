@@ -76,7 +76,8 @@
             <a href="http://pledgie.com/campaigns/15816">Donate
               Now<br>
               <img align="bottom"
-                   alt="Click here to lend your support to: ttfautohint and make a donation at pledgie.com!"
+                   alt="Click here to lend your support to:
+                        ttfautohint and make a donation at pledgie.com!"
                    src="http://pledgie.com/campaigns/15816.png?skin_name=chrome"
                    border="0"></a><br>
 
@@ -207,9 +208,10 @@
             Berlaen</a>).</p>
 
           <div style="text-align: center;
-                      margin-top: 2em">
+                      margin-top: 2ex">
             <img src="image/ttfautohint-0.93-win7.png"
-                 alt="A screen snapshot of the ttfautohint binary version 0.93 on Windows 7"
+                 alt="A screen snapshot of the ttfautohint binary
+                      version 0.93 on Windows 7"
                  width="387"
                  height="651">
           </div>
@@ -284,9 +286,10 @@
           GUI&nbsp;:-)</p>
 
           <div style="text-align: center;
-                      margin-top: 2em">
+                      margin-top: 2ex">
             <img src="image/ttfautohint-0.8-win7.png"
-                 alt="A screen snapshot of the ttfautohint binary version 0.8 on Windows 7"
+                 alt="A screen snapshot of the ttfautohint binary
+                      version 0.8 on Windows 7"
                  width="438"
                  height="422">
           </div>
@@ -423,7 +426,7 @@
             further for ultimate quality.</p>
 
           <div style="text-align: center;
-                      margin-top: 2em">
+                      margin-top: 2ex">
             <img src="image/LiberationSerif-Regular-TA-dollar-19px.gif"
                  alt="animated dollar glyph of LiberationSerif-Regular"
                  width="407"
@@ -517,38 +520,56 @@
         <div id="samples">
           <h2>Visual Samples</h2>
 
-          <p>Vernon Adams has done extensive testing
-            of <tt>ttfautohint</tt>, and has documented this in detail
-            over at his
-            <a href="http://code.newtypography.co.uk/very-latest-ttfautohint-screenshots/">blog, <em>New
-                Typography</em></a>.  While doing so, he created
-            a <a href="http://cloud-fonts.com/screendump/ttfautohint-15july.zip">large
-              set (ZIP)</a> of test images.  A few of them are shown
-            below, with image descriptions always above an
-            image.</p>
+          <p><a href="http://code.newtypography.co.uk">Vernon
+            Adams</a> helped in providing comparison images, testing
+            the output of various browsers on different platforms.
+            Some of them are shown below.  (Two years ago he also did
+            extensive testing of <tt>ttfautohint</tt> and documented
+            this in detail at
+            <a href="http://code.newtypography.co.uk/very-latest-ttfautohint-screenshots/">his
+              blog</a>.)</p>
 
-          <p class="warning">These images show the results of an early
-            version of ttfautohint.  The recent release contains
-            significant improvements, especially with GDI ClearType.
-            Updates to the snapshots will follow.</p>
+          <p class="warning">You should look at the images without any
+            zoom so that your browser doesn't rescale them.</p>
 
-          <p>Ubuntu Regular, Windows DirectWrite ClearType:</p>
+          <p>Ubuntu Regular, Windows DirectWrite ClearType (as
+            rendered by Firefox on Windows&nbsp;7).  Left the
+            original, manual hinting, right the hinting applied by
+            <tt>ttfautohint</tt>:</p>
 
-          <img src="image/ubuntu-2-DW.png"
-               alt="Ubuntu Regular, Windows DirectWrite ClearType"
-               width="847"
-               height="794">
+          <div style="text-align: center;
+                      margin-top: 1ex;
+                      margin-bottom: 1ex;">
+            <img src="image/ubuntu-original-firefox-win7.png"
+                 alt="Ubuntu Regular, Windows DirectWrite ClearType,
+                      original hinting"
+                 width="360"
+                 height="954">
+            <img src="image/ubuntu-ttfa-firefox-win7.png"
+                 alt="Ubuntu Regular, Windows DirectWrite ClearType,
+                      ttfautohint hinting"
+                 width="360"
+                 height="954">
+          </div>
 
-          <p>Ubuntu regular, GDI ClearType.  This image clearly shows
-            the aggressive colour filtering.
-            With <tt>ttfautohint</tt>, curved outline extrema not
-            aligned to a pixel border are not handled well, giving
-            some sizes a bitmap-like appearance:</p>
+          <p>Ubuntu regular, GDI ClearType (as rendered by Chrome on
+            Windows&nbsp;7).  Left the original, manual hinting, right
+            the hinting applied by <tt>ttfautohint</tt>:</p>
 
-          <img src="image/ubuntu-2-GDI.png"
-               alt="Ubuntu regular, GDI ClearType"
-               width="848"
-               height="798">
+          <div style="text-align: center;
+                      margin-top: 1ex;
+                      margin-bottom: 1ex;">
+            <img src="image/ubuntu-original-chrome-win7.png"
+                 alt="Ubuntu Regular, Windows GDI ClearType,
+                      original hinting"
+                 width="360"
+                 height="954">
+            <img src="image/ubuntu-ttfa-chrome-win7.png"
+                 alt="Ubuntu Regular, Windows GDI ClearType,
+                      ttfautohint hinting"
+                 width="360"
+                 height="954">
+          </div>
 
           <p>Vera Regular, Windows DirectWrite ClearType:</p>
 
@@ -751,7 +772,8 @@
   <ul>
     <li class="funding">
       <p><a href="http://pledgie.com/campaigns/15816">
-        <img alt="Click here to lend your support to ttfautohint and make a donation at pledgie.com!"
+        <img alt="Click here to lend your support to ttfautohint and
+                  make a donation at pledgie.com!"
              src="http://pledgie.com/campaigns/15816.png?skin_name=chrome"
              border="0"
              align="middle">
