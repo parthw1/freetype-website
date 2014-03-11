@@ -97,12 +97,77 @@
         <div id="news">
           <h2>News &amp; Updates</h2>
 
+          <h4>New Pledgie Campaign</h4>
+          <div class="date">2014-03-11</div>
+
+          <p>This is a call for a
+            <a href="http://pledgie.com/campaigns/24434">new Pledgie
+              campaign</a> to support my (Werner Lemberg) expenses in
+            2014.  Thanks to all donors,
+            the <a href="http://pledgie.com/campaigns/18808">last
+              campaign</a> was successful, and all goals have been
+            reached!</p>
+
+          <p>If your company is using FreeType in your product, and
+            you care about continuing support and further development,
+            please contribute to my funding effort so I can continue
+            to bring the best text rendering to your devices!</p>
+
+          <p>Alternatively, direct donations to my PayPal account are
+            also highly welcome&nbsp;<tt>:-)</tt></p>
+
+          <h5>Roadmap</h5>
+
+          <p>Besides user support and fixing bugs, your money will
+            help me implement the following issues.</p>
+
+          <ul>
+            <li>Setting up a test framework for FreeType.  This is a
+              huge, long-term undertaking that will ensure both
+              stability and reliability of the library.  The idea is
+              to collect test cases (mainly broken fonts) that cover
+              as much source code as possible.  Another idea to
+              investigate is the development of scripts that can
+              generate both valid and invalid input data to
+              systematically increase the coverage of executed library
+              code, including the unlikely cases.  Finally, images of
+              valid, well-rendered input fonts could be collected: As
+              soon as a change to the rendering image gets applied, a
+              comparison run with those images should detect rendering
+              regressions.</li>
+            <li>Further improvements to the auto-hinter.  Right now,
+              the module for Indic support is a dummy, and support for
+              the family of Arabic scripts is completely missing.
+              Both investigation and research is necessary to find out
+              how much auto-hinting is possible and useful, and
+              whether other, completely different scripts can be
+              supported at all.</li>
+            <li>Right now, rendering Type&nbsp;1 and CID-keyed fonts
+              is the weakest part of FreeType.  However, we now have a
+              brand-new module for handling CFF.  Given that CFF is
+              very similar to Type&nbsp;1, it should be not too
+              difficult to use and/or extend the CFF code so that
+              Type&nbsp;1 fonts can be handled, too.</li>
+            <li>Explore whether it makes sense to merge FreeType with
+              (parts of)
+              the <a href="http://harfbuzz.org">HarfBuzz</a> library.
+              Since version 2.5.3, FreeType already links to HarfBuzz
+              to use its abilities for scanning OpenType layout
+              features, and more integration might be sensible for
+              both libraries.</li>
+            <li>More improvements to this website.  Last year I’ve
+              redesigned the FreeType website.  However, a large bunch
+              of documents are still using the old design, and some of
+              them are also no longer up to date.</li>
+          </ul>
+
+
           <h4>FreeType 2.5.3</h4>
           <div class="date">2014-03-08</div>
 
           <p>FreeType 2.5.3 has been released.  All users should
-            upgrade due to a fixed vulnerability in the CFF
-            driver.</p>
+            upgrade due to fixed vulnerability in the CFF driver
+            (CVE-2014-2240).</p>
 
           <p>Its main new feature is much enhanced support of
             auto-hinting SFNT fonts (i.e., TrueType and CFF fonts) due
@@ -441,9 +506,9 @@
 <div id="TOC">
   <ul>
     <li class="funding">
-      <p><a href="http://pledgie.com/campaigns/18808">
+      <p><a href="http://pledgie.com/campaigns/24434">
         <img alt="Click here to lend your support to the FreeType project and make a donation at pledgie.com!"
-             src="http://pledgie.com/campaigns/18808.png?skin_name=chrome"
+             src="http://pledgie.com/campaigns/24434.png?skin_name=chrome"
              border="0"
              align="middle">
       </a></p>
