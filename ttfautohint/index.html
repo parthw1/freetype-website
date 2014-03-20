@@ -523,7 +523,11 @@
           <p><a href="http://code.newtypography.co.uk">Vernon
             Adams</a> helped in providing comparison images, testing
             the output of various browsers on different platforms.
-            Some of them are shown below.  (Two years ago he also did
+            For this purpose, he used his
+            excellent <a href="http://vernnobile.github.io/webfont-testing/">framework
+              for testing browser fonts</a>.</p>
+
+          <p>Some of them are shown below.  (Two years ago he also did
             extensive testing of <tt>ttfautohint</tt> and documented
             this in detail at
             <a href="http://code.newtypography.co.uk/very-latest-ttfautohint-screenshots/">his
@@ -571,19 +575,83 @@
                  height="954">
           </div>
 
-          <p>Vera Regular, Windows DirectWrite ClearType:</p>
+          <p>Bitstream Vera Sans, Windows DirectWrite ClearType (as
+            rendered by Firefox on Windows&nbsp;7).  Left the
+            original, manual hinting, right the hinting applied by
+            <tt>ttfautohint</tt>:</p>
 
-          <img src="image/vera-2-DW.png"
-               alt="Vera Regular, Windows DirectWrite ClearType"
-               width="851"
-               height="796">
+          <div style="text-align: center;
+                      margin-top: 1ex;
+                      margin-bottom: 1ex;">
+            <img src="image/vera-original-firefox-win7.png"
+                 alt="Bitstream Vera Sans, Windows DirectWrite
+                      ClearType, original hinting"
+                 width="360"
+                 height="910">
+            <img src="image/vera-ttfa-firefox-win7.png"
+                 alt="Bitstream Vera Sans, Windows DirectWrite
+                      ClearType, ttfautohint hinting"
+                 width="360"
+                 height="910">
+          </div>
 
-          <p>Droid Serif Regular, Windows DirectWrite ClearType:</p>
+          <p>Bitstream Vera Sans, GDI ClearType (as rendered by Chrome
+            on Windows&nbsp;7).  Left the original, manual hinting,
+            right the hinting applied by <tt>ttfautohint</tt>:</p>
 
-          <img src="image/droidserif-2-DW.png"
-               alt="Droid Serif Regular, Windows DirectWrite ClearType"
-               width="852"
-               height="793">
+          <div style="text-align: center;
+                      margin-top: 1ex;
+                      margin-bottom: 1ex;">
+            <img src="image/vera-original-chrome-win7.png"
+                 alt="Bitstream Vera Sans, Windows GDI ClearType,
+                      original hinting"
+                 width="360"
+                 height="954">
+            <img src="image/vera-ttfa-chrome-win7.png"
+                 alt="Bitstream Vera Sans, Windows GDI ClearType,
+                      ttfautohint hinting"
+                 width="360"
+                 height="954">
+          </div>
+
+          <p>DroidSerif Regular, Windows DirectWrite ClearType (as
+            rendered by Firefox on Windows&nbsp;7).  Left the
+            original, manual hinting, right the hinting applied by
+            <tt>ttfautohint</tt>:</p>
+
+          <div style="text-align: center;
+                      margin-top: 1ex;
+                      margin-bottom: 1ex;">
+            <img src="image/droidserif-original-firefox-win7.png"
+                 alt="DroidSerif Regular, Windows DirectWrite
+                      ClearType, original hinting"
+                 width="360"
+                 height="910">
+            <img src="image/droidserif-ttfa-firefox-win7.png"
+                 alt="DroidSerif Regular, Windows DirectWrite
+                      ClearType, ttfautohint hinting"
+                 width="360"
+                 height="910">
+          </div>
+
+          <p>DroidSerif Regular, GDI ClearType (as rendered by Chrome
+            on Windows&nbsp;7).  Left the original, manual hinting,
+            right the hinting applied by <tt>ttfautohint</tt>:</p>
+
+          <div style="text-align: center;
+                      margin-top: 1ex;
+                      margin-bottom: 1ex;">
+            <img src="image/droidserif-original-chrome-win7.png"
+                 alt="DroidSerif Regular, Windows GDI ClearType,
+                      original hinting"
+                 width="360"
+                 height="954">
+            <img src="image/droidserif-ttfa-chrome-win7.png"
+                 alt="DroidSerif Regular, Windows GDI ClearType,
+                      ttfautohint hinting"
+                 width="360"
+                 height="954">
+          </div>
 
           <p>Finally, here the font files used in the samples above so
             that you can compare the hinting results by yourself.</p>
@@ -615,7 +683,8 @@
 
           <p>Matt Wiebe has tested the
             font <a href="http://en.wikipedia.org/wiki/VAG_Rounded"><em>VAG
-            Rounded</em></a>; he presents the results on
+            Rounded</em></a> with a very early version
+            of <tt>ttfautohint</tt>; he presents the results on
             his <a href="http://somadesign.ca/2011/improve-windows-type-rendering-with-ttfautohint/">blog</a>.</p>
         </div>
 
