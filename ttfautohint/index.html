@@ -94,6 +94,42 @@
         <!-- ************************************************** -->
 
         <div id="news">
+          <h3>Version 1.0 has been released</h3>
+          <div class="date">22nd March 2014</div>
+
+          <p>Finally, the long-awaited version 1.0 is here!  Compared
+            to the 1.00rc1 release, the memory management has been
+            improved to avoid excessive allocation under certain
+            circumstances.  Support for symbol fonts has been fixed
+            also.</p>
+
+          <p>As mentioned earlier, GDI ClearType hinting is now much
+            better.  However, I missed to show comparison images,
+            which I now do.  The top and bottom images (showing Ubuntu
+            regular processed with ttfautohint) are the output of an
+            older and the current version of ttfautohint,
+            respectively.</p>
+
+          <div style="text-align: center;
+                      margin-top: 1ex;
+                      margin-bottom: 1ex;">
+            <img src="image/ttfa-gdi-old-C.png"
+                 alt="A magnified screen snapshot of GDI hinting
+                      created with an older version of ttfautohint"
+                 width="92"
+                 height="112"
+                 style="padding-right: 1em">
+            <img src="image/ttfa-gdi-new-C.png"
+                 alt="A magnified screen snapshot of GDI hinting
+                      created with version 1.0 of ttfautohint"
+                 width="92"
+                 height="112"
+                 style="padding-left: 1em">
+          </div>
+
+          <p>The ugly flat tops and bottoms of round shapes are
+            gone.</p>
+
           <h4>11th February 2014</h4>
 
           <p>I proudly present the first release candidate for
@@ -656,7 +692,7 @@
           <p>Finally, here the font files used in the samples above so
             that you can compare the hinting results by yourself.</p>
 
-	  <div class="quote">
+          <div class="quote">
             <p><a href="Ubuntu-R.ttf"><tt>Ubuntu-R.ttf</tt></a>
               (<a href="http://font.ubuntu.com/">Ubuntu Regular</a>,
               version 0.80)<br>
@@ -664,14 +700,14 @@
 
             <p><a href="DroidSerif-Regular.ttf"><tt>DroidSerif-Regular.ttf</tt></a>
               (<a href="http://www.google.com/fonts/specimen/Droid+Serif#pairings">DroidSerif
-		Regular</a>, version 1.00)<br>
+                Regular</a>, version 1.00)<br>
               <a href="DroidSerif-TTFautohint-Regular.ttf"><tt>DroidSerif-TTFautohint-Regular.ttf</tt></a></p>
 
             <p><a href="Vera.ttf"><tt>Vera.ttf</tt></a>
               (<a href="http://ftp.acc.umu.se/pub/GNOME/sources/ttf-bitstream-vera/1.10/">Bitstream
-		Vera Sans</a>, version 1.10)<br>
+                Vera Sans</a>, version 1.10)<br>
               <a href="Vera-TTFautohint.ttf"><tt>Vera-TTFautohint.ttf</tt></a></p>
-	  </div>
+          </div>
 
           <p>Note that the fonts were generated with
             version&nbsp;1.00rc1 of <tt>ttfautohint</tt> (using

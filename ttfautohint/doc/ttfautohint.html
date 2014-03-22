@@ -13,7 +13,7 @@
   <meta name="author"
         content="Werner Lemberg" />
   <meta name="version"
-        content="1.00rc1" />
+        content="1.00" />
 
   <title>ttfautohint</title>
 
@@ -265,7 +265,7 @@
 <div id="header">
 <h1 class="title">ttfautohint</h1>
 <h2 class="author">Werner Lemberg</h2>
-<h3 class="date">Version 1.00rc1</h3>
+<h3 class="date">Version 1.00</h3>
 </div>
 
 <!--
@@ -282,11 +282,11 @@
 
 
 
-<h1 id="introduction"><a href="#introduction">Introduction</a></h1>
+<h1 id="introduction">Introduction</h1>
 <p><strong>ttfautohint</strong> is a library written in C that takes a TrueType font as the input, removes its bytecode instructions (if any), and returns a new font where all glyphs are bytecode hinted using the information given by FreeType’s auto-hinting module. The idea is to provide the excellent quality of the auto-hinter on platforms that don’t use FreeType.</p>
 <p>The library has a single API function, <code>TTF_autohint</code>, which is described <a href="#the-ttfautohint-api">below</a>.</p>
 <p>Bundled with the library there are two front-end programs, <a href="#ttfautohint-and-ttfautohintgui"><code>ttfautohint</code> and <code>ttfautohintGUI</code></a>, being a command line program and an application with a Graphics User Interface (GUI), respectively.</p>
-<h2 id="what-exactly-are-hints"><a href="#what-exactly-are-hints">What exactly are hints?</a></h2>
+<h2 id="what-exactly-are-hints">What exactly are hints?</h2>
 <p>To cite <a href="http://en.wikipedia.org/wiki/Font_hinting">Wikipedia</a>:</p>
 <blockquote>
 <p><strong>Font hinting</strong> (also known as <strong>instructing</strong>) is the use of mathematical instructions to adjust the display of an outline font so that it lines up with a rasterized grid. At low screen resolutions, hinting is critical for producing a clear, legible text. It can be accompanied by antialiasing and (on liquid crystal displays) subpixel rendering for further clarity.</p>
@@ -308,7 +308,7 @@
 <li><p>The font gets auto-hinted (at run-time). The hinting logic is completely in the rasterizer. No hints in the font are used or needed; instead, the rasterizer scans and analyzes the glyphs to apply corrections by itself.</p>
 <p>This is how FreeType’s auto-hinter works; see <a href="#background-and-technical-details">below</a> for more.</p></li>
 </ol>
-<h2 id="what-problems-can-arise-with-truetype-hinting"><a href="#what-problems-can-arise-with-truetype-hinting">What problems can arise with TrueType hinting?</a></h2>
+<h2 id="what-problems-can-arise-with-truetype-hinting">What problems can arise with TrueType hinting?</h2>
 <p>While it is relatively easy to specify PostScript hints (either manually or by an auto-hinter that works at font creation time), creating TrueType hints is far more difficult. There are at least two reasons:</p>
 <ul>
 <li><p>TrueType instructions form a programming language, operating at a very low level. They are comparable to assembler code, thus lacking all high-level concepts to make programming more comfortable.</p>
@@ -326,33 +326,33 @@
 <p>Another major obstacle is the fact that font designers usually aren’t programmers.</p></li>
 <li><p>It is very time consuming to manually hint glyphs. Given that the number of specialists for TrueType hinting is very limited, hinting a large set of glyphs for a font or font family can become very expensive.</p></li>
 </ul>
-<h2 id="why-ttfautohint"><a href="#why-ttfautohint">Why ttfautohint?</a></h2>
+<h2 id="why-ttfautohint">Why ttfautohint?</h2>
 <p>The ttfautohint library brings the excellent quality of FreeType rendering to platforms that don’t use FreeType, yet require hinting for text to look good – like Microsoft Windows. Roughly speaking, it converts the glyph analysis done by FreeType’s auto-hinting module to TrueType bytecode. Internally, the auto-hinter’s algorithm resembles PostScript hinting methods; it thus combines all three hinting methods discussed <a href="#what-exactly-are-hints">previously</a>.</p>
 <p>The simple interface of the front-ends (both on the command line and with the GUI) allows quick hinting of a whole font with a few mouse clicks or a single command on the prompt. As a result, you get better rendering results with web browsers, for example.</p>
 <p>Across Windows rendering environments today, fonts processed with ttfautohint look best with ClearType enabled. This is the default for Windows 7. Good visual results are also seen in recent MacOS X versions and GNU/Linux systems (including Android, ChromeOS, and other mobile operating systems) that use FreeType for rendering glyphs.</p>
 <p>The goal of the project is to generate a ‘first pass’ of hinting that font developers can refine further for ultimate quality.</p>
-<h1 id="ttfautohint-and-ttfautohintgui"><a href="#ttfautohint-and-ttfautohintgui"><code>ttfautohint</code> and <code>ttfautohintGUI</code></a></h1>
+<h1 id="ttfautohint-and-ttfautohintgui"><code>ttfautohint</code> and <code>ttfautohintGUI</code></h1>
 <p>On all supported platforms (GNU/Linux, Windows, and Mac OS X), the GUI looks quite similar; the used toolkit is <a href="http://qt-project.org">Qt</a>, which in turn uses the platform’s native widgets.</p>
 <div class="figure">
 <img src="img/ttfautohintGUI.png" alt="ttfautohintGUI on GNU/Linux running KDE" /><p class="caption"><code>ttfautohintGUI</code> on GNU/Linux running KDE</p>
 </div>
 <p>Both the GUI and console version share the same features, to be discussed in the next subsection.</p>
 <p><strong>Warning: ttfautohint cannot always process a font a second time.</strong> If the font contains composite glyphs, and <a href="#hint-composites">option <code>-c</code></a> is used, reprocessing with ttfautohint will fail. For this reason it is strongly recommended to <em>not</em> delete the original, unhinted font so that you can always rerun ttfautohint.</p>
-<h2 id="calling-ttfautohint"><a href="#calling-ttfautohint">Calling <code>ttfautohint</code></a></h2>
+<h2 id="calling-ttfautohint">Calling <code>ttfautohint</code></h2>
 <pre><code>    ttfautohint [OPTION]... [IN-FILE [OUT-FILE]]</code></pre>
 <p>The TTY binary, <code>ttfautohint</code>, works like a Unix filter, this is, it reads data from standard input if no input file name is given, and it sends its output to standard output if no output file name is specified.</p>
 <p>A typical call looks like the following.</p>
 <pre><code>    ttfautohint -v -f latn foo.ttf foo-autohinted.ttf</code></pre>
 <p>For demonstration purposes, here the same using a pipe and redirection. Note that Windows’s default command line interpreter, <code>cmd.exe</code>, doesn’t support piping with binary files, unfortunately.</p>
 <pre><code>    cat foo.ttf | ttfautohint -v -f latn &gt; foo-autohinted.ttf</code></pre>
-<h2 id="calling-ttfautohintgui"><a href="#calling-ttfautohintgui">Calling <code>ttfautohintGUI</code></a></h2>
+<h2 id="calling-ttfautohintgui">Calling <code>ttfautohintGUI</code></h2>
 <pre><code>    ttfautohintGUI [OPTION]...</code></pre>
 <p><code>ttfautohintGUI</code> doesn’t send any output to a console; however, it accepts the same command line options as <code>ttfautohint</code>, setting default values for the GUI.</p>
-<h2 id="options"><a href="#options">Options</a></h2>
+<h2 id="options">Options</h2>
 <p>Long options can be given with one or two dashes, and with and without an equal sign between option and argument. This means that the following forms are acceptable: <code>-foo=</code><em>bar</em>, <code>--foo=</code><em>bar</em>, <code>-foo</code> <em>bar</em>, and <code>--foo</code> <em>bar</em>.</p>
 <p>Below, the section title refers to the command’s label in the GUI, then comes the name of the corresponding long command line option and its short equivalent, followed by a description.</p>
 <p>Background and technical details on the meaning of the various options are given <a href="#background-and-technical-details">afterwards</a>.</p>
-<h3 id="hint-set-range-minimum-hint-set-range-maximum"><a href="#hint-set-range-minimum-hint-set-range-maximum">Hint Set Range Minimum, Hint Set Range Maximum</a></h3>
+<h3 id="hint-set-range-minimum-hint-set-range-maximum">Hint Set Range Minimum, Hint Set Range Maximum</h3>
 <p>See <a href="#hint-sets">‘Hint Sets’</a> for a definition and explanation.</p>
 <dl>
 <dt><code>--hinting-range-min=</code><em>n</em>, <code>-l</code> <em>n</em></dt>
@@ -362,19 +362,19 @@
 <dd><p>The maximum PPEM value (in pixels) at which hint sets are created. The default value for <em>n</em> is 50.</p>
 </dd>
 </dl>
-<h3 id="default-script"><a href="#default-script">Default Script</a></h3>
+<h3 id="default-script">Default Script</h3>
 <dl>
 <dt><code>--default-script=</code><em>s</em>, <code>-D</code> <em>s</em></dt>
 <dd>Set default script to tag <em>s</em>, which is a string consisting of four lowercase characters like <code>latn</code> or <code>dflt</code>. It is needed to specify the OpenType default script: After applying all features that are handled specially (like small caps or superscript), ttfautohint uses this value for the remaining features. The default value is <code>latn</code>. See <a href="#opentype-features">below</a> for more details.
 </dd>
 </dl>
-<h3 id="fallback-script"><a href="#fallback-script">Fallback Script</a></h3>
+<h3 id="fallback-script">Fallback Script</h3>
 <dl>
 <dt><code>--fallback-script=</code><em>s</em>, <code>-f</code> <em>s</em></dt>
 <dd>Set fallback script to tag <em>s</em>, which is a string consisting of four characters like <code>latn</code> or <code>dflt</code>. It gets used for for all glyphs that can’t be assigned to a script automatically. See <a href="#scripts">below</a> for more details.
 </dd>
 </dl>
-<h3 id="hinting-limit"><a href="#hinting-limit">Hinting Limit</a></h3>
+<h3 id="hinting-limit">Hinting Limit</h3>
 <dl>
 <dt><code>--hinting-limit=</code><em>n</em>, <code>-G</code> <em>n</em></dt>
 <dd><p>The <em>hinting limit</em> is the PPEM value (in pixels) where hinting gets switched off (using the <code>INSTCTRL</code> bytecode instruction, not the <code>gasp</code> table data); it has zero impact on the file size. The default value for <em>n</em> is 200, which means that the font is not hinted for PPEM values larger than 200.</p>
@@ -382,7 +382,7 @@
 <p>To omit a hinting limit, use <code>--hinting-limit=0</code> (or check the ‘No Hinting Limit’ box in the GUI). Since this causes internal math overflow in the rasterizer for large pixel values (&gt; 1500px approx.) it is strongly recommended to not use this except for testing purposes.</p>
 </dd>
 </dl>
-<h3 id="x-height-increase-limit"><a href="#x-height-increase-limit">x Height Increase Limit</a></h3>
+<h3 id="x-height-increase-limit">x Height Increase Limit</h3>
 <dl>
 <dt><code>--increase-x-height=</code><em>n</em>, <code>-x</code> <em>n</em></dt>
 <dd><p>Normally, ttfautohint rounds the x height to the pixel grid, with a slight preference for rounding up. If this flag is set, values in the range 6 PPEM to <em>n</em> PPEM are much more often rounded up. The default value for <em>n</em> is 14. Use this flag to increase the legibility of small sizes if necessary; you might get weird rendering results otherwise for glyphs like ‘a’ or ‘e’, depending on the font design.</p>
@@ -396,14 +396,14 @@
 </div>
 </dd>
 </dl>
-<h3 id="x-height-snapping-exceptions"><a href="#x-height-snapping-exceptions">x Height Snapping Exceptions</a></h3>
+<h3 id="x-height-snapping-exceptions">x Height Snapping Exceptions</h3>
 <dl>
 <dt><code>--x-height-snapping-exceptions=</code><em>string</em>, <code>-X</code> <em>string</em></dt>
 <dd><p>A list of comma separated PPEM values or value ranges at which no x-height snapping shall be applied. A value range has the form <em>value1</em><code>-</code><em>value2</em>, meaning <em>value1</em> &lt;= PPEM &lt;= <em>value2</em>. <em>value1</em> or <em>value2</em> (or both) can be missing; a missing value is replaced by the beginning or end of the whole interval of valid PPEM values, respectively (6 to 32767). Whitespace is not significant; superfluous commas are ignored, and ranges must be specified in increasing order. For example, the string <code>&quot;7-9, 11, 13-&quot;</code> means the values 7, 8, 9, 11, 13, 14, 15, etc. Consequently, if the supplied argument is <code>&quot;-&quot;</code>, no x-height snapping takes place at all. The default is the empty string (<code>&quot;&quot;</code>), meaning no snapping exceptions.</p>
 <p>Normally, x-height snapping means a slight increase in the overall vertical glyph size so that the height of lowercase glyphs gets aligned to the pixel grid (this is a global feature, affecting <em>all</em> glyphs of a font). However, having larger vertical glyph sizes is not always desired, especially if it is not possible to adjust the <code>usWinAscent</code> and <code>usWinDescent</code> values from the font’s <code>OS/2</code> table so that they are not too tight. See <a href="#windows-compatibility">‘Windows Compatibility’</a> for more details.</p>
 </dd>
 </dl>
-<h3 id="windows-compatibility"><a href="#windows-compatibility">Windows Compatibility</a></h3>
+<h3 id="windows-compatibility">Windows Compatibility</h3>
 <dl>
 <dt><code>--windows-compatibility</code>, <code>-W</code></dt>
 <dd><p>This option makes ttfautohint add two artificial blue zones, positioned at the <code>usWinAscent</code> and <code>usWinDescent</code> values (from the font’s <code>OS/2</code> table). The idea is to help ttfautohint so that the hinted glyphs stay within this horizontal stripe since Windows clips everything falling outside.</p>
@@ -412,38 +412,38 @@
 <p>In case ttfautohint is used as an auto-hinting tool for fonts that can be no longer modified to change the metrics, option <code>-W</code> in combination with ‘<code>-X &quot;-&quot;</code>’ to suppress any vertical enlargement should prevent almost all clipping.</p>
 </dd>
 </dl>
-<h3 id="pre-hinting"><a href="#pre-hinting">Pre-Hinting</a></h3>
+<h3 id="pre-hinting">Pre-Hinting</h3>
 <dl>
 <dt><code>--pre-hinting</code>, <code>-p</code></dt>
 <dd><em>Pre-hinting</em> means that a font’s original bytecode is applied to all glyphs before it is replaced with bytecode created by ttfautohint. This makes only sense if your font already has some hints in it that modify the shape even at EM size (normally 2048px); for example, some CJK fonts need this because the bytecode is used to scale and shift subglyphs. For most fonts, however, this is not the case.
 </dd>
 </dl>
-<h3 id="hint-composites"><a href="#hint-composites">Hint Composites</a></h3>
+<h3 id="hint-composites">Hint Composites</h3>
 <dl>
 <dt><code>--composites</code>, <code>-c</code></dt>
 <dd><p>By default, the components of a composite glyph get hinted separately. If this flag is set, the composite glyph itself gets hinted (and the hints of the components are ignored). Using this flag increases the bytecode size a lot, however, it might yield better hinting results.</p>
 <p>If this option is used (and a font actually contains composite glyphs), ttfautohint currently cannot reprocess its own output for technical reasons, see <a href="#the-.ttfautohint-glyph">below</a>.</p>
 </dd>
 </dl>
-<h3 id="symbol-font"><a href="#symbol-font">Symbol Font</a></h3>
+<h3 id="symbol-font">Symbol Font</h3>
 <dl>
 <dt><code>--symbol</code>, <code>-s</code></dt>
 <dd>Apply default values for standard (horizontal) stem width and height instead of deriving them from script-specific, hard-coded default characters (which usually resemble the shape of a lowercase ‘o’). Use this option (usually in combination with option <code>--fallback-script</code>) to hint symbol or dingbat fonts or math glyphs, for example, that lack default characters, at the expense of possibly poor hinting results at small sizes.
 </dd>
 </dl>
-<h3 id="dehint"><a href="#dehint">Dehint</a></h3>
+<h3 id="dehint">Dehint</h3>
 <dl>
 <dt><code>--dehint</code>, <code>-d</code></dt>
 <dd>Strip off all hints without generating new hints. Consequently, all other hinting options are ignored. This option is intended for testing purposes.
 </dd>
 </dl>
-<h3 id="add-ttfautohint-info"><a href="#add-ttfautohint-info">Add ttfautohint Info</a></h3>
+<h3 id="add-ttfautohint-info">Add ttfautohint Info</h3>
 <dl>
 <dt><code>--no-info</code>, <code>-n</code></dt>
 <dd>Don’t add ttfautohint version and command line information to the version string or strings (with name ID 5) in the font’s <code>name</code> table. In the GUI it is similar: If you uncheck the ‘Add ttfautohint info’ box, information is not added to the <code>name</code> table. Except for testing and development purposes it is strongly recommended to not use this option.
 </dd>
 </dl>
-<h3 id="strong-stem-width-and-positioning"><a href="#strong-stem-width-and-positioning">Strong Stem Width and Positioning</a></h3>
+<h3 id="strong-stem-width-and-positioning">Strong Stem Width and Positioning</h3>
 <dl>
 <dt><code>--strong-stem-width=</code><em>string</em>, <code>-w</code> <em>string</em></dt>
 <dd><p>ttfautohint offers two different routines to handle (horizontal) stem widths and stem positions: ‘smooth’ and ‘strong’. The former uses discrete values that slightly increase the stem contrast with almost no distortion of the outlines, while the latter snaps both stem widths and stem positions to integer pixel values as much as possible, yielding a crisper appearance at the cost of much more distortion.</p>
@@ -465,14 +465,14 @@
 </div>
 </dd>
 </dl>
-<h3 id="font-license-restrictions"><a href="#font-license-restrictions">Font License Restrictions</a></h3>
+<h3 id="font-license-restrictions">Font License Restrictions</h3>
 <dl>
 <dt><code>--ignore-restrictions</code>, <code>-i</code></dt>
 <dd><p>By default, fonts that have bit 1 set in the ‘fsType’ field of the <code>OS/2</code> table are rejected. If you have a permission of the font’s legal owner to modify the font, specify this command line option.</p>
 <p>If this option is not set, <code>ttfautohintGUI</code> shows a dialogue to handle such fonts if necessary.</p>
 </dd>
 </dl>
-<h3 id="miscellaneous"><a href="#miscellaneous">Miscellaneous</a></h3>
+<h3 id="miscellaneous">Miscellaneous</h3>
 <dl>
 <dt><code>--help</code>, <code>-h</code></dt>
 <dd><p>On the console, print a brief documentation on standard output and exit. This doesn’t work with <code>ttfautohintGUI</code> on MS Windows.</p>
@@ -484,10 +484,10 @@
 <dd><p>Print <em>a lot</em> of debugging information on standard error while processing a font (you should redirect stderr to a file). This doesn’t work with <code>ttfautohintGUI</code> on MS Windows.</p>
 </dd>
 </dl>
-<h1 id="background-and-technical-details"><a href="#background-and-technical-details">Background and Technical Details</a></h1>
+<h1 id="background-and-technical-details">Background and Technical Details</h1>
 <p><a href="http://www.tug.org/TUGboat/tb24-3/lemberg.pdf">Real-Time Grid Fitting of Typographic Outlines</a> is a scholarly paper that describes FreeType’s auto-hinter in some detail. Regarding the described data structures it is slightly out of date, but the algorithm itself hasn’t changed in general.</p>
 <p>The next few subsections are mainly based on this article, introducing some important concepts. Note that ttfautohint only does hinting along the vertical direction (modifying y coordinates only).</p>
-<h2 id="segments-and-edges"><a href="#segments-and-edges">Segments and Edges</a></h2>
+<h2 id="segments-and-edges">Segments and Edges</h2>
 <p>A glyph consists of one or more <em>contours</em> (this is, closed curves). For example, glyph ‘O’ consists of two contours, while glyph ‘I’ has only one.</p>
 <div class="figure">
 <img src="img/o-and-i.svg" alt="The letter O has two contours, an inner and an outer one, while letter I has only an outer contour." /><p class="caption">The letter ‘O’ has two contours, an inner and an outer one, while letter ‘I’ has only an outer contour.</p>
@@ -498,7 +498,7 @@
 </div>
 <p>An <em>edge</em> corresponds to a single coordinate value on the main dimension that collects one or more segments (allowing for a small threshold). While finding segments is done on the unscaled outline, finding edges is bound to the device resolution. See <a href="#hint-sets">below</a> for an example.</p>
 <p>The analysis to find segments and edges is specific to a writing system, see <a href="#writing-systems">below</a>.</p>
-<h2 id="feature-analysis"><a href="#feature-analysis">Feature Analysis</a></h2>
+<h2 id="feature-analysis">Feature Analysis</h2>
 <p>The auto-hinter analyzes a font in two steps. Right now, everything described here happens for the horizontal axis only, providing vertical hinting.</p>
 <ul>
 <li><p>Global Analysis</p>
@@ -560,7 +560,7 @@
 <li><p>Link edges together to find stems and serifs. The abovementioned paper gives more details on what exactly constitutes a stem or a serif and how the algorithm works.</p></li>
 </ul></li>
 </ul>
-<h2 id="blue-zones"><a href="#blue-zones">Blue Zones</a></h2>
+<h2 id="blue-zones">Blue Zones</h2>
 <div class="figure">
 <img src="img/blue-zones.svg" alt="Two blue zones relevant to the glyph a. Vertical point coordinates of all glyphs within these zones are aligned, provided the blue zone is active (this is, its vertical size is smaller than 3/4 pixels)." /><p class="caption">Two blue zones relevant to the glyph ‘a’. Vertical point coordinates of <em>all</em> glyphs within these zones are aligned, provided the blue zone is active (this is, its vertical size is smaller than 3/4 pixels).</p>
 </div>
@@ -718,7 +718,7 @@
 <div class="figure">
 <img src="img/glyph-terms.svg" alt="This image shows the relevant glyph terms for vertical blue zone positions." /><p class="caption">This image shows the relevant glyph terms for vertical blue zone positions.</p>
 </div>
-<h2 id="grid-fitting"><a href="#grid-fitting">Grid Fitting</a></h2>
+<h2 id="grid-fitting">Grid Fitting</h2>
 <p>Aligning outlines along the grid lines is called <em>grid fitting</em>. It doesn’t necessarily mean that the outlines are positioned <em>exactly</em> on the grid, however, especially if you want a smooth appearance at different sizes. This is the central routine of the auto-hinter; its actions are highly dependent on the used writing system. Currently, only one writing system is available (latin), providing support for scripts like Latin or Greek.</p>
 <ul>
 <li><p>Align edges linked to blue zones.</p></li>
@@ -737,7 +737,7 @@
 <div class="figure">
 <img src="img/a-after-autohinting.png" alt="After hinting, using ttfautohint. Note that the hinting process doesn’t change horizontal positions." /><p class="caption">After hinting, using ttfautohint. Note that the hinting process doesn’t change horizontal positions.</p>
 </div>
-<h2 id="hint-sets"><a href="#hint-sets">Hint Sets</a></h2>
+<h2 id="hint-sets">Hint Sets</h2>
 <p>In ttfautohint terminology, a <em>hint set</em> is the <em>optimal</em> configuration for a given PPEM (pixel per EM) value.</p>
 <p>In the range given by the <code>--hinting-range-min</code> and <code>--hinting-range-max</code> options, ttfautohint creates hint sets for every PPEM value. For each glyph, ttfautohint automatically determines whether a new set should be emitted for a PPEM value if it finds that it differs from a previous one. For some glyphs it is possible that one set covers, say, the range 8px-1000px, while other glyphs need 10 or more such sets.</p>
 <p>In the PPEM range below <code>--hinting-range-min</code>, ttfautohint always uses just one set, in the PPEM range between <code>--hinting-range-max</code> and <code>--hinting-limit</code>, it also uses just one set.</p>
@@ -757,7 +757,7 @@
 <p>Obviously, the more hint sets get emitted, the larger the bytecode ttfautohint adds to the output font. To find a good value <em>n</em> for <code>--hinting-range-max</code>, some experimentation is necessary since <em>n</em> depends on the glyph shapes in the input font. If the value is too low, the hint set created for the PPEM value <em>n</em> (this hint set gets used for all larger PPEM values) might distort the outlines too much in the PPEM range given by <em>n</em> and the value set by <code>--hinting-limit</code> (at which hinting gets switched off). If the value is too high, the font size increases due to more hint sets without any noticeable hinting effects.</p>
 <p>Similar arguments hold for <code>--hinting-range-min</code> except that there is no lower limit at which hinting is switched off.</p>
 <p>An example. Let’s assume that we have a hinting range 10 &lt;= ppem &lt;= 100, and the hinting limit is set to 250. For a given glyph, ttfautohint finds out that four hint sets must be computed to exactly cover this hinting range: 10-15, 16-40, 41-80, and 81-100. For ppem values below 10ppem, the hint set covering 10-15ppem is used, for ppem values larger than 100 the hint set covering 81-100ppem is used. For ppem values larger than 250, no hinting gets applied.</p>
-<h2 id="the-.ttfautohint-glyph"><a href="#the-.ttfautohint-glyph">The ‘.ttfautohint’ Glyph</a></h2>
+<h2 id="the-.ttfautohint-glyph">The ‘.ttfautohint’ Glyph</h2>
 <p>If <a href="#hint-composites">option <code>--composites</code></a> is used, ttfautohint doesn’t hint subglyphs of composite glyphs separately. Instead, it hints the whole glyph, this is, composites get recursively expanded internally so that they form simple glyphs, then hints are applied – this is the normal working mode of FreeType’s auto-hinter.</p>
 <p>One problem, however, must be solved: Hinting for subglyphs (which usually are used as normal glyphs also) must be deactivated so that nothing but the final bytecode of the composite gets executed.</p>
 <p>The trick used by ttfautohint is to prepend a composite element called ‘.ttfautohint’, a dummy glyph with a single point, and which has a single job: Its bytecode increases a variable (to be more precise, it is a CVT register called <code>cvtl_is_subglyph</code> in the source code), indicating that we are within a composite glyph. The final bytecode of the composite glyph eventually decrements this variable again.</p>
@@ -794,9 +794,9 @@
 </table>
 <p>Some technical details (which you might skip): All glyph point indices get adjusted since each ‘.ttfautohint’ subglyph shifts all following indices by one. This must be done for both the bytecode and one subformat of OpenType’s <code>GPOS</code> anchor tables.</p>
 <p>While this approach works fine on all tested platforms, there is one single drawback: Direct rendering of the ‘.ttfautohint’ subglyph (this is, rendering as a stand-alone glyph) disables proper hinting of all glyphs in the font! Under normal circumstances this never happens because ‘.ttfautohint’ doesn’t have an entry in the font’s <code>cmap</code> table. (However, some test and demo programs like FreeType’s <code>ftview</code> application or other glyph viewers that are able to bypass the <code>cmap</code> table might be affected.)</p>
-<h2 id="writing-systems"><a href="#writing-systems">Writing Systems</a></h2>
+<h2 id="writing-systems">Writing Systems</h2>
 <p>In FreeType terminology, a writing system is a set of functions that provides auto-hinting for certain scripts. Right now, only two writing systems from FreeType’s auto-hinter are available in ttfautohint: ‘dummy’ and ‘latin’. The former handles the ‘no-script’ case; details to ‘latin’ follow in the next section.</p>
-<h2 id="scripts"><a href="#scripts">Scripts</a></h2>
+<h2 id="scripts">Scripts</h2>
 <p>ttfautohint needs to know which script should be used to hint a specific glyph. To do so, it checks a glyph’s Unicode character code whether it belongs to a given script.</p>
 <p>Here is the hardcoded list of character ranges that are used for scripts in the ‘latin’ writing system. As you can see, this also covers some non-latin scripts (in the Unicode sense) that have similar typographical properties.</p>
 <p>In ttfautohint, scripts are identified by four-character tags. The value <code>none</code> indicates ‘no script’.</p>
@@ -965,7 +965,7 @@
 </tbody>
 </table>
 <p>If a glyph’s character code is not covered by a script range, it is not hinted (or rather, it gets hinted by the ‘dummy’ auto-hinting module that essentially does nothing). This can be changed by specifying a <em>fallback script</em>; see <a href="#fallback-script">option <code>--fallback-script</code></a>.</p>
-<h2 id="opentype-features"><a href="#opentype-features">OpenType Features</a></h2>
+<h2 id="opentype-features">OpenType Features</h2>
 <p>(Please read the <a href="http://www.microsoft.com/typography/otspec">OpenType specification</a> for details on <em>features</em>, <code>GSUB</code>, and <code>GPOS</code> tables, and how they relate to scripts.)</p>
 <p>For modern OpenType fonts, character ranges are not sufficient to handle scripts.</p>
 <ul>
@@ -1028,7 +1028,7 @@
 <p>The remaining OpenType features of a script are not handled specially; the affected glyphs are simply hinted together with the ‘normal’ glyphs of the script.</p>
 <p>Note that a font might still contain some features not covered yet: OpenType has the concept of a <em>default script</em>; its data gets used for all scripts that aren’t explicitly handled in a font. By default, ttfautohint unifies all affected glyphs from default script features with the <code>latn</code> script. This can be changed with <a href="#default-script">option <code>--default-script</code></a>, if necessary.</p>
 <p>ttfautohint uses the <a href="http://harfbuzz.org">HarfBuzz</a> library for handling OpenType features.</p>
-<h2 id="sfnt-tables"><a href="#sfnt-tables">SFNT Tables</a></h2>
+<h2 id="sfnt-tables">SFNT Tables</h2>
 <p>ttfautohint touches almost all SFNT tables within a TrueType or OpenType font. Note that only OpenType fonts with TrueType outlines are supported. OpenType fonts with a <code>CFF</code> table (this is, with PostScript outlines) won’t work.</p>
 <ul>
 <li><p><code>glyf</code>: All hints in the table are replaced with new ones. If option <a href="#hint-composites"><code>--composites</code></a> is used, one glyph gets added (namely the ‘.ttfautohint’ glyph) and all composites get an additional component.</p></li>
@@ -1040,22 +1040,22 @@
 <li><p><code>LTSH</code>, <code>hdmx</code>: Since ttfautohint doesn’t do any horizontal hinting, those tables are superfluous and thus removed.</p></li>
 <li><p><code>VDMX</code>: Removed, since it depends on the original bytecode, which ttfautohint removes. A font editor might recompute the necessary data later on.</p></li>
 </ul>
-<h2 id="problems"><a href="#problems">Problems</a></h2>
-<h3 id="interaction-with-freetype"><a href="#interaction-with-freetype">Interaction With FreeType</a></h3>
+<h2 id="problems">Problems</h2>
+<h3 id="interaction-with-freetype">Interaction With FreeType</h3>
 <p>Recent versions of FreeType have an experimental extension for handling subpixel hinting; it is off by default and can be activated by defining the macro <code>TT_CONFIG_OPTION_SUBPIXEL_HINTING</code> at compile time. This code has been contributed mainly by <a href="http://infinality.net">Infinality</a>, being a subset of his original patch. Many GNU/Linux distributions activate this code, or provide packages to activate it.</p>
 <p>This extension changes the behaviour of many bytecode instructions to get better rendering results. However, not all changes are global; some of them are specific to certain fonts. For example, it contains font-specific improvements for the ‘<a href="http://dejavu-fonts.org">DejaVu</a> Sans’ font family. The list of affected fonts is hard-coded; it can be found in FreeType’s source code file <code>ttsubpix.c</code>.</p>
 <p>If you are going to process such specially-handled fonts with ttfautohint, serious rendering problems might show up. Since ttfautohint (intentionally) doesn’t change the font name in the <code>name</code> table, the Infinality extension has no chance to recognize that the hints are different. All such problems vanish if the font gets renamed in its <code>name</code> table (the name of the font file itself doesn’t matter).</p>
-<h3 id="incorrect-unicode-character-map"><a href="#incorrect-unicode-character-map">Incorrect Unicode Character Map</a></h3>
+<h3 id="incorrect-unicode-character-map">Incorrect Unicode Character Map</h3>
 <p>Fonts with an incorrect Unicode <code>cmap</code> table will not be properly hinted by ttfautohint. Especially older fonts do cheat; for example, there exist Hebrew fonts that map its glyphs to character codes ‘A’, ‘B’, etc., to make them work with non-localized versions of Windows 98, say.</p>
 <p>Since ttfautohint needs to find both standard and blue zone characters, it relies on correct Unicode values. If you want to handle such fonts, please fix their <code>cmap</code> tables accordingly.</p>
-<h3 id="irregular-glyph-heights"><a href="#irregular-glyph-heights">Irregular Glyph Heights</a></h3>
+<h3 id="irregular-glyph-heights">Irregular Glyph Heights</h3>
 <p>The central concept of ttfautohint’s hinting algorithm, as discussed <a href="#segments-and-edges">above</a>, is to identify horizontal segments at extremum positions, especially for blue zones. If such a segment is missing, it cannot be associated with a blue zone, possibly leading to irregular heights for the particular glyph.</p>
 <p>If a font designer is able to adjust the outlines, such problems can be remedied by adding tiny horizontal segments at the problematic extremum positions. Such segments should have a horizontal length of at least 20 font units (assuming 2048 units per EM)<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>.</p>
-<h3 id="diagonals"><a href="#diagonals">Diagonals</a></h3>
+<h3 id="diagonals">Diagonals</h3>
 <p>ttfautohint doesn’t handle diagonal lines specially. For thin outlines, this might lead to strokes that look too thick at smaller sizes. A font designer might compensate this to a certain amount by slightly reducing the stroke width of diagonal lines. However, in many cases the sub-optimal appearance of a stroke with borders that don’t exactly fit the pixel grid is not the outline itself but an incorrect gamma value of the monitor: People tend to not properly adjust it, and the default values of most operating systems are too low, causing too much darkening of such strokes. It is thus of vital importance to compare ttfautohint’s results with similar fonts to exclude any systematic effect not related to the outlines themselves.</p>
-<h1 id="the-ttfautohint-api"><a href="#the-ttfautohint-api">The ttfautohint API</a></h1>
+<h1 id="the-ttfautohint-api">The ttfautohint API</h1>
 <p>This section documents the single function of the ttfautohint library, <code>TTF_autohint</code>, together with its callback functions, <code>TA_Progress_Func</code> and <code>TA_Info_Func</code>. All information has been directly extracted from the <code>ttfautohint.h</code> header file.</p>
-<h2 id="preprocessor-macros-and-typedefs"><a href="#preprocessor-macros-and-typedefs">Preprocessor Macros and Typedefs</a></h2>
+<h2 id="preprocessor-macros-and-typedefs">Preprocessor Macros and Typedefs</h2>
 <p>Some default values.</p>
 <pre class="sourceCode C"><code class="sourceCode c"><span class="ot">#define TA_HINTING_RANGE_MIN 8</span>
 <span class="ot">#define TA_HINTING_RANGE_MAX 50</span>
@@ -1063,7 +1063,7 @@
 <span class="ot">#define TA_INCREASE_X_HEIGHT 14</span></code></pre>
 <p>An error type.</p>
 <pre class="sourceCode C"><code class="sourceCode c"><span class="kw">typedef</span> <span class="dt">int</span> TA_Error;</code></pre>
-<h2 id="callback-ta_progress_func"><a href="#callback-ta_progress_func">Callback: <code>TA_Progress_Func</code></a></h2>
+<h2 id="callback-ta_progress_func">Callback: <code>TA_Progress_Func</code></h2>
 <p>A callback function to get progress information. <em>curr_idx</em> gives the currently processed glyph index; if it is negative, an error has occurred. <em>num_glyphs</em> holds the total number of glyphs in the font (this value can’t be larger than 65535).</p>
 <p><em>curr_sfnt</em> gives the current subfont within a TrueType Collection (TTC), and <em>num_sfnts</em> the total number of subfonts.</p>
 <p>If the return value is non-zero, <code>TTF_autohint</code> aborts with <code>TA_Err_Canceled</code>. Use this for a ‘Cancel’ button or similar features in interactive use.</p>
@@ -1074,7 +1074,7 @@
                     <span class="dt">long</span> curr_sfnt,
                     <span class="dt">long</span> num_sfnts,
                     <span class="dt">void</span>* progress_data);</code></pre>
-<h2 id="callback-ta_info_func"><a href="#callback-ta_info_func">Callback: <code>TA_Info_Func</code></a></h2>
+<h2 id="callback-ta_info_func">Callback: <code>TA_Info_Func</code></h2>
 <p>A callback function to manipulate strings in the <code>name</code> table. <em>platform_id</em>, <em>encoding_id</em>, <em>language_id</em>, and <em>name_id</em> are the identifiers of a <code>name</code> table entry pointed to by <em>str</em> with a length pointed to by <em>str_len</em> (in bytes; the string has no trailing NULL byte). Please refer to the <a href="http://www.microsoft.com/typography/otspec/name.htm">OpenType specification of the <code>name</code> table</a> for a detailed description of the various parameters, in particular which encoding is used for a given platform and encoding ID.</p>
 <p>The string <em>str</em> is allocated with <code>malloc</code>; the application should reallocate the data if necessary, ensuring that the string length doesn’t exceed 0xFFFF.</p>
 <p><em>info_data</em> is a void pointer to user-supplied data.</p>
@@ -1087,11 +1087,11 @@
                 <span class="dt">unsigned</span> <span class="dt">short</span>* str_len,
                 <span class="dt">unsigned</span> <span class="dt">char</span>** str,
                 <span class="dt">void</span>* info_data);</code></pre>
-<h2 id="function-ttf_autohint"><a href="#function-ttf_autohint">Function: <code>TTF_autohint</code></a></h2>
+<h2 id="function-ttf_autohint">Function: <code>TTF_autohint</code></h2>
 <p>Read a TrueType font, remove existing bytecode (in the SFNT tables <code>prep</code>, <code>fpgm</code>, <code>cvt</code>, and <code>glyf</code>), and write a new TrueType font with new bytecode based on the autohinting of the FreeType library.</p>
 <p>It expects a format string <em>options</em> and a variable number of arguments, depending on the fields in <em>options</em>. The fields are comma separated; whitespace within the format string is not significant, a trailing comma is ignored. Fields are parsed from left to right; if a field occurs multiple times, the last field’s argument wins. The same is true for fields that are mutually exclusive. Depending on the field, zero or one argument is expected.</p>
 <p>Note that fields marked as ‘not implemented yet’ are subject to change.</p>
-<h3 id="io"><a href="#io">I/O</a></h3>
+<h3 id="io">I/O</h3>
 <dl>
 <dt><code>in-file</code></dt>
 <dd><p>A pointer of type <code>FILE*</code> to the data stream of the input font, opened for binary reading. Mutually exclusive with <code>in-buffer</code>.</p>
@@ -1112,7 +1112,7 @@
 <dd><p>A pointer of type <code>size_t*</code> to a value giving the length of the output buffer. Needs <code>out-buffer</code>.</p>
 </dd>
 </dl>
-<h3 id="messages-and-callbacks"><a href="#messages-and-callbacks">Messages and Callbacks</a></h3>
+<h3 id="messages-and-callbacks">Messages and Callbacks</h3>
 <dl>
 <dt><code>progress-callback</code></dt>
 <dd><p>A pointer of type <a href="#callback-ta_progress_func"><code>TA_Progress_Func</code></a>, specifying a callback function for progress reports. This function gets called after a single glyph has been processed. If this field is not set or set to NULL, no progress callback function is used.</p>
@@ -1133,7 +1133,7 @@
 <dd><p>If this integer is set to 1, lots of debugging information is print to stderr. The default value is 0.</p>
 </dd>
 </dl>
-<h3 id="general-hinting-options"><a href="#general-hinting-options">General Hinting Options</a></h3>
+<h3 id="general-hinting-options">General Hinting Options</h3>
 <dl>
 <dt><code>hinting-range-min</code></dt>
 <dd><p>An integer (which must be larger than or equal to 2) giving the lowest PPEM value used for autohinting. If this field is not set, it defaults to <code>TA_HINTING_RANGE_MIN</code>.</p>
@@ -1151,7 +1151,7 @@
 <dd><p>An integer (1 for ‘on’ and 0 for ‘off’, which is the default) to specify whether native TrueType hinting shall be applied to all glyphs before passing them to the (internal) autohinter. The used resolution is the em-size in font units; for most fonts this is 2048ppem. Use this if the hints move or scale subglyphs independently of the output resolution.</p>
 </dd>
 </dl>
-<h3 id="hinting-algorithms"><a href="#hinting-algorithms">Hinting Algorithms</a></h3>
+<h3 id="hinting-algorithms">Hinting Algorithms</h3>
 <dl>
 <dt><code>gray-strong-stem-width</code></dt>
 <dd><p>An integer (1 for ‘on’ and 0 for ‘off’, which is the default) that specifies whether horizontal stems should be snapped and positioned to integer pixel values for normal grayscale rendering.</p>
@@ -1172,7 +1172,7 @@
 <dd><p>If this integer is set to 1, two artificial blue zones are used, positioned at the <code>usWinAscent</code> and <code>usWinDescent</code> values (from the font’s <code>OS/2</code> table). The idea is to help ttfautohint so that the hinted glyphs stay within this horizontal stripe since Windows clips everything falling outside. The default is 0.</p>
 </dd>
 </dl>
-<h3 id="scripts-1"><a href="#scripts-1">Scripts</a></h3>
+<h3 id="scripts-1">Scripts</h3>
 <dl>
 <dt><code>default-script</code></dt>
 <dd><p>A string consisting of four lowercase characters that specifies the default script for OpenType features. After applying all features that are handled specially, use this value for the remaining features. The default value is <code>&quot;latn&quot;</code>; if set to <code>&quot;none&quot;</code>, no script is used. Valid values can be found in the header file <code>ttfautohint-scripts.h</code>.</p>
@@ -1181,10 +1181,10 @@
 <dd><p>A string consisting of four lowercase characters that specifies the default script for glyphs that can’t be mapped to a script automatically. If set to <code>&quot;none&quot;</code> (which is the default), no script is used. Valid values can be found in the header file <code>ttfautohint-scripts.h</code>.</p>
 </dd>
 <dt><code>symbol</code></dt>
-<dd><p>Set this integer to 1 if you want to process a font that lacks the characters of a supported script, for example, a symbol font. ttfautohint then uses default values for the standard stem width and height instead of deriving these values from a script’s key character (for the latin script, it is character ‘o’). The default value is 0.</p>
+<dd><p>Set this integer to 1 if you want to process a font that lacks the characters of a supported script, for example, a symbol font. ttfautohint then uses default values for the standard stem width and height instead of deriving these values from a script’s standard characters (for the latin script, one of them is character ‘o’). The default value is 0.</p>
 </dd>
 </dl>
-<h3 id="miscellaneous-1"><a href="#miscellaneous-1">Miscellaneous</a></h3>
+<h3 id="miscellaneous-1">Miscellaneous</h3>
 <dl>
 <dt><code>ignore-restrictions</code></dt>
 <dd><p>If the font has set bit 1 in the ‘fsType’ field of the <code>OS/2</code> table, the ttfautohint library refuses to process the font since a permission to do that is required from the font’s legal owner. In case you have such a permission you might set the integer argument to value 1 to make ttfautohint handle the font. The default value is 0.</p>
@@ -1193,7 +1193,7 @@
 <dd><p>If set to 1, remove all hints from the font. All other hinting options are ignored.</p>
 </dd>
 </dl>
-<h3 id="remarks"><a href="#remarks">Remarks</a></h3>
+<h3 id="remarks">Remarks</h3>
 <ul>
 <li><p>Obviously, it is necessary to have an input and an output data stream. All other options are optional.</p></li>
 <li><p><code>hinting-range-min</code> and <code>hinting-range-max</code> specify the range for which the autohinter generates optimized hinting code. If a PPEM value is smaller than the value of <code>hinting-range-min</code>, hinting still takes place but the configuration created for <code>hinting-range-min</code> is used. The analogous action is taken for <code>hinting-range-max</code>, only limited by the value given with <code>hinting-limit</code>. The font’s <code>gasp</code> table is set up to always use grayscale rendering with grid-fitting for standard hinting, and symmetric grid-fitting and symmetric smoothing for horizontal subpixel hinting (ClearType).</p></li>
@@ -1202,17 +1202,17 @@
 <pre class="sourceCode C"><code class="sourceCode c">TA_Error
 TTF_autohint(<span class="dt">const</span> <span class="dt">char</span>* options,
              ...);</code></pre>
-<h1 id="compilation-and-installation"><a href="#compilation-and-installation">Compilation and Installation</a></h1>
+<h1 id="compilation-and-installation">Compilation and Installation</h1>
 <p>Please read the files <a href="http://repo.or.cz/w/ttfautohint.git/blob_plain/HEAD:/INSTALL"><code>INSTALL</code></a> and <a href="http://repo.or.cz/w/ttfautohint.git/blob_plain/HEAD:/INSTALL.git"><code>INSTALL.git</code></a> (part of the source code bundle) for generic instructions how to compile the ttfautohint library together with its front-ends using a POSIX compatible shell and compiler.</p>
-<h2 id="unix-like-platforms"><a href="#unix-like-platforms">Unix-like Platforms</a></h2>
+<h2 id="unix-like-platforms">Unix-like Platforms</h2>
 <p>The generic instructions should work just fine. Since ttfautohint depends on <a href="http://qt-project.org">Qt</a> version 4.x.x, <a href="http://freetype.org">FreeType</a> version 2.4.5 or newer, and <a href="http://harfbuzz.org">HarfBuzz</a> version 0.9.19 or newer, you should install packages for these libraries (called ‘libqt4’, ‘libfreetype6’<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a>, and ‘libharfbuzz0’ or similar) together with its development bundles (called ‘libqt4-devel’, ‘freetype2-devel’, and ‘harfbuzz-devel’ or similar) before running ttfautohint’s <code>configure</code> script.</p>
-<h2 id="ms-windows"><a href="#ms-windows">MS Windows</a></h2>
+<h2 id="ms-windows">MS Windows</h2>
 <p>Precompiled binaries <code>ttfautohint.exe</code> and <code>ttfautohintGUI.exe</code> are available, being statically linked to <a href="http://qt-project.org">Qt</a>, <a href="http://freetype.org">FreeType</a>, and <a href="http://harfbuzz.org">HarfBuzz</a>. This means that the two programs are not dependent on any other program-specific DLL, and you can move them to any place you like.</p>
 <p>Hints for compilation with the <a href="http://mingw.org">MinGW</a> environment are given in <code>INSTALL.git</code>.</p>
-<h2 id="mac-os-x"><a href="#mac-os-x">Mac OS X</a></h2>
+<h2 id="mac-os-x">Mac OS X</h2>
 <p>Right now, only a precompiled binary <code>ttfautohint</code> is offered; a ready-to-run app bundle for the GUI version is not yet available.</p>
 <p>Detailed instructions to compile both <code>ttfautohint</code> and <code>ttfautohintGUI</code> can be found on <a href="http://freetype.org/ttfautohint/osx.html">ttfautohint’s homepage</a>.</p>
-<h1 id="authors"><a href="#authors">Authors</a></h1>
+<h1 id="authors">Authors</h1>
 <p>Copyright © 2011-2014 by <script type="text/javascript">
 <!--
 h='&#x67;&#110;&#x75;&#46;&#x6f;&#114;&#x67;';a='&#64;';n='&#x77;&#108;';e=n+a+h;
