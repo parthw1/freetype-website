@@ -595,26 +595,38 @@
 <td align="left">‘О’, U+041E, CYRILLIC CAPITAL LETTER O</td>
 </tr>
 <tr class="odd">
+<td align="center"><code>deva</code></td>
+<td align="left">‘ठ’, U+0920, DEVANAGARI LETTER TTHA</td>
+</tr>
+<tr class="even">
+<td align="center"></td>
+<td align="left">‘व’, U+0935, DEVANAGARI LETTER VA</td>
+</tr>
+<tr class="odd">
+<td align="center"></td>
+<td align="left">‘ट’, U+091F, DEVANAGARI LETTER TTA</td>
+</tr>
+<tr class="even">
 <td align="center"><code>grek</code></td>
 <td align="left">‘ο’, U+03BF, GREEK SMALL LETTER OMICRON</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="center"></td>
 <td align="left">‘Ο’, U+039F, GREEK CAPITAL LETTER OMICRON</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="center"><code>hebr</code></td>
 <td align="left">‘ם’, U+05DD, HEBREW LETTER FINAL MEM</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="center"><code>latn</code></td>
 <td align="left">‘o’, U+006F, LATIN SMALL LETTER O</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="center"></td>
 <td align="left">‘O’, U+004F, LATIN CAPITAL LETTER O</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="center"></td>
 <td align="left">‘0’, U+0030, DIGIT ZERO</td>
 </tr>
@@ -676,7 +688,7 @@
 </tr>
 </tbody>
 </table>
-<p>The ‘round’ characters (e.g. ‘OCQS’) from Zones 1, 2, and 5 are also used to control the overshoot handling; to improve rendering at small sizes, zone 4 gets adjusted to be on the pixel grid; cf. the <a href="#x-height-increase-limit"><code>--increase-x-height</code> option</a>.</p>
+<p>The ‘round’ characters (e.g. ‘OCQS’) from Zones 1, 2, and 5 are also used to control the overshoot handling; to improve rendering at small sizes, zone 4 gets adjusted to be on the pixel grid; cf. the <a href="#x-height-increase-limit"><code>--increase-x-height</code> option</a>.</p>
 <table>
 <caption><code>grek</code> blue zones</caption>
 <thead>
@@ -756,6 +768,39 @@
 </tr>
 </tbody>
 </table>
+<table>
+<caption><code>deva</code> blue zones</caption>
+<thead>
+<tr class="header">
+<th align="left">ID</th>
+<th align="left">Blue zone</th>
+<th align="left">Characters</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">baseline (flat glyphs only)</td>
+<td align="left">क न म उ छ ट ठ ड</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">top of ascenders</td>
+<td align="left">ई ऐ ओ औ ि ी ो ौ</td>
+</tr>
+<tr class="odd">
+<td align="left">3</td>
+<td align="left">top of baseline</td>
+<td align="left">क म अ आ थ ध भ श</td>
+</tr>
+<tr class="even">
+<td align="left">4</td>
+<td align="left">bottom of descenders</td>
+<td align="left">ु ृ</td>
+</tr>
+</tbody>
+</table>
+<p>Contrary to scripts like latin, the baseline in Devanagari is on the top. Note that some fonts have extreme variation in the height of the round elements in Zone 3; for this reason we also define Zone 1, which must be always present.</p>
 <table>
 <caption><code>hebr</code> blue zones</caption>
 <thead>
@@ -1014,6 +1059,25 @@
 <tr class="even">
 <td align="center"><code>0xA640</code> - <code>0xA69F</code></td>
 <td align="left">Cyrillic Extended-B</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>deva</code> character ranges</caption>
+<thead>
+<tr class="header">
+<th align="center">Character range</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><code>0x0900</code> - <code>0x097F</code></td>
+<td align="left">Devanagari</td>
+</tr>
+<tr class="even">
+<td align="center"><code>0x20B9</code></td>
+<td align="left">(new) Rupee sign</td>
 </tr>
 </tbody>
 </table>
