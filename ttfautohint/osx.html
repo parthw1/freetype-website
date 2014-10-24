@@ -80,7 +80,8 @@ class Ttfautohint < Formula
   sha1 'd4c4c570139da9667744e086da57ee5a21872630'
   head 'git://repo.or.cz/ttfautohint.git'
 
-  depends_on :freetype
+  depends_on 'pkg-config' => :build
+  depends_on 'freetype'
   depends_on 'harfbuzz'
   depends_on 'qt'
 
