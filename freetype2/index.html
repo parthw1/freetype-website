@@ -131,12 +131,13 @@
               <ul>
                 <li>TrueType fonts (TTF) and TrueType collections
                   (TTC)</li>
-                <li>Type&nbsp;1 fonts (PFA and PFB)</li>
-                <li>CID-keyed Type&nbsp;1 fonts</li>
                 <li>CFF fonts</li>
+                <li>WOFF fonts</li>
                 <li>OpenType fonts (OTF, both TrueType and CFF
                   variants) and OpenType collections (OTC)</li>
-                <li>SFNT-based bitmap fonts</li>
+                <li>Type&nbsp;1 fonts (PFA and PFB)</li>
+                <li>CID-keyed Type&nbsp;1 fonts</li>
+                <li>SFNT-based bitmap fonts, including color Emoji</li>
                 <li>X11 PCF fonts</li>
                 <li>Windows FNT fonts</li>
                 <li>BDF fonts (including anti-aliased ones)</li>
@@ -157,21 +158,20 @@
                 charmap from Type&nbsp;1 fonts, avoiding painful
                 &lsquo;encoding translation&rsquo; problems common
                 with this format (of course, original encodings are
-                also available in the case where you need them).</p>
+                also available if necessary).</p>
             </li>
             <li>
               <p>The FreeType core API provides simple functions to
-                access advanced information like glyph names or
+                access advanced information like glyph names or basic
                 kerning data.</p>
             </li>
             <li>
               <p>A full-featured and efficient TrueType bytecode
-                interpreter.  The engine is able to produce excellent
-                output at small point sizes.  This component has been
-                extremely difficult to get right, due to the ambiguous
-                and misleading TrueType specification.  However, we
-                now <em>match</em> the results of the Windows bytecode
-                engine.</p>
+                interpreter, trying to match the results of the
+                Windows bytecode engine.  There is also the
+                possibility to activate subpixel hinting
+                (a.k.a. <em>ClearType</em>, still under
+                development).</p>
             </li>
             <li>
               <p>For those who don't need or want to use the bytecode
@@ -234,16 +234,19 @@
           <h2>Patent Issues</h2>
 
           <p>All patents related to the TrueType bytecode interpreter
-            have expired since May 2010.  More information regarding
-            this topic is available at
+            have expired since May 2010.  Support for the still
+            patented ClearType color filtering model is disabled by
+            default.</p>
+
+          <p>More information regarding this topic is available at
             our <a href="../patents.html">patents page</a>.</p>
         </div>
 
- 
+
         <!-- ************************************************** -->
 
         <div class="updated">
-          <p>Last update: 2-Jul-2013</p>
+          <p>Last update: 7-Dec-2014</p>
         </div>
       </div>
     </div>
