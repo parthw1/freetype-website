@@ -188,6 +188,15 @@ tt {
 pre {
   font-family: "Droid Sans Mono", "monospace";
   margin-left: 1.5em; }
+pre.example {
+  color: purple;
+  font-family: "Droid Sans Mono", "monospace";
+  margin-left: 1.5em; }
+
+span.comment {
+  color: gray; }
+span.important {
+  font-weight: bold; }
 
 a {
   color: #0000EF;
@@ -266,10 +275,18 @@ tbody tr:first-child td {
   /* some vertical space after the horizontal rule */
   padding-top: 1ex; }
 
+dl {
+  margin-left: 1em; }
+
+dt {
+  font-weight: bold; }
+
 /* if we have paragraphs in definition lists, */
 /* suppress the very first vertical space */
 dd > p:first-child {
   margin-top: 0ex; }
+dd > p {
+  margin-bottom: 0ex; }
 
 /* indented text */
 div.quote {
@@ -304,6 +321,8 @@ p.warning {
   color: red; }
 p.large {
   font-size: larger; }
+p.note {
+  font-style: italic; }
 
 /*
 @media screen and (max-width: 40.5em) {
