@@ -64,48 +64,41 @@
           <h2>Compilation With Homebrew</h2>
 
           <p>If you have <a href="http://brew.sh">Homebrew</a> and are
-            comfortable with it, you can run</p>
+            comfortable with it, you can either install the current
+            release of ttfautohint and ttfautohintGUI with</p>
 
           <pre>
-brew edit ttfautohint</pre>
+brew install ttfautohint --with-qt</pre>
 
-          <p>and replace the file contents with the following.</p>
-
-          <pre>
-require 'formula'
-
-class Ttfautohint < Formula
-  homepage 'http://www.freetype.org/ttfautohint'
-  url 'http://download.savannah.gnu.org/releases/freetype/ttfautohint-1.3.tar.gz'
-  sha1 '5de45f0b5e3f87ad0a6b4153e5382765f17974ed'
-  head 'git://repo.or.cz/ttfautohint.git'
-
-  depends_on 'pkg-config' => :build
-  depends_on 'freetype'
-  depends_on 'harfbuzz'
-  depends_on 'qt'
-
-  def install
-    system "./configure", "--disable-dependency-tracking",
-                          "--prefix=#{prefix}",
-                          "--with-doc=no"
-    system "make install"
-  end
-
-  test do
-    system "#{bin}/ttfautohintGUI", "-V"
-  end
-end</pre>
-
-          <p>Now simply run</p>
+          <p>or git HEAD (i.e., the current development version)
+            with</p>
 
           <pre>
-brew install ttfautohint</pre>
+brew install --HEAD ttfautohint --with-qt</pre>
 
-          <p>and then to start the GUI, you can from Terminal type</p>
+          <p>Note that you need Homebrew version 18-Mar-2015 or newer
+          for this simple installation.
+
+          <p>For upgrading ttfautohint from an older version, please
+            follow the standard instructions given in
+            the <a href="https://github.com/Homebrew/homebrew/blob/master/share/doc/homebrew/FAQ.md#faq">Homebrew
+            FAQ</a>.  However, in case you want to update from an
+            older <tt>--HEAD</tt> installation to current git HEAD,
+            you have to use</p>
+
+          <pre>
+brew reinstall --HEAD ttfautohint --with-qt</pre>
+
+          <p>instead of calling <tt>brew upgrade ttfautohint</tt>
+            (cf. <a href="https://github.com/Homebrew/homebrew/issues/13197">this
+            homebrew tracker issue</a>).</p>
+
+          <p>To start the GUI, you can now type</p>
 
           <pre>
 ttfautohintGUI</pre>
+
+          <p>from the Terminal.</p>
         </div>
 
 
@@ -308,7 +301,7 @@ ttfautohintGUI</pre>
             Crossland</a>.</p>
         </div>
         <div class="updated">
-          <p>Last update: 7-Jan-2015</p>
+          <p>Last update: 18-Mar-2015</p>
         </div>
       </div>
     </div>
