@@ -556,22 +556,30 @@
 
           <ul style="list-style: circle">
             <li>
-              <p><strong>Add ways to fine-tune the results</strong>
-                &ndash; finer control over blue zones and other
-                details of the hinting process follow naturally after
-                a GUI is in place.</p>
+              <p><strong>Improve the way you can fine-tune the
+                  results</strong> &ndash; you can control blue zones
+                and other details of the hinting process since
+                version&nbsp;1.2
+                (<a href="http://sourceforge.net/projects/freetype/files/ttfautohint/1.2/">release
+                  notes</a>).  If you have feedback for this feature,
+                please send an e-mail
+                to <a href="mailto:wl@gnu.org">Werner
+                  Lemberg</a>.</p>
             </li>
             <li>
               <p><strong>Add support for more writing systems</strong>
-                  &ndash; since FreeType's autohinting system supports
-                  the Arabic and CJK (Chinese, Korean, Japanese)
-                  writing systems, <tt>ttfautohint</tt> could do so
-                  too.</p>
+                &ndash; since version&nbsp;1.3 support for Latin,
+                Cyrillic, Greek, Hebrew, Devanagari, and Telugu is
+                available.  We plan to support 8&nbsp;more scripts in
+                2015: Arabic, Bengali, Gujarati, Gurmukhi, Kannada,
+                Malayalam, Sinhala, Tamil, and Thai.</p>
             </li>
             <li>
               <p><strong>Add hooks for other tools</strong> &ndash; to
-                allow smooth integration with various font
-                editors.</p>
+                allow smooth integration with various font editors.
+                Some of them already support a direct call of
+                ttfautohint, but more has to be done, especially for
+                fine-tuning blue-zones and the like.</p>
             </li>
             <li>
               <p><strong>Emit the actions in the high-level hinting
