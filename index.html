@@ -97,6 +97,19 @@
         <div id="news">
           <h2>News &amp; Updates</h2>
 
+          <h4>FreeType 2.6</h4>
+          <div class="date">2015-06-08</div>
+
+          <p>FreeType 2.6 has been released.  This is a new major
+            release that provides a better (and simpler) thread-safety
+            model.  Among other new features we now have auto-hinting
+            support for Arabic and Thai, together with much improved
+            handling of Apple's GX TrueType variation font format.</p>
+
+          <p>See
+            <a href="http://sourceforge.net/projects/freetype/files/freetype2/2.6/">here</a>
+            for a list of changes.</p>
+
           <h4>FreeType 2.5.5</h4>
           <div class="date">2014-12-30</div>
 
@@ -163,11 +176,13 @@
               regressions.</li>
             <li>Further improvements to the auto-hinter.  Right now,
               the module for Indic support is a dummy, and support for
-              the family of Arabic scripts is completely missing.
-              Both investigation and research is necessary to find out
-              how much auto-hinting is possible and useful, and
-              whether other, completely different scripts can be
-              supported at all.</li>
+              the family of Arabic scripts is completely
+              missing. <span class="comment">[FreeType 2.6.0 comes
+              with auto-hinting support for Devanagari, Telugu,
+              Arabic, and Thai.]</span>  Both investigation and
+              research is necessary to find out how much auto-hinting
+              is possible and useful, and whether other, completely
+              different scripts can be supported at all.</li>
             <li>Right now, rendering Type&nbsp;1 and CID-keyed fonts
               is the weakest part of FreeType.  However, we now have a
               brand-new module for handling CFF.  Given that CFF is
@@ -184,7 +199,9 @@
             <li>More improvements to this website.  Last year I’ve
               redesigned the FreeType website.  However, a large bunch
               of documents are still using the old design, and some of
-              them are also no longer up to date.</li>
+              them are also no longer up to
+              date.  <span class="comment">[As with version 2.6.0, the
+              FreeType Tutorial has been updated.]</span></li>
           </ul>
 
 
