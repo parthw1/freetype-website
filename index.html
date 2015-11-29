@@ -99,6 +99,226 @@
 
         <div id="news">
           <h2>News &amp; Updates</h2>
+          <h4>More on the 2.6.2 release for users and developers</h4>
+          <div class="date">2015-11-29</div>
+
+          <p>This is guest post by Nikolaus Waxweiler. FreeType 2.6.2 ships
+          with three interesting details for users and developers of rendering
+          libraries that deal with text.</p>
+
+          <h5>The default LCD filter for subpixel rendering has been
+            changed</h5>
+          <a href="image/freetype-262-new-old-filter.png"><img src="image/freetype-262-new-old-filter-thumbnail.jpg" alt="Comparison of the old and new filter."></a>
+          <p>When you look at subpixel-rendered text, no matter if it's on some
+          kind of Unix, Windows or Mac OS X, you might notice that it's
+          slightly colored. Using subpixel rendering on LCD panels is a
+          trade-off, you get three times higher resolution in the direction of
+          the pixel-substripe (usually horizontal RGB) in exchange for color
+          artifacts. That's why it's necessary to filter a subpixel-rendered
+          glyph to reduce those color artifacts, or color-fringing, before
+          putting it somewhere on the screen. The filter distributes the values
+          of a subpixel to it's neighbors, sacrificing some of that higher
+          resolution and making the resulting glyph image blurrier, but the
+          positioning improvement remains! The ideal filter for you depends on
+          your screen (gamma curves!), the capabilities of the used rendering
+          system (linear alpha blending and gamma correction!!!), your vision
+          and your taste, probably in that order.</p>
+
+          <p>A filter should have two properties: it should be normalized,
+          meaning the values used in the filter should sum up to a figurative 1
+          (here: 0x100 or 256) and it should be color-balanced, meaning that
+          values for one subpixel are equally distributed to all other
+          subpixels of a pixel to sacrifice some of the higher resolution to
+          drastically reduce color-fringes.</p>
+
+          <p>Previously, FreeType's default LCD filter was neither normalized,
+          nor color-balanced. That was a deliberate choice because there is
+          still no rendering system on *nixes that does linear alpha blending
+          and gamma correction by default to render glyphs correctly. Going
+          above a filter sum of 1 increased contrast somewhat at the expense of
+          slight distortions and increased color-fringing, so this can be seen
+          as a hack. You might have noticed that thumbnails in various places
+          on your computer that show text could be quite colorful. Now you know
+          why.</p>
+
+          <p>The new default filter is both normalized and color-balanced. It
+          is indeed ever so slightly blurrier than the previous default one,
+          but also lacks its' harshness and is less color-happy. The blurriness
+          also means higher tolerance for non-ideal gamma of screens (viewing
+          angles!) and rendering systems without linear alpha blending. Note
+          that color-fringing can only be really minimized when the rendering
+          system will do linear alpha blending of text.</p>
+
+          <p>The "light" filter that has accompanied the default one for so
+          long stays unchanged: it already is normalized and color-balanced. It
+          is sharper than the default one but less tolerant of uncalibrated
+          screens and rendering systems without linear alpha blending,
+          producing more color-fringes.</p>
+
+          <h5>(S)light hinting will invoke the native hinter if possible</h5>
+          <p>In the past, setting "slight" hinting via fontconfig or
+          configuration GUIs meant that native hints within a font were ignored
+          and FreeType's autohinter would analyze the font on the fly and
+          automatically do what the font designer would have to do at least
+          semi-manually. Technically, the autohinter set to (s)light snaps
+          glyphs to the pixel grid only vertically, just like Microsoft's
+          DirectWrite/ClearType and Adobe's proprietary font engine. The result
+          is a compromise between design fidelity and sharpness that preserves
+          inter-glyph spacing, something very important for horizontal text
+          like what you're reading right now. The sharpness has usually been
+          enhanced with "subpixel rendering" (ClearType on Windows), exploiting
+          the physical properties of modern but low-resolution LCD panels.</p>
+
+          <p>This worked out well so far, Ubuntu has been using this setting
+          for every font for years now. Werner Lemberg added support for more
+          and more scripts and even spun off the code into ttfautohint, to help
+          font designers ease the pain of manual hinting.</p>
+
+          <p>This also meant that the native hinting machinery of the font
+          drivers went unused. Historically, this decision was sound because
+          the native hinting mechanics for Postscript (.pfa, .pfb), TrueType
+          (.ttf) and OpenType/CFF (.otf) were.. subpar for the longest time.
+          The Postscript hinter still is, but with Adobe's contributed and
+          high-quality OpenType/CFF engine and recent advances of the TrueType
+          driver towards full ClearType support, things have changed.</p>
+
+          <p>Setting "slight" hinting usually leads to FT_LOAD_TARGET_LIGHT.
+          This mode implied the autohinter before and has now been changed to
+          mean "Use native vertical-grid-only-snapping if driver and font
+          supports it and vertical-grid-only autohinter otherwise". Right now,
+          only the OpenType/CFF driver is supported. In the future, this will
+          hopefully include the TrueType engine once full support for ClearType
+          arrives.</p>
+
+          <p>This decision was driven by my personal whim, I wanted native
+          vertical-grid-fitting if the font driver and font support it and the
+          autohinter otherwise. I assume that native hints are made more
+          carefully and take the (autohinting) guesswork out of the process.
+          Instead of introducing per-format configuration in fontconfig and
+          fighting GTK/GNOME that only support a single global hinting setting,
+          it was found to make more sense to change the definition of light
+          hinting in FreeType.</p>
+
+          <p>I also hope this change will make it easier for the
+          non-Windows-and-Apple ecosystem to switch over to slight hinting as
+          the default. Current full/medium native hinting, as is the default,
+          tends to bring out the worst in many, many fonts that haven't seen
+          the same insane dedication to on-screen display and hinting as e.g.
+          the popular Microsoft fonts. And since ClearType is still not fully
+          supported, you usually get a very poor default experience. Slight
+          gives a much better one, as Ubuntu has proven over the years.</p>
+
+          <h5>Stem darkening for the autohinter (disabled by default), also
+            disabling stem darkening for the OpenType/CFF driver</h5>
+          <a href="image/freetype-262-autohinter-stem-darkening-demo1.png"><img src="image/freetype-262-autohinter-stem-darkening-demo1-thumbnail.jpg" alt="Demonstration and comparison of the emboldening autohinter."></a>
+          <p>Stem darkening emboldens glyphs at smaller sizes to make them more
+          readable on common low-DPI screens. If this sounds familiar to you,
+          that's because Adobe's CFF engine has been doing it since it's been
+          contributed in 2013. You might have noticed that OpenType/CFF fonts
+          (commonly suffixed .otf) like GNOME 3's default UI font Cantarell
+          appear bolder and fuzzier than other fonts, at least until this
+          release. The autohinter can do the exact same thing now, it's just
+          disabled by default.</p>
+
+          <p>But why would you do this if small glyphs have been fairly
+          readable already? It turns out that font rendering in the Linux
+          ecosystem has been done wrong since scalable fonts were introduced to
+          it. Text must be rendered with linear alpha blending and gamma
+          correction, which no toolkit or rendering library do by default on
+          X11, even though Qt5 and Skia (Google Chrome) can do it.</p>
+
+          <h6>Background</h6>
+          <p>First, to understand why they are required, you must understand
+          that when FreeType outputs a grayscale glyph image, it really outputs
+          a coverage bitmap. If a pixel is completely covered by a filled-in
+          outline, the pixel is made 100% black (0% brightness or.. simply
+          black). If a pixel is only 50% covered, the pixel is made 50% black
+          (50% brightness or a middle shade of gray) and 0% covered means 0%
+          black (100% brightness or white). On high-DPI screens like on
+          smartphones and tablets, the pixels are so small that their chance of
+          being completely covered and therefore completely black are fairly
+          good. On the low-DPI screens most of us are sadly stuck with, the
+          situation is different. The pixels are too large for most of the
+          details of a glyph and shades of gray are the norm rather than the
+          exception.</p>
+
+          <p>This is relevant because all our screens have a second problem:
+          they are not linear. 1 + 1 is not 2. Twice the value does not result
+          in twice the brightness. When a pixel is only 50% covered, the
+          coverage map says 50% black, and this translates to a pixel value of
+          128 when you use 8 bits per channel (0-255). However, this does not
+          translate to 50% brightness for that pixel on our sRGB and gamma 2.2
+          screens. Due to their non-linearity, they dwell longer in the darks
+          and only a pixel value of about 186 results in 50% brightness -- 128
+          ends up too dark on both bright and dark backgrounds. The net result
+          is that dark text looks burnt-out, pixely and blotchy on bright
+          background, bright text too frail on dark backgrounds and colored
+          text (e.g. red) on colored background (e.g. green) seems to have dark
+          halos or "dirt" around it. The situation is especially ugly for
+          diagonal stems like in 'w' where the quality of FreeType's
+          anti-aliasing depends on the correct display of grays. On high-DPI
+          screens where smaller, fully black pixels reign supreme, this doesn't
+          matter, but on our low-DPI screens with all the gray shades, it does.
+          0% and 100% brightness are the same things in linear and non-linear
+          space, just all the shades in-between aren't.</p>
+
+          <p>The correct way of rendering a glyph image on a surface is to
+          alpha blend it onto the surface in linear space and then apply gamma
+          correction to translate the linear coverage map to something that is
+          correct for our screens<a href="#ft-262-1">[1]</a>. No toolkit in the
+          Linux ecosystem does it by default, even though Qt5 and Skia can and
+          will do it on other platforms. Windows and Mac OS X do it natively.
+          This procedure is especially important if glyphs should be
+          subpixel-rendered (ClearType and Mac OS X!) with as little
+          color-fringing as possible<a href="#ft-262-2">[2]</a>.</p>
+
+          <a href="image/BlendingExamples.png"><img src="image/BlendingExamples-thumbnail.jpg" alt="Comparison of different ways of blending."></a>
+          <p>We want to get to "Gamma 1.8, darkened". Note how it's the
+          cleanest rendering of all.</p>
+
+          <h6>Back to stem darkening.</h6>
+          <p>Assume we render fonts correctly. Gamma correction essentially
+          lightens fonts since shades of gray are shifted to higher pixel
+          values (= higher brightness) to match the original intention to the
+          reality of our screens. The side-effect is that glyphs that were
+          rendered incorrectly but fairly readable suddenly "thin out".
+          Correctly rendered but hard-to-read text doesn't do anyone a favor.
+          So Mac OS X and Adobe's proprietary font engine implement a
+          counter-measure: stem darkening at smaller sizes where shades of gray
+          dominate. By emboldening a glyph slightly in relation to its' pixel
+          size, individual pixels get higher coverage of filled-in outlines and
+          are therefore "blacker". This increases contrast and prevents
+          "thinning out" of glyphs. Text remains readable at smaller sizes.</p>
+
+          <a href="image/freetype-262-autohinter-stem-darkening-demo2.png"><img src="image/freetype-262-autohinter-stem-darkening-demo2-thumbnail.jpg" alt="Waterfall comparison of non-emboldening and emboldening autohinter."></a>
+
+          <p>And that is the story behind this feature.</p>
+
+          <p>It is disabled by default because no library supports linear alpha
+          blending and gamma correction out of the box. Existing libraries will
+          get the same glyphs they have always gotten. Qt5 actually had gamma
+          correction enabled for a short while until someone complained that
+          text was too light and unlike rendering in other toolkits, so the
+          maintainers disabled it for the XCB-backend<a href="#ft-262-3">[3]</a>.
+          Skia (Chrome) can do gamma-correction, but turns it off for X11. I
+          see the this feature as a technology preview for playing around with
+          until we get stem darkening generic within FreeType. The plan is to
+          provide it for all font drivers and make it toggable per FT_Library
+          just like FT_Library_SetLcdFilter. Libraries that support linear
+          alpha blending and gamma correction can then just flip the switch and
+          get appropriate glyphs no matter the font.</p>
+
+          <p>A notable side-effect of disabling all stem darkening by default
+          is that natively hinted .otf fonts will render remarkably similar to
+          the autohinter and are no longer heavy and fuzzy. Slight hinting will
+          result in consistent font rendering.</p>
+
+          <ul>
+            <li><a name="ft-262-1">[1]</a>: This process can cost performance. There is an approximation that does not need to know about the background color. See <a href="https://bel.fi/alankila/lcd/">https://bel.fi/alankila/lcd/</a> and <a href="https://bel.fi/alankila/lcd/alpcor.html">https://bel.fi/alankila/lcd/alpcor.html</a> for details. There is a proof-of-concept pixman hack for cairo.</li>
+            <li><a name="ft-262-2">[2]</a>: <a href="http://lists.nongnu.org/archive/html/freetype-devel/2015-11/msg00020.html">http://lists.nongnu.org/archive/html/freetype-devel/2015-11/msg00020.html</a></li>
+            <li><a name="ft-262-3">[3]</a>: <a href="https://bugreports.qt.io/browse/QTBUG-41590">https://bugreports.qt.io/browse/QTBUG-41590</a></li>
+          </ul>
+
 
           <h4>FreeType 2.6.2</h4>
           <div class="date">2015-11-28</div>
