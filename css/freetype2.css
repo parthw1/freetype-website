@@ -321,6 +321,8 @@ p.warning {
   color: red; }
 p.large {
   font-size: larger; }
+p.footnote {
+  font-size: smaller; }
 p.note {
   font-style: italic; }
 
