@@ -52,18 +52,24 @@
       <div class="col1">
 
         <header>
-        <h1>More on the 2.6.2 release for users and developers</h1>
+        <h1>On slight hinting, proper text rendering, stem darkening and LCD filters</h1>
         <div class="date">2015-11-30, contributed by Nikolaus
           Waxweiler (with corrections from Graham Asher), updated
           2015-12-08</div>
         </header>
         <article>
+          <p><em>This article was originally written for the 2.6.2 release of
+          FreeType and explains the technical background of several features.
+          The information was deemed useful enough to be added to the
+          documentation and has therefore been retitled.</em></p>
+
           <p>FreeType 2.6.2 ships with three interesting details for users and developers of
           rendering libraries that deal with text.</p>
 
           <ul id="markdown-toc">
             <li><a href="#slight-hinting-invokes-the-native-hinter-if-possible" id="markdown-toc-slight-hinting-invokes-the-native-hinter-if-possible">(S)light hinting invokes the native hinter if possible</a></li>
             <li><a href="#experimental-stem-darkening-for-the-auto-hinter" id="markdown-toc-experimental-stem-darkening-for-the-auto-hinter">Experimental: Stem darkening for the auto-hinter</a>    <ul>
+              <li><a href="#background" id="markdown-toc-background">Background</a></li>
               <li><a href="#back-to-stem-darkening" id="markdown-toc-back-to-stem-darkening">Back to stem darkening</a></li>
             </ul>
             </li>
@@ -140,7 +146,9 @@
           fonts were introduced to it. Text must be rendered with linear alpha blending
           and gamma correction, which no toolkit or rendering library do by default on
           <a href="http://www.x.org/">X11</a>, even though <a href="http://www.qt.io/">Qt5</a> and <a href="https://skia.org/">Skia</a> (as used by Google Chrome and other
-          browsers) can do it.  Background</p>
+          browsers) can do it.</p>
+          
+          <h3 id="background">Background</h3>
 
           <p>First, to understand why they are required, you must know that when FreeType
           outputs a grayscale glyph image, it really outputs a coverage bitmap. If a
@@ -296,7 +304,7 @@
         </article>
 
         <div class="updated">
-          <p>Last update: 7-Dec-2014</p>
+          <p>Last update: 11-Feb-2016</p>
         </div>
       </div>
     </div>
