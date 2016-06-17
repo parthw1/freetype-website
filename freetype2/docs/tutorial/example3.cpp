@@ -11,7 +11,7 @@
 // You need FreeType version 2.3.10 or newer.
 //
 // Written Sep. 2009 by Werner Lemberg,
-// based on code contributed by Erik Möller.
+// based on code contributed by Erik MÃ¶ller.
 //
 // Public domain.
 
