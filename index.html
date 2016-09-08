@@ -100,6 +100,33 @@
         <div id="news">
           <h2>News &amp; Updates</h2>
 
+          <h4>FreeType 2.7</h4>
+          <div class="date">2016-09-08</div>
+
+          <p>We start a new &lsquo;minor&rsquo; series, which finally
+            allows us to activate a new default mode for bytecode
+            hinting (see also the announcements below for version
+            2.6.4 and 2.6.5): Subpixel hinting, also known as
+            ClearType hinting.</p>
+
+          <p>In case you are already using subpixel hinting (for
+            example, by using the &lsquo;Infinality patches&rsquo; as
+            provided by some GNU/Linux or BSD distributions, or
+            directly
+            from <a href="https://bohoomil.com/">bohoomil.com</a>), be
+            noted that the new mode might provide subtle differences;
+            the code was simplified to make it <em>much</em> faster.
+            If you are used to the old full-pixel hinting, you will
+            see many rendering changes.  If you really dislike them,
+            you can disable them at compile time or using the
+            new <code>FREETYPE_PROPERTIES</code> environment
+            variable.</p>
+
+          <p>A description of the remaining changes can be
+            found <a href="http://sourceforge.net/projects/freetype/files/freetype2/2.6.4/">here</a>,
+            as usual.</p>
+
+
           <h4>FreeType 2.6.5</h4>
           <div class="date">2016-07-12</div>
 
