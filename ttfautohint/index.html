@@ -59,9 +59,8 @@
           <p>ttfautohint provides a 99% automated hinting process and
             a platform for finely hand-hinting the last 1%.  It is
             ideal for web fonts and supports many scripts: Latin,
-            Greek, Cyrillic, Arabic, Bengali, Devanagari, Hebrew,
-            Khmer, Myanmar, Telugu, Thai, with more to come in future
-            releases.</p>
+            Greek, Arabic, Devanagari, Hebrew, Khmer, Myanmar, Thai,
+            and many more.</p>
         </div>
 
         <div id="video"
@@ -98,6 +97,30 @@
         <!-- ************************************************** -->
 
         <div id="news">
+          <h4>27th November 2016</h4>
+
+          <p>The long overdue version 1.6 is finally out!  Its main
+            new feature is the support of a reference file from which
+            all blue zone values are taken.  Besides that, a large
+            bunch of new scripts has been added: Armenian, Cherokee,
+            Ethiopic, Georgian, Gujarati, Gurmukhi, Kannada,
+            Malayalam, Sinhala, and Tamil.</p>
+
+          <p>A more detailed list of changes can be found in
+            the <a href="http://sourceforge.net/projects/freetype/files/ttfautohint/1.6/">release
+              notes</a>.</p>
+
+          <div style="text-align: center;
+                      margin-top: 2ex">
+            <a title="ttfautohint 1.6 on Windows 8.1">
+              <img src="image/ttfautohint-1.6-win81.png"
+                   alt="A screen snapshot of the ttfautohint binary
+                        version 1.6 on Windows 8.1"
+                   width="670"
+                   height="650">
+            </a>
+          </div>
+
           <h4>24th January 2016</h4>
 
           <p>I've just released version 1.5, which mainly brings
@@ -205,295 +228,7 @@
           <p>The ugly flat tops and bottoms of round shapes are
             gone.</p>
 
-
-          <h4>11th February 2014</h4>
-
-          <p>I proudly present the first release candidate for
-            version 1.00!  Its main improvement is the use of the
-            <a href="http://harfbuzz.org">HarfBuzz</a> library to
-            handle OpenType features, allowing the hinting of glyphs
-            that don't have an entry in a font's &lsquo;cmap&rsquo;
-            table, for example superscripts or small caps.
-            ttfautohint can now hint basically all glyphs of a
-            supported script.</p>
-
-          <p>Another improvement is much better GDI ClearType hinting
-            in the range 30-80ppem (approx.), avoiding overly flat
-            tops and bottoms of round glyphs.  The list of the
-            remaining changes can be
-            found <a href="http://sourceforge.net/projects/freetype/files/ttfautohint/1.00rc1/">here</a>.</p>
-
-
-          <h4>9th November 2013</h4>
-
-          <p>Version 0.97 is now available.  It comes with new support
-            for the Hebrew script and improved handling of Cyrillic
-            and Greek, which are no longer handled together with
-            Latin.  This brings ttfautohint a big step nearer to
-            version 1.0, which is scheduled to be released in the end
-            of this year.</p>
-
-          <p>The list of other changes can be
-            found <a href="http://sourceforge.net/projects/freetype/files/ttfautohint/0.97/">here</a>.</p>
-
-          <h4>7th August 2013</h4>
-
-          <p>I'm happy to announce release 0.96.  Its main purpose is
-            to fix the &lsquo;exploding outlines&rsquo; issue which
-            happens on some printers
-            (see <a href="http://sourceforge.net/projects/freetype/files/ttfautohint/0.96/">here</a>
-            for more), however, it also contains minor hinting
-            improvements.</p>
-
-          <p>The major work on FreeType (integration of a new CFF
-            hinter contributed by Adobe and color support contributed
-            by Google) has been done, so I can now fully return to
-            ttfautohint development.  I expect to have the
-            long-awaited support for more scripts implemented until
-            October so that I can announce it during the ATypI
-            conference in Amsterdam.</p>
-
-
-          <h4>8th March 2013</h4>
-
-          <p>Today I've released version 0.95.  This is a small
-            maintainance release without major news
-            (see <a href="http://sourceforge.net/projects/freetype/files/ttfautohint/0.95/">here</a>
-            for more).</p>
-
-          <p>Currently, I'm heavily working on FreeType (including
-            payed work) without having much time to continue the
-            development of ttfautohint.  I estimate that this dormant
-            phase will end in about two months, so stay tuned!</p>
-
-
-          <h4>28th November 2012</h4>
-
-          <p>This time, I have two issues to talk about:</p>
-
-          <ul style="list-style: circle">
-            <li>
-              <p>Version 0.94 is out.  It adds two new options to
-                better control the vertical dimensions of hinted
-                glyphs to avoid clipping on Windows in case
-                the <tt>usWinAscent</tt> and <tt>usWinDescent</tt>
-                values from the font's &lsquo;OS/2&rsquo; table can't
-                be adjusted (for whatever reasons).  As usual,
-                look <a href="http://sourceforge.net/projects/freetype/files/ttfautohint/0.94/">here</a>
-                for more information.</p>
-            </li>
-            <li>
-              <p>In the last twelve months, there was a lot of
-                progress in the development of ttfautohint.  However,
-                there is still a large list of improvements I would
-                like to work on so that this tool becomes more
-                versatile and useful.  To make this happen I start
-                <a href="https://pledgie.com/campaigns/15816">a new
-                  funding drive</a>, and I ask you for financial
-                  support!</p>
-            </li>
-          </ul>
-
-
-          <h4>10th October 2012</h4>
-
-          <p>Here comes version 0.93, right in time for the talk given
-            by <a href="mailto:dave@understandingfonts.com">Dave
-            Crossland</a> and <a href="mailto:eben@eyebytes.com">Eben
-            Sorkin</a> at
-            the <a href="http://www.atypi.org/conferences/hong-kong-2012/programme/11-oct-type-technologies-workshops/activity?a=148">atypi
-            conference in Hong Kong!</a></p>
-
-          <p>On the functionality side, it brings
-            a <a href="doc/ttfautohint.html#hint-with-components">new
-            option</a> to hint composite glyphs differently, greatly
-            reducing the bytecode size of the created hints.  I'm
-            waiting for reports whether this option works for most
-            fonts; in case this is true I'll make it the default.  So
-            please test!</p>
-
-          <p>The list of other changes can be
-            found <a href="http://sourceforge.net/projects/freetype/files/ttfautohint/0.93/">here</a>.
-            Among other things, the GUI version of ttfautohint has a
-            new layout (based on suggestions
-            from <a href="mailto:frederik@typemytype.com">Frederik
-            Berlaen</a>).</p>
-
-          <div style="text-align: center;
-                      margin-top: 2ex">
-            <img src="image/ttfautohint-0.93-win7.png"
-                 alt="A screen snapshot of the ttfautohint binary
-                      version 0.93 on Windows 7"
-                 width="387"
-                 height="651">
-          </div>
-
-
-          <h4>7th August 2012</h4>
-
-          <p>I've found quite an embarassing bug in the bytecode
-            produced by ttfautohint, causing bad rounding.  All users
-            should upgrade to version 0.92.</p>
-
-
-          <h4>12th July 2012</h4>
-
-          <p>Version 0.91 is out!  This mainly brings better support
-            for GDI ClearType.  For other, minor improvements, please
-            go
-            to <a href="http://sourceforge.net/projects/freetype/files/ttfautohint/0.91/">this
-            page</a> for more.</p>
-
-
-          <h4>7th June 2012</h4>
-          <p>After a long hiatus due to personal reasons, followed by
-            intensive work on
-            the <a href="doc/ttfautohint.html">documentation</a>, I'm
-            happy to release version 0.9.</p>
-
-          <p>While I was able to significantly reduce the generated
-            bytecode, the GDI issues haven't been solved yet,
-            unfortunately, to be fixed in a forthcoming release.  For
-            other, minor improvements, please go
-            to <a href="http://sourceforge.net/projects/freetype/files/ttfautohint/0.9/">this
-            page</a> for more.</p>
-
-
-          <h4>6th April 2012</h4>
-
-          <p>Thanks to a very generous donation from
-            <a href="http://blog.webink.com/extensis-webink-funds-open-source-ttfautohint-better-fonts-on-screen/">Extensis
-              WebINK</a>,
-              my <a href="https://pledgie.com/campaigns/15816">pledgie
-              campaign</a> has reached its goal.  Kudos to all of you
-              who have donated and supported me!</p>
-
-          <p>In a few weeks I'll do a new release; this time with
-            smaller output fonts due to a reduced size of the
-            generated bytecode, and with better support for GDI
-            ClearType.</p>
-
-
-          <h4>30th March 2012</h4>
-
-          <p>This page now uses
-            the <a href="http://developer.android.com/design/style/typography.html">Roboto</a>
-            font for display.</p>
-
-          <p>Karsten L&uuml;cke again provided
-            a <a href="http://sourceforge.net/projects/freetype/files/ttfautohint/0.8/ttfautohint-0.8-tty-osx.tar.gz/download">static
-            binary</a> of <tt>ttfautohint</tt>'s command line version
-            for OS&nbsp;X.</p>
-
-
-          <h4>21st March 2012</h4>
-
-          <p>Version 0.8 is available.</p>
-
-          <p>This release brings various minor improvements; see
-            <a href="http://sourceforge.net/projects/freetype/files/ttfautohint/0.8/">this
-              page</a> for more.</p>
-
-          <p>To whet your appetite: Here is a snapshot of the
-          GUI&nbsp;:-)</p>
-
-          <div style="text-align: center;
-                      margin-top: 2ex">
-            <img src="image/ttfautohint-0.8-win7.png"
-                 alt="A screen snapshot of the ttfautohint binary
-                      version 0.8 on Windows 7"
-                 width="438"
-                 height="422">
-          </div>
-
-
-          <h4>5th February 2012</h4>
-
-          <p>Version 0.7 is available &ndash; we have a GUI!</p>
-
-          <p>The Qt framework is used to provide a uniform interface
-            for all supported platforms.</p>
-
-          <p><a href="#download">Below</a> you can find a link for
-            downloading Windows binaries.  If you want to have better
-            installation support (including a package for Mac), please
-            donate!</p>
-
-
-          <h4>2nd January 2012</h4>
-
-          <p>Version 0.6.1 is available.</p>
-
-          <p>This release should fix problems with version 0.6;
-            additionally, dropout mode has been activated.</p>
-
-
-          <h4>25th December 2011</h4>
-
-          <p>My Xmas present to you: version 0.6.  Thanks to all of
-            you who are still donating!</p>
-
-          <p>This version greatly improves handling of composite
-            glyphs.  It also implements option <tt>-p</tt> to pre-hint
-            a font with the original hints before processing it.</p>
-
-
-          <h4>19th November 2011</h4>
-
-          <p>Karsten L&uuml;cke provided a
-            <a href="http://sourceforge.net/projects/freetype/files/ttfautohint/0.5/ttfautohint-0.5-osx/download">static
-              binary for OS&nbsp;X</a> &ndash; no need to install
-              FreeType!  It was generated under version 10.5.8, but
-              should run with version 10.7 also.</p>
-
-
-          <h4>9th November 2011</h4>
-
-          <p>The <a href="http://www.google.com/webfonts">Google Web
-              Fonts</a> has contributed an additional $3,000!  I have
-              now raised two thirds of my goal!</p>
-
-          <p>I hope other corporate font developers, especially those
-            with large font catalogs, who will benefit substantially
-            from this work, will consider making a contribution of a
-            thousand dollars.</p>
-
-          <p>I have just released version 0.5, including a Windows binary.
-            <a href="http://repo.or.cz/w/ttfautohint.git/blob/HEAD:/TODO">You
-              can read the project roadmap here.</a></p>
-
-
-          <h4>18th October 2011</h4>
-
-          <p>In September we have raised over $2,000 from the public,
-            $7,000 each from Google and
-            <a href="http://www.fontlab.com">FontLab</a>, together
-            with a copy of FontLab&nbsp;5, and received from Microsoft
-            the <a href="http://www.microsoft.com/typography/tools/vtt.htm">
-            Visual TrueType</a> file format specification.  This will
-            allow designers to refine ttfautohint's results further
-            using VTT, if I reach my $30,000 goal!</p>
-
-          <p>The collected money so far enables me to intensively work
-            on ttfautohint for the next three months.  The two main
-            issues I'm going to handle are</p>
-
-          <ul style="list-style: circle">
-            <li>
-              <p>fixing the bytecode to make it work reliably with
-                Apple's TrueType engines (I've already started with
-                that, and I estimate to provide a new release in about
-                two weeks)</p>
-            </li>
-            <li>
-              <p>writing a GUI for easier control</p>
-            </li>
-          </ul>
-
-          <p>In case you have special wishes, now it's the right time
-            to tell me!  Please look into
-            the <a href="http://repo.or.cz/w/ttfautohint.git/blob/HEAD:/TODO"><tt>TODO</tt></a>
-            file and check whether your idea is already covered!</p>
+          <h4><a href="history.html">older news</a></h4>
         </div>
 
 
@@ -513,7 +248,7 @@
 
           <p><tt>ttfautohint</tt> solves this, by building on
             <a href="http://www.freetype.org">FreeType</a>'s
-            autohinting system.  It brings the excellent quality of
+            auto-hinting system.  It brings the excellent quality of
             FreeType rendering to platforms which don't use FreeType,
             yet require hinting for text to look good &ndash; like
             Microsoft Windows.</p>
@@ -572,11 +307,6 @@
             <a href="http://typophile.com/node/83829">some warm
               attention from professional type designers</a>.</p>
 
-          <p>Werner is now working full time on the project while
-            <a href="https://pledgie.com/campaigns/15816"
-               target="_blank">seeking financial support</a> from the
-               wider typography community to continue this work.</p>
-
           <p>Hinting TrueType fonts is a very time consuming and
             expensive process for type designers.  Producing high
             quality hinting for most glyphs in a font, and allowing
@@ -603,12 +333,11 @@
             </li>
             <li>
               <p><strong>Add support for more writing systems</strong>
-                &ndash; since version&nbsp;1.5 support for Latin,
-                Cyrillic, Greek, Hebrew, Arabic, Devanagari, Bengali,
-                Telugu, Lao, Thai, Khmer, and Myanmar is available.
-                We plan to support 8&nbsp;more scripts in 2015/2016:
-                Gujarati, Gurmukhi, Kannada, Malayalam, Sinhala,
-                Tamil, and others.</p>
+                &ndash; since version&nbsp;1.6 support for Arabic,
+                Armenian, Bengali, Cherokee, Cyrillic, Devanagari,
+                Ethiopic, Georgian, Greek, Gujarati, Gurmukhi, Hebrew,
+                Kannada, Khmer, Lao, Latin, Malayalam, Myanmar,
+                Sinhala, Tamil, Telugu, and Thai, is available.</p>
             </li>
             <li>
               <p><strong>Add hooks for other tools</strong> &ndash; to
@@ -815,12 +544,12 @@
         <div id="works">
           <h2 class="section">How It Works</h2>
 
-          <p>A detailed description of the autohinter inside FreeType can
-            be found
+          <p>A detailed description of the auto-hinter inside FreeType
+            can be found
             <a href="../autohinting/hinter.html">here</a>.  Although
             these web pages are in need of an update, the basic
-            principles of the autohinting process haven't changed.
-            There is one exception: The autohinter no longer tries to
+            principles of the auto-hinting process haven't changed.
+            There is one exception: The auto-hinter no longer tries to
             provide good hinting for monochrome rasterization.
             Instead, it expects anti-aliasing with 256 gray levels,
             which became standard with Windows&nbsp;98.</p>
@@ -829,15 +558,15 @@
             titled
             <a href="http://www.tug.org/TUGboat/tb24-3/lemberg.pdf"><em>Real-Time
                 Grid Fitting of Typographic Outlines</em></a>, gives
-            further insight into the autohinting system's inner
+            further insight into the auto-hinting system's inner
             workings.</p>
 
-          <p>In the above links, one aspect of the autohinting process is
-            missing: The various steps performed by the autohinter (called
-            <em>actions</em>) can be described as high-level
-            operations, for example &ldquo;aligning a given edge to a
-            given blue zone,&rdquo; or &ldquo;linking this edge to
-            another one within a given distance.&rdquo;
+          <p>In the above links, one aspect of the auto-hinting
+            process is missing: The various steps performed by the
+            auto-hinter (called <em>actions</em>) can be described as
+            high-level operations, for example &ldquo;aligning a given
+            edge to a given blue zone,&rdquo; or &ldquo;linking this
+            edge to another one within a given distance.&rdquo;
             The <tt>ttfautohint</tt> library hooks into these actions
             and transforms them into bytecode routines.</p>
 
@@ -896,7 +625,7 @@
         <div id="download">
           <h2>Download</h2>
 
-          <p>Current version: 1.5 (24th January 2016)</p>
+          <p>Current version: 1.6 (27th November 2016)</p>
 
 
           <h3>Binaries</h3>
@@ -906,15 +635,15 @@
             directly after uncompressing the archive.</p>
 
           <p><strong>
-              <a href="http://sourceforge.net/projects/freetype/files/ttfautohint/1.5/ttfautohint-1.5-win32.7z/download">Windows</a>
+              <a href="http://sourceforge.net/projects/freetype/files/ttfautohint/1.6/ttfautohint-1.6-win32.7z/download">Windows</a>
             </strong><br>
-            <tt>ttfautohint 1.5</tt> &ndash; both command line and
+            <tt>ttfautohint 1.6</tt> &ndash; both command line and
             GUI.</p>
 
           <p><strong>
-              <a href="http://sourceforge.net/projects/freetype/files/ttfautohint/1.5/ttfautohint-1.5-tty-osx.tar.gz/download">Apple</a>
+              <a href="http://sourceforge.net/projects/freetype/files/ttfautohint/1.6/ttfautohint-1.6-tty-osx.tar.gz/download">Apple</a>
             </strong><br>
-            <tt>ttfautohint 1.5</tt> &ndash; currently command line
+            <tt>ttfautohint 1.6</tt> &ndash; currently command line
             only; thanks to Karsten L&uuml;cke for creating this!
             This universal binary for the i386 and x86_64
             architectures has been compiled under OS&nbsp;X 10.5.8 and
