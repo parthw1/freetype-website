@@ -1,0 +1,187 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+          "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type"
+        content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type"
+        content="text/css">
+  <meta http-equiv="Content-Script-Type"
+        content="text/javascript">
+
+  <meta name="description"
+        content="Ideas for GSoC">
+  <meta name="keywords"
+        content="GSoC Ideas">
+
+  <link rel="icon"
+        href="image/favicon_-60.ico">
+  <link rel="shortcut icon"
+        href="image/favicon_-60.ico">
+  <link rel="stylesheet"
+        type="text/css"
+        href="css/freetype2_-60.css">
+
+  <script type="text/javascript"
+          src="js/jquery-1.11.0.min.js">
+  </script>
+  <script type="text/javascript"
+          src="js/jquery.ba-resize.min.js">
+  </script>
+  <script type="text/javascript"
+          src="js/freetype2.js">
+  </script>
+
+  <title>Ideas for Google Summer of Code</title>
+</head>
+
+<body>
+
+<div id="top"
+     class="bar">
+  <h1><a href="index.html">FreeType</a> &amp; GSoC</h1>
+</div>
+
+
+<div id="wrapper">
+
+<div class="colmask leftmenu">
+  <div class="colright">
+    <div class="col1wrap">
+      <div class="col1">
+
+
+        <!-- ************************************************** -->
+
+        <div>
+          <p>The FreeType project wants to become part
+              of <a href="https://developers.google.com/open-source/gsoc/">Google
+              Summer of Code</a>.  Here is our ideas list.</p>
+
+          <dl>
+            <dt>Improve fuzzing for FreeType</dt>
+            <dd>
+              <p>Description will follow.</p>
+
+              <p><em>Difficulty: </em>medium.  <em>Requirements:</em>
+                C, C++, Unix build tools.  <em>Potential mentors:</em>
+                Kostya Serebryany (Google), Werner Lemberg
+                (FreeType).</p>
+            </dd>
+          </dl>
+          <dl>
+            <dt>Develop a test framework for checking FreeType's
+              rendering output</dt>
+            <dd>
+              <p>Right now, FreeType's rendering results of the
+                current development version are not systematically
+                compared to a baseline version.  This is problematic,
+                since rendering regressions can be very easily missed
+                due to subtle differences.</p>
+
+              <p>The idea is to select a representative set of
+                reference fonts from font corpora (which already exist
+                mainly for fuzzing).  The fonts are used to produce
+                glyph images for various sizes and rendering modes
+                (anti-aliased, B/W, native hinting, auto-hinting,
+                etc.).  FreeType can already produce MD5 checksums of
+                glyph images as part of its debugging output; these
+                values should be compared against a baseline version
+                of rendering results.  If there are differences, HTML
+                pages should be generated that contain comparison
+                images of the baseline's and the current development
+                version's rendering result, ideally indicating how
+                large the differences between the images are by using
+                some yet to be defined measure.</p>
+
+              <p><em>Difficulty:</em> medium.  <em>Requirements:</em>
+                C, Unix build tools.  <em>Potential mentors:</em>
+                Werner Lemberg, Alexei Podtelezhnikov, Toshiya Suzuki
+                (FreeType).</p>
+            </dd>
+          </dl>
+
+          <p>Do you have more ideas?  Please write to
+              our <a href="mailto:freetype-devel@nongnu.org">mailing
+              list</a> so that we can discuss your suggestions,
+              eventually adding them to the list.!</p>
+        </div>
+
+        <!-- ************************************************** -->
+
+        <div class="updated">
+          <p>Last update: 2-Feb-2017</p>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ************************************************** -->
+
+    <div class="col2">
+    </div>
+  </div>
+</div>
+
+
+<!-- ************************************************** -->
+
+<div id="TOC">
+  <ul>
+    <li class="funding">
+      <p><a href="https://pledgie.com/campaigns/24434">
+        <img alt="Click here to lend your support to the FreeType project and make a donation at pledgie.com!"
+             src="https://pledgie.com/campaigns/24434.png?skin_name=chrome"
+             border="0"
+             align="middle">
+      </a></p>
+
+      <p><a href="https://flattr.com/thing/421342/lemzwerg-on-Flattr"
+         target="_blank">
+        <img class="with-border"
+             src="http://api.flattr.com/button/flattr-badge-large.png"
+             alt="Flattr this"
+             title="Flattr this"
+             border="0"
+             align="middle">
+      </a></p>
+    </li>
+    <li class="primary">
+      <a href="index.html">Home</a>
+    </li>
+    <li class="primary">
+      <a href="index.html#news">News</a>
+    </li>
+    <li class="primary">
+      <a href="freetype2/docs/index.html">Overview</a>
+    </li>
+    <li class="primary">
+      <a href="freetype2/docs/documentation.html">Documentation</a>
+    </li>
+    <li class="primary">
+      <a href="developer.html">Development</a>
+    </li>
+    <li class="primary">
+      <a href="contact.html"
+         class="emphasis">Contact</a>
+    </li>
+
+    <li>
+      &nbsp; <!-- separate primary from secondary entries -->
+    </li>
+
+    <li class="secondary">
+      <a href="gsoc.html" class="current">FreeType &amp; GSoC</a>
+    </li>
+  </ul>
+</div>
+
+</div> <!-- id="wrapper" -->
+
+<div id="TOC-bottom">
+</div>
+
+</body>
+</html>
