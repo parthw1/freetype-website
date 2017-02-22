@@ -266,6 +266,32 @@ int LLVMFuzzerTestOneInput(const uint8_t* data,
             </dd>
           </dl>
 
+          <dl>
+            <dt>Make FreeType use the new CFF driver for Type&nbsp;1
+              fonts also</dt>
+            <dd>
+              <p>Since Adobe's contribution of a new CFF driver,
+                FreeType has excellent hinting support for this font
+                format.</p>
+
+              <p>On the other hand, FreeType's hinting of PostScript
+                Type&nbsp;1 fonts is rather bad, mainly for historical
+                reasons and lack of maintainance.</p>
+
+              <p>Since both CFF and Type&nbsp;1 are PostScript font
+                formats, the similarity (after decoding) is great.
+                The idea is now to make the CFF driver understand
+                Type&nbsp;1 fonts; this would automatically yield to
+                much better hinting.</p>
+
+              <p><em>Difficulty:</em> hard (because of getting
+                acquainted to FreeType internals, not the coding
+                itself).  <em>Requirements:</em> C, Unix build
+                tools.  <em>Potential mentor:</em> Werner Lemberg
+                (FreeType).</p>
+            </dd>
+          </dl>
+
           <p>Do you have more ideas?  Please write to
               our <a href="mailto:freetype-devel@nongnu.org">mailing
               list</a> so that we can discuss your suggestions,
@@ -275,7 +301,7 @@ int LLVMFuzzerTestOneInput(const uint8_t* data,
         <!-- ************************************************** -->
 
         <div class="updated">
-          <p>Last update: 6-Feb-2017</p>
+          <p>Last update: 22-Feb-2017</p>
         </div>
       </div>
     </div>
