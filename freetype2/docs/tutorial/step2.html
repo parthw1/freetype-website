@@ -375,7 +375,8 @@ height = bbox.yMax - bbox.yMin;</pre>
           <p>Note also that for 26.6 coordinates, if
             <code>FT_GLYPH_BBOX_GRIDFIT</code> is used as the bbox
             mode, the coordinates are also grid-fitted, which
-            corresponds to the following four lines.</p>
+            corresponds to the following four lines of
+            pseudo-code.</p>
 
           <pre class="example">
 bbox.xMin = FLOOR( bbox.xMin )
@@ -394,7 +395,7 @@ bbox.yMax = CEILING( bbox.yMax )</pre>
           <p>[Computing <em>exact</em> bounding boxes can be done with
             function <a href="../reference/ft2-outline_processing.html#FT_Outline_Get_BBox"><code>FT_Outline_Get_BBox</code></a>,
             at the cost of slower execution.  You probably don't need
-            with the possible exception of rotated glyphs.]</p>
+            it with the possible exception of rotated glyphs.]</p>
 
           <h4>d. Converting the Glyph Image to a Bitmap</h4>
 
@@ -489,7 +490,7 @@ error = FT_Glyph_To_Bitmap(
             font units in order to be later scaled to the device
             space, according to the rules described in the last
             section of this tutorial part.  You can access them
-            directly as fields of a <code>FT_Face</code> handle.</p>
+            directly as fields of an <code>FT_Face</code> handle.</p>
 
           <p>However, you need to check that the font face's format is
             scalable before using them.  One can do it with
@@ -581,28 +582,29 @@ error = FT_Glyph_To_Bitmap(
             accessed through
             the <code>face-&gt;size-&gt;metrics</code> structure (of
             type <a href="../reference/ft2-base_interface.html#FT_Size_Metrics">
-              <code>FT_Size_Metrics</code></a>).  <em>No rounding or
-            grid-fitting is performed for those values</em>.  They are
-            also completely independent of any hinting process.  In
-            other words, don't rely on them to get exact metrics at
-            the pixel level.  They are expressed in 26.6 pixel
-            format.</p>
+              <code>FT_Size_Metrics</code></a>).  <em>No grid-fitting
+            is performed for those values</em>.  They are also
+            completely independent of any hinting process.  In other
+            words, don't rely on them to get exact metrics at the
+            pixel level.  They are expressed in 26.6 pixel format but
+            rounded for historical reasons.</p>
 
           <dl>
             <dt>ascender</dt>
-            <dd>The scaled version of the original design
-              ascender.</dd>
+            <dd>The scaled version of the original design ascender;
+              rounded up to an integer value.</dd>
 
             <dt>descender</dt>
-            <dd>The scaled version of the original design
-              descender.</dd>
+            <dd>The scaled version of the original design descender,
+              rounded down to an integer value.</dd>
 
             <dt>height</dt>
             <dd>
               <p>The scaled version of the original design text height
                 (the vertical distance from one baseline to the next).
                 This is probably the only field you should really use
-                in this structure.</p>
+                in this structure.  It is rounded to an integer
+                value.</p>
 
               <p>Be careful not to confuse it with the
                 &lsquo;height&rsquo; field in
@@ -612,7 +614,7 @@ error = FT_Glyph_To_Bitmap(
 
             <dt>max_advance</dt>
             <dd>The scaled version of the original design maximum
-              advance.</dd>
+              advance, rounded to an integer value.</dd>
           </dl>
 
           <p>Note that the <code>face-&gt;size-&gt;metrics</code>
@@ -1343,6 +1345,15 @@ for ( n = 0; n &lt; num_glyphs; n++ )
             by the FreeType developer team to check the validity of
             loading, parsing, and rendering fonts.</p>
 
+          <p>Another very useful demo program
+            is <a href="http://git.savannah.gnu.org/cgit/freetype/freetype2-demos.git/tree/src/ftdiff.c"><code>ftdiff.c</code></a>,
+            demonstrating the use and the optical results of the
+            various rendering and hinting modes provided by FreeType.
+            In particular, it also demonstrates how to do sub-pixel
+            positioning (for unhinted glyphs and &lsquo;light&rsquo;
+            hinting mode) &ndash; all code in this tutorial assumes
+            integer coordinates.</p>
+
 
           <h3 id="section-6">6. Accessing Metrics in Design Font
             Units, and Scaling Them</h3>
@@ -1398,8 +1409,8 @@ for ( n = 0; n &lt; num_glyphs; n++ )
 
           <p>When you call the
             function <a href="../reference/ft2-base_interface.html#FT_Set_Pixel_Sizes"><code>FT_Set_Pixel_Sizes</code></a>,
-            you are specifying the value of <code>pixel_size_x</code>
-            and
+            you are specifying integer values
+            of <code>pixel_size_x</code> and
             <code>pixel_size_y</code> FreeType shall use.  The library
             will immediately compute the values
             of <code>x_scale</code> and
@@ -1410,7 +1421,8 @@ for ( n = 0; n &lt; num_glyphs; n++ )
             you are specifying the character size in
             physical <em>points</em>, which is used, along with the
             device's resolutions, to compute the character pixel size
-            and the corresponding scaling factors.</p>
+            and the corresponding scaling factors.  Here, the scaling
+            factors can correspond to fractional ppem values.</p>
 
           <p>Note that after calling any of these two functions, you
             can access the values of the character pixel size and
@@ -1420,16 +1432,16 @@ for ( n = 0; n &lt; num_glyphs; n++ )
           <dl>
             <dt>x_ppem</dt>
             <dd>The field name stands for &lsquo;x&nbsp;pixels per
-              EM&rsquo;; this is the horizontal size in integer pixels
-              of the EM square, which also is the <em>horizontal
-              character pixel size</em>,
+              EM&rsquo;; this is the horizontal size rounded to
+              integer pixels of the EM square, which also is
+              the <em>horizontal character pixel size</em>,
               called <code>pixel_size_x</code> in the above
               example.</dd>
 
             <dt>y_ppem</dt>
             <dd>The field name stands for &lsquo;y&nbsp;pixels per
-              EM&rsquo;; this is the vertical size in integer pixels
-              of the EM square, which also is the <em>vertical
+              EM&rsquo;; this is the vertical size rounded to integer
+              pixels of the EM square, which also is the <em>vertical
               character pixel size</em>,
               called <code>pixel_size_y</code> in the above
               example.</dd>
@@ -1455,19 +1467,18 @@ for ( n = 0; n &lt; num_glyphs; n++ )
 pixels_x = FT_MulFix( design_x, face-&gt;size-&gt;metrics.x_scale );
 pixels_y = FT_MulFix( design_y, face-&gt;size-&gt;metrics.y_scale );</pre>
 
-          <p>Alternatively, you can also scale the value directly with
-            more accuracy by using doubles.</p>
+          <p>Alternatively, you can also scale the value directly by
+            using doubles.</p>
 
           <pre>
 FT_Size_Metrics*  metrics = &amp;face-&gt;size-&gt;metrics; <span class="comment">/* shortcut */</span>
 double            pixels_x, pixels_y;
-double            em_size, x_scale, y_scale;
+double            x_scale, y_scale;
 
 
 <span class="comment">/* compute floating point scale factors */</span>
-em_size = 1.0 * face-&gt;units_per_EM;
-x_scale = metrics-&gt;x_ppem / em_size;
-y_scale = metrics-&gt;y_ppem / em_size;
+x_scale = face-&gt;size-&gt;metrics.x_scale / 65536.0;
+y_scale = face-&gt;size-&gt;metrics.y_scale / 65536.0;
 
 <span class="comment">/* convert design distances to floating point pixels */</span>
 pixels_x = design_x * x_scale;
@@ -1510,7 +1521,7 @@ pixels_y = design_y * y_scale;</pre>
         <!-- ************************************************** -->
 
         <div class="updated">
-          <p>Last update: 12-Dec-2014</p>
+          <p>Last update: 2-May-2017</p>
         </div>
       </div>
     </div>

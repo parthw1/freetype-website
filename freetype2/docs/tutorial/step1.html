@@ -79,6 +79,14 @@
                 be used to check the version of the library that is
                 installed on your system, as well as the required
                 librarian and linker flags.</p>
+
+              <p>An alternative solution is <code>pkg-config</code>;
+                say</p>
+
+              <pre>
+pkg-config --cflags freetype2</pre>
+
+              <p>to get the compilation flags.</p>
             </li>
 
             <li class="emph">
@@ -173,6 +181,9 @@ if ( error )
             operation was successful; otherwise, the value describes
             the error, and <code>library</code> is set to NULL.</p>
 
+          <p>A list of all FreeType error codes can be found in
+            file <code>fterrdef.h</code>.</p>
+
 
           <h3 id="section-3">3. Loading a Font Face</h3>
 
@@ -240,11 +251,11 @@ else if ( error )
             </dd>
           </dl>
 
-          <p>To know how many faces a given font file contains, load
-            its first face (this is, <code>face_index</code> should be
-            set to zero), then check the value
-            of <code>face-&gt;num_faces</code>, which indicates how
-            many faces are embedded in the font file.</p>
+          <p>To know how many faces a given font file contains, set
+            <code>face_index</code> to&nbsp;<code>-1</code>, then
+            check the value of <code>face-&gt;num_faces</code>, which
+            indicates how many faces are embedded in the font
+            file.</p>
 
           <h4>b. From Memory</h4>
 
@@ -274,7 +285,8 @@ if ( error ) { ... }</pre>
             exactly the same semantics as
             <code>FT_New_Face</code>.</p>
 
-          <p>Note that you must not deallocate the memory before calling
+          <p>Note that you must not deallocate the font file buffer
+            before calling
             <a href="../reference/ft2-base_interface.html#FT_Done_Face"><code>FT_Done_Face</code></a>.</p>
 
           <h4>c. From Other Sources (Compressed Files, Network,
@@ -360,7 +372,8 @@ if ( error ) { ... }</pre>
             face.  For example, a size object holds the value of
             certain metrics like the ascender or text height,
             expressed in 1/64th of a pixel, for a character size of
-            12&nbsp;points.</p>
+            12&nbsp;points (however, those values are rounded to
+            integers, i.e., multiples of 64).</p>
 
           <p>When the <code>FT_New_Face</code> function is called (or
             one of its siblings), it <em>automatically</em> creates a
@@ -371,9 +384,8 @@ if ( error ) { ... }</pre>
           <p class="note">NOTE: A single face object can deal with one
             or more size objects at a time; however, this is something
             that few programmers really need to do.  We have thus
-            decided to simplify the API for the most common use (i.e.,
-            one size per face) while keeping this feature available
-            through additional functions.</p>
+            decided to make this feature available through additional
+            functions.</p>
 
           <p>When a new face object is created, all elements are set
             to&nbsp;0 during initialization.  To populate the
@@ -421,10 +433,13 @@ error = FT_Set_Char_Size(
               size object.</li>
           </ul>
 
-          <p>This function computes the character pixel size that
-            corresponds to the character width and height and device
-            resolutions.  However, if you want to specify the pixel
-            sizes yourself, you can call
+          <p>This function computes the (possibly fractional)
+            character pixel size that corresponds to the character
+            width and height and device resolutions.  A common acronym
+            for the pixel size is <em>ppem</em> (pixel per em).</p>
+
+          <p>If you want to specify the (integer) pixel sizes
+            yourself, you can call
             <a href="../reference/ft2-base_interface.html#FT_Set_Pixel_Sizes"><code>FT_Set_Pixel_Sizes</code></a>.</p>
 
           <pre>
@@ -443,6 +458,12 @@ error = FT_Set_Pixel_Sizes(
             PCF) when trying to set the pixel size to a value that is
             not listed in the <code>face-&gt;fixed_sizes</code>
             array.</p>
+
+          <p>Be aware that fractional ppem values are not always
+            supported.  For example, the native bytecode engine for
+            hinting TrueType fonts (TTFs) only supports integer ppem
+            values, and FreeType rounds fractional ppem values
+            accordingly.</p>
 
 
           <h3 id="section-6">6. Loading a Glyph Image</h3>
@@ -467,8 +488,8 @@ error = FT_Set_Pixel_Sizes(
             that a given charmap might not map to all the glyphs
             present in the font.</p>
 
-          <p>By default, when a new face object is created, it selects
-            a Unicode charmap.  FreeType tries to emulate a Unicode
+          <p>By default, when a new face object is created, FreeType
+            tries to select a Unicode charmap.  It emulates a Unicode
             charmap if the font doesn't contain such a charmap, based
             on glyph names.  Note that it is possible that the
             emulation misses glyphs if glyph names are non-standard.
@@ -634,15 +655,16 @@ error = FT_Select_Charmap(
             of values that describe the charmap in a rather generic
             way: Each value pair corresponds to a given encoding.  For
             example, the pair (3,1) corresponds to Unicode.  The list
-            is defined in the TrueType specification; you can also use
+            is defined in the OpenType specification; you can also use
             the file <code>FT_TRUETYPE_IDS_H</code>, which defines
-            several helpful constants to deal with them.</p>
+            several helpful constants to deal with them.  Note that we
+            use the OpenType enumeration values for non-OpenType fonts
+            also (by defining additional constants where
+            necessary).</p>
 
           <p>To select a specific encoding, you need to find a
             corresponding value pair in the specification, then look
-            for it in the charmaps list.  Don't forget that there are
-            encodings that correspond to several value pairs due to
-            historical reasons.</p>
+            for it in the charmaps list.</p>
 
           <pre>
 FT_CharMap  found = 0;
@@ -983,7 +1005,7 @@ for ( n = 0; n &lt; num_chars; n++ )
         <!-- ************************************************** -->
 
         <div class="updated">
-          <p>Last update: 8-Dec-2015</p>
+          <p>Last update: 2-May-2017</p>
         </div>
       </div>
     </div>
