@@ -180,6 +180,7 @@ blockquote {
   font-style: italic; }
 
 code {
+  white-space: nowrap;
   font-family: "Droid Sans Mono", "monospace"; }
 
 tt {
