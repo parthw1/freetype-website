@@ -63,11 +63,11 @@
 
 	  <p>The baseline is an imaginary line that is used to
 	    &lsquo;guide&rsquo; glyphs when rendering text.  It can be
-	    horizontal (e.g. Latin, Cyrillic, Arabic, etc.) or
-	    vertical (e.g. Chinese, Japanese, Mongolian, etc.).
-	    Moreover, to render text, a virtual point, located on the
-	    baseline, called the <em>pen position</em>
-	    or <em>origin</em>, is used to locate glyphs.</p>
+	    horizontal (e.g., Latin, Cyrillic, Arabic) or vertical
+	    (e.g., Chinese, Japanese, Mongolian).  Moreover, to render
+	    text, a virtual point, located on the baseline, called
+	    the <em>pen position</em> or <em>origin</em>, is used to
+	    locate glyphs.</p>
 
 	  <p>Each layout uses a different convention for glyph
 	  placement:</p>
@@ -378,6 +378,16 @@
 	    will simply <em>ruin the hinter's work</em>, resulting in
 	    very low quality bitmaps!</p>
 
+          <p>Note, however, that the restriction to integer pixel
+            distances mentioned in the previous paragraph has become
+            weaker; today, it is quite common to do <em>no</em>
+            hinting along the horizontal axis, only adjusting the
+            glyphs vertically.  Typical examples are Microsoft's
+            ClearType implementation, FreeType's new CFF engine
+            (contributed by Adobe), or the &lsquo;light&rsquo;
+            auto-hinting mode.  For such modes you get best rendering
+            results if you do sub-pixel glyph positioning.</p>
+
 
 	  <h3 id="section-5">5. Text widths and bounding box</h3>
 
@@ -392,10 +402,10 @@
 	  <p>Likewise, the glyph's &lsquo;advance width&rsquo; is the
 	    increment to apply to the pen position during layout, and
 	    is not related to the glyph's &lsquo;width&rsquo;, which
-	    really is the glyph's bounding width.</p>
+	    really is the glyph's bounding box width.</p>
 
-	  <p>The same conventions apply to strings of text.  This
-	  means that:</p>
+	  <p>The same conventions apply to strings of text, with the
+	  following consequences.</p>
 
 	  <ul>
 	    <li>
@@ -406,7 +416,7 @@
 	    <li>
               <p>The string's advance width isn't related to its
 		bounding box dimensions.  Especially if it contains
-		beginning and terminal spaces or tabs.</p>
+		leading and trailing spaces or tabs.</p>
 	    </li>
 	    <li>
               <p>Finally, additional processing like kerning creates
@@ -423,7 +433,7 @@
         <!-- ************************************************** -->
 
         <div class="updated">
-          <p>Last update: 07-Dec-2014</p>
+          <p>Last update: 02-May-2017</p>
         </div>
       </div>
     </div>

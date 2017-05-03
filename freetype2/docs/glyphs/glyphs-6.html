@@ -75,7 +75,7 @@
             polynomials.  The former are also called quadratic or
             conic arcs, and they are used in the TrueType format.  The
             latter are called cubic arcs and are mostly used in the
-            PostScript Type&nbsp;1 and Type&nbsp;formats.</p>
+            PostScript Type&nbsp;1, CFF, and CFF2 formats.</p>
 
           <p>Each arc is described through a series of start, end, and
             control points.  Each point of the outline has a specific
@@ -281,7 +281,7 @@
             callback based manner,
             use <a href="../reference/ft2-outline_processing.html#FT_Outline_Decompose"><tt>FT_Outline_Decompose</tt></a>.</p>
 
-          <p>Note that each contour is closed, and that value
+          <p>Note that each contour is closed, and that the value
             of <tt>n_points</tt> should be equal
             to <tt>contours[n_contours-1]+1</tt> for a valid
             outline.</p>
@@ -309,8 +309,7 @@
             because most font designers and creation tools always
             place &lsquo;on&rsquo; points at the extrema of each
             curved edges (as both the TrueType and PostScript
-            specifications recommend), as it makes hinting much
-            easier.</p>
+            specifications recommend), making hinting much easier.</p>
 
           <p>We thus define the <em>control box</em> (also
             called <em>cbox</em>) as the smallest possible rectangle
@@ -360,7 +359,7 @@
             grid-fitting</h3>
 
           <p>An outline point's vectorial coordinates are expressed in
-            the 26.6&nbsp;format, i.e. in 1/64th of a pixel, hence the
+            the 26.6&nbsp;format, i.e., in 1/64th of a pixel, hence the
             coordinates &lsquo;(1.0,-2.5)&rsquo; is stored as the
             integer pair &lsquo;(64,-192)&rsquo;, to name an
             example.</p>
@@ -371,7 +370,7 @@
             points (mainly edge delimiters) to the pixel grid.  Even
             though this process is much too complex to be described in
             a few lines, its purpose is mainly to round point
-            positions, while trying to preserve important properties
+            positions while trying to preserve important properties
             like widths, stems, etc.</p>
 
           <p>The following operations can be used to round vectorial
@@ -412,7 +411,7 @@ ymin = floor( bbox.yMin )
 ymax = ceiling( bbox.yMax )</pre>
             </li>
             <li>
-              <p>return pixel dimensions, i.e.</p>
+              <p>return pixel dimensions, i.e.,</p>
 
               <pre>
 width = (xmax - xmin)/64</pre>
@@ -441,7 +440,7 @@ height = (ymax - ymin)/64</pre>
         <!-- ************************************************** -->
 
         <div class="updated">
-          <p>Last update: 07-Dec-2014</p>
+          <p>Last update: 02-May-2017</p>
         </div>
       </div>
     </div>

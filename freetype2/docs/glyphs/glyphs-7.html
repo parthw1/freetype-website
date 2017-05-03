@@ -109,7 +109,7 @@
 	  <h3 id="section-2">2. The <tt>FT_Bitmap</tt> descriptor</h3>
 
 	  <p>In FreeType, a bitmap or pixmap is described through a
-	  single structure,
+	  single structure
 	  called <a href="../reference/ft2-basic_types.html#FT_Bitmap"><tt>FT_Bitmap</tt></a>.
 	  The fields we are interested in are:</p>
 
@@ -123,7 +123,7 @@
 		<tt>rows</tt>
 	      </td>
 	      <td valign="top">
-		the number of rows, i.e. lines, in the bitmap
+		the number of rows, i.e., lines, in the bitmap
 	      </td>
 	    </tr>
 	    <tr>
@@ -218,6 +218,13 @@
 	  <p>The &lsquo;positive pitch&rsquo; convention is very often
 	    used, though some systems might need the other.</p>
 
+          <p>To speed up memory access, <tt>pitch</tt> is in most
+            cases a multiple of 16bit, 32bit, or even 64bit.  It often
+            happens that the pitch is thus larger than the necessary
+            bits (or bytes) for a bitmap or pixmap row; in such cases,
+            unused bits (or bytes) are at the very right (i.e., the
+            end) of a row.</p>
+
 
 	  <h3 id="section-3">3. Converting outlines into bitmaps and
 	    pixmaps</h3>
@@ -289,16 +296,15 @@
 	    the target window.</p>
 
 	  <p>For example, the correct way of creating
-	    a <em>standalone</em> glyph bitmap is as follows:</p>
+	    a <em>stand-alone</em> glyph bitmap is as follows:</p>
 
 	  <ul>
 	    <li>
-              <p>Compute the size of the glyph bitmap.  It can be
-		computed directly from the glyph metrics, or by
-		computing its bounding box (this is useful when a
-		transformation has been applied to the outline after
-		loading it, as the glyph metrics are not valid
-		anymore).</p>
+              <p>Get the size of the glyph bitmap.  It can be computed
+		directly from the glyph metrics, or by computing its
+		bounding box (this is useful when a transformation has
+		been applied to the outline after loading it, as the
+		glyph metrics are not valid anymore).</p>
 	    </li>
 	    <li>
               <p>Create the bitmap with the computed dimensions.
@@ -331,7 +337,7 @@
         <!-- ************************************************** -->
 
         <div class="updated">
-          <p>Last update: 07-Dec-2014</p>
+          <p>Last update: 02-May-2017</p>
         </div>
       </div>
     </div>
