@@ -142,7 +142,7 @@
 		computed as
 
 	      <p align="center">
-		<tt>linespace = ascent - descent + linegap</tt>
+		<code>linespace = ascent - descent + linegap</code>
 	      </p>
 
               <p>if you use the typographic values.</p>
@@ -158,12 +158,12 @@
               <p>This is an imaginary box that encloses all glyphs
 		from the font, usually as tightly as possible.  It is
 		represented by four parameters,
-		namely <tt>xMin</tt>, <tt>yMin</tt>, <tt>xMax</tt>,
-		and <tt>yMax</tt>, that can be computed for any
-		outline.  Their values can be in font units if
-		measured in the original outline, or in integer (or
-		fractional) pixel units when measured on scaled
-		outlines.</p>
+		namely <code>xMin</code>, <code>yMin</code>,
+                <code>xMax</code>, and <code>yMax</code>, that can be
+		computed for any outline.  Their values can be in font
+		units if measured in the original outline, or in
+		integer (or fractional) pixel units when measured on
+		scaled outlines.</p>
 
 	      <p>A common shorthand for the bounding box is
 		&lsquo;bbox&rsquo;.</p>
@@ -178,7 +178,7 @@
 		It usually can be computed as</p>
 
               <p align="center">
-		<tt>internal leading = ascent - descent - EM_size</tt>
+		<code>internal leading = ascent - descent - EM_size</code>
               </p>
 	    </li>
 	    <li class="emph">
@@ -206,7 +206,7 @@
 		vertical ones.</p>
 
               <p>In the FreeType API, this is also called
-		<tt>bearingX</tt>.  Another shorthand is
+		<code>bearingX</code>.  Another shorthand is
 		&lsquo;lsb&rsquo;.</p>
 	    </li>
 	    <li class="emph">
@@ -218,7 +218,7 @@
 		ones.</p>
 
               <p>In the FreeType API, this is also called
-		<tt>bearingY</tt>.</p>
+		<code>bearingY</code>.</p>
 	    </li>
 	    <li class="emph">
               <p>Advance width</p>
@@ -231,7 +231,7 @@
 		ones.</p>
 
               <p>In the FreeType API, this is also called
-		<tt>advanceX</tt>.</p>
+		<code>advanceX</code>.</p>
 	    </li>
 	    <li class="emph">
               <p>Advance height</p>
@@ -242,7 +242,7 @@
 		layouts.</p>
 	
               <p>In the FreeType API, this is also called
-		<tt>advanceY</tt>.</p>
+		<code>advanceY</code>.</p>
 	    </li>
 	    <li class="emph">
               <p>Glyph width</p>
@@ -251,7 +251,7 @@
 		coordinates, it is</p>
 
 	      <p align="center">
-		<tt>glyph width = bbox.xMax - bbox.xMin</tt>
+		<code>glyph width = bbox.xMax - bbox.xMin</code>
 	      </p>
 
 	      <p>For scaled glyphs, its computation requests specific
@@ -264,7 +264,7 @@
 		coordinates, it is</p>
 
 	      <p align="center">
-		<tt>glyph height = bbox.yMax - bbox.yMin</tt>
+		<code>glyph height = bbox.yMax - bbox.yMin</code>
 	      </p>
 
 	      <p>For scaled glyphs, its computation requests specific
@@ -372,8 +372,8 @@
 	    hinted outlines, one should always take care
 	    of <b>exclusively using integer pixel distances</b> (which
 	    means that the parameters to the
-	    <tt>FT_Outline_Translate</tt> API function should all be
-	    multiples of&nbsp;64, as the point coordinates are in
+	    <code>FT_Outline_Translate</code> API function should all
+	    be multiples of&nbsp;64, as the point coordinates are in
 	    26.6&nbsp;fixed-point format).  Otherwise, the translation
 	    will simply <em>ruin the hinter's work</em>, resulting in
 	    very low quality bitmaps!</p>
