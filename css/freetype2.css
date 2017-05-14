@@ -274,8 +274,8 @@ table.vertical-space {
   /* the next two lines center the table horizontally */
   margin-left: auto;
   margin-right: auto;
-  margin-top: 5ex;
-  margin-bottom: 5ex; }
+  margin-top: 4ex;
+  margin-bottom: 4ex; }
 td {
   padding-left: 0.8em;
   padding-right: 0.8em; }
@@ -289,7 +289,11 @@ th {
   padding-bottom: 1ex; }
 tbody tr:first-child td {
   /* some vertical space after the horizontal rule */
+  /* or at the beginning of the table */
   padding-top: 1ex; }
+tbody tr:last-child td {
+  /* some vertical space after the table */
+  padding-bottom: 1ex; }
 /* if we have paragraphs in a table, */
 /* suppress first and last vertical space */
 table tr:first-of-type p:first-of-type {
