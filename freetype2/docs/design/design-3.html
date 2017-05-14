@@ -65,7 +65,8 @@
             implemented through objects and classes.</p>
 
 
-          <h3>1. Object Orientation in FreeType&nbsp;2</h3>
+          <h3 id="section-1">1. Object Orientation in
+            FreeType&nbsp;2</h3>
 
           <p>Though written in ANSI&nbsp;C, the library employs a few
             techniques, inherited from object-oriented programming, to
@@ -144,7 +145,7 @@ typedef struct  FT_FooBarRec_
             &lsquo;foobar&rsquo;.</p>
 
 
-          <h3>2. The <tt>FT_Library</tt> class</h3>
+          <h3 id="section-2">2. The <tt>FT_Library</tt> class</h3>
 
           <p>This type corresponds to a handle to a single instance of
             the library.  Note that the corresponding
@@ -188,7 +189,7 @@ typedef struct  FT_FooBarRec_
             with <a href="../reference/ft2-base_interface.html#FT_Done_FreeType"><code>FT_Done_FreeType</code></a>.</p>
 
 
-          <h3>3. The <tt>FT_Face</tt> class</h3>
+          <h3 id="section-3">3. The <tt>FT_Face</tt> class</h3>
 
           <p>A face object corresponds to a single <em>font face</em>,
             i.e., a specific typeface with a specific style.  For
@@ -226,7 +227,7 @@ FT_Error  FT_New_Face( FT_Library   library,
             definition in the FreeType&nbsp;2 API Reference.</p>
 
 
-          <h3>4. The <tt>FT_Size</tt> class</h3>
+          <h3 id="section-4">4. The <tt>FT_Size</tt> class</h3>
 
           <p>Each <tt>FT_Face</tt> object has one or more
             <tt>FT_Size</tt> objects.  A <em>size object</em> stores
@@ -267,7 +268,7 @@ FT_Error  FT_New_Face( FT_Library   library,
             developers&nbsp;:-)</p>
 
 
-          <h3>5. The <tt>FT_GlyphSlot</tt> class</h3>
+          <h3 id="section-5">5. The <tt>FT_GlyphSlot</tt> class</h3>
 
           <p>The purpose of a <em>glyph slot</em> is to provide a
             place where glyph images can be loaded one by one easily,
@@ -305,7 +306,7 @@ FT_Error  FT_New_Face( FT_Library   library,
             accessible as <tt>face-&gt;glyph</tt>.</p>
 
 
-          <h3>6. The <tt>FT_CharMap</tt> class</h3>
+          <h3 id="section-6">6. The <tt>FT_CharMap</tt> class</h3>
 
           <p>The <tt>FT_CharMap</tt> type is a handle to character map
             objects, or <em>charmaps</em>.  A charmap is simply some
@@ -327,7 +328,7 @@ FT_Error  FT_New_Face( FT_Library   library,
             and thus needs to implement these objects.</p>
 
 
-          <h3>7. Objects relationship</h3>
+          <h3 id="section-7">7. Objects Relationship</h3>
 
           <p>The following diagram summarizes what we have just said
             regarding the public objects managed by the library; it
