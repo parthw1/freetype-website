@@ -70,27 +70,52 @@
             similar to other Homebrew packages that use Qt.]</p>
 
           <p>If you have <a href="http://brew.sh">Homebrew</a> and are
-            comfortable with it, you can either install the current
-            release of ttfautohint and ttfautohintGUI with</p>
+            comfortable with it, you can install ttfautohint and
+            ttfautohintGUI quite easily.</p>
+
+          <p>If you need the GUI version of ttfautohint (includes Qt
+            dependency), use</p>
 
           <pre>
 brew install ttfautohint --with-qt5</pre>
 
-          <p>or git HEAD (i.e., the current development version)
-            with</p>
+          <p>to get the currently released version.  For the git HEAD
+            version (i.e., the current development version) use</p>
 
           <pre>
 brew install --HEAD ttfautohint --with-qt5</pre>
 
+          <p>instead.</p>
+
+          <p>If you do not need the GUI version of ttfautohint, you
+            can install the ttfautohint command line executable only
+            with</p>
+
+          <pre>
+brew install ttfautohint</pre>
+
+          <p>to get the currently released version.  For the git HEAD
+            version (i.e., the current development version) use</p>
+
+          <pre>
+brew install --HEAD ttfautohint</pre>
+
+          <p>instead.</p>
+
           <p>Note that you need an up-to-date Homebrew version for
           this simple installation.</p>
 
-          <p>For upgrading ttfautohint from an older version, please
+          <p>To upgrade ttfautohint from an older version, please
             follow the standard instructions given in
             the <a href="https://github.com/Homebrew/homebrew/blob/master/share/doc/homebrew/FAQ.md#faq">Homebrew
             FAQ</a>.  However, in case you want to update from an
             older <tt>--HEAD</tt> installation to current git HEAD,
             you have to use</p>
+
+          <pre>
+brew reinstall --HEAD ttfautohint</pre>
+
+          <p>or</p>
 
           <pre>
 brew reinstall --HEAD ttfautohint --with-qt5</pre>
@@ -104,7 +129,18 @@ brew reinstall --HEAD ttfautohint --with-qt5</pre>
           <pre>
 ttfautohintGUI</pre>
 
-          <p>from the Terminal.</p>
+          <p>from the Terminal app.</p>
+
+          <p>You can execute the ttfautohint executable on the command
+            line with</p>
+
+          <pre>
+ttfautohint</pre>
+
+          <p>followed by an appropriate set of arguments as detailed
+            in
+            the <a href="https://www.freetype.org/ttfautohint/doc/ttfautohint.html">usage
+            documentation</a>.</p>
         </div>
 
 
@@ -114,9 +150,11 @@ ttfautohintGUI</pre>
           <h2>Compilation From Scratch</h2>
 
           <p>If you don't have <a href="http://brew.sh">Homebrew</a>,
-            you should check it out because it's extremely useful.
-            But supposing you don't want to use it, you can install
-            the GUI on Mac OS&nbsp;X from scratch.</p>
+            you should check it out because it's extremely useful and
+            automates all ttfautohint build dependency installs for
+            you.  But supposing you don't want to use it, you can
+            install the command line executable ttfautohint and the
+            ttfautohint GUI on Mac OS&nbsp;X from scratch.</p>
 
           <p>Following the instructions below, everything except XCode
             and Qt gets installed into the
@@ -277,8 +315,10 @@ sudo make install</pre>
 
           <h3>Qt</h3>
 
-          <p>Now install the <a href="http://qt.io/">Qt</a> libraries
-            for making ttfautohint's Graphical User Interface.</p>
+          <p>This step is optional and only required if you intend to
+            install ttfautohintGUI (the GUI version of ttfautohint).
+            These steps install the <a href="http://qt.io/">Qt</a>
+            libraries for ttfautohint's Graphical User Interface.</p>
 
           <p>With your browser, download the latest &lsquo;Qt
             Libraries for Mac&rsquo; <tt>.dmg</tt> file from
@@ -310,13 +350,23 @@ sudo make install</pre>
           <pre>
 cd ~/src/ttfautohint-1.6</pre>
 
-          <p>and press the return key.  Now type</p>
+          <p>and press the return key.</p>
+
+          <p>To include the GUI version of ttfautohint in the
+            installation, use the following command.</p>
 
           <pre>
 ./configure --with-doc=no</pre>
 
-          <p>and press the return key again.  You will see a bunch of
-            text rolling through the Terminal app.  When it is done,
+          <p>To install only the ttfautohint command line executable
+            (without the GUI version of ttfautohint), use the
+            following command.</p>
+
+          <pre>
+./configure --with-doc=no --with-qt=no</pre>
+
+          <p>Press the return key again.  You will see a bunch of text
+            rolling through the Terminal app.  When it is done,
             type</p>
 
           <pre>
@@ -330,14 +380,29 @@ make</pre>
 sudo make install</pre>
 
           <p>followed by a press to the return key.  As above, enter
-            your Mac login password, then press the return key
-            again.  You will see a bunch of text rolling through the
-            Terminal app.  When it is done, type</p>
+            your Mac login password, then press the return key again.
+            You will see a bunch of text rolling through the Terminal
+            app.</p>
+
+          <p>For GUI installs, you can launch ttfautohintGUI by
+            typing</p>
 
           <pre>
 ttfautohintGUI</pre>
 
-          <p>and press the return key: You should now see the GUI!</p>
+          <p>After pressing the return key, you should now see the
+            GUI!</p>
+
+          <p>You can execute the ttfautohint executable on the command
+            line with</p>
+
+          <pre>
+ttfautohint</pre>
+
+          <p>followed by an appropriate set of arguments as detailed
+            in
+            the <a href="https://www.freetype.org/ttfautohint/doc/ttfautohint.html">usage
+            documentation</a>.</p>
         </div>
 
 
@@ -348,10 +413,12 @@ ttfautohintGUI</pre>
             <a href="mailto:wl@gnu.org">Werner Lemberg</a>, based on
             instructions written
             by <a href="mailto:dave@understandingfonts.com">David
-            Crossland</a>.</p>
+            Crossland</a>
+            and <a href="mailto:git.simpkins@gmail.com">Chris
+            Simpkins</a>.</p>
         </div>
         <div class="updated">
-          <p>Last update: 27-Nov-2016</p>
+          <p>Last update: 16-Aug-2017</p>
         </div>
       </div>
     </div>
