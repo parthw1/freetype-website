@@ -13,14 +13,14 @@
   <meta name="author"
         content="Werner Lemberg" />
   <meta name="version"
-        content="1.6" />
+        content="1.7" />
 
   <title>ttfautohint</title>
 
   <style type="text/css">
     /* use Droid fonts */
-    @import url("http://fonts.googleapis.com/css?family=Droid+Serif");
-    @import url("http://fonts.googleapis.com/css?family=Droid+Sans+Mono");
+    @import url("https://fonts.googleapis.com/css?family=Droid+Serif");
+    @import url("https://fonts.googleapis.com/css?family=Droid+Sans+Mono");
   
     /* top-level appearance */
     body {
@@ -283,11 +283,11 @@
 <div id="header">
 <h1 class="title">ttfautohint</h1>
 <h2 class="author">Werner Lemberg</h2>
-<h3 class="date">Version 1.6</h3>
+<h3 class="date">Version 1.7</h3>
 </div>
 
 <!--
-  Copyright (C) 2011-2016 by Werner Lemberg.
+  Copyright (C) 2011-2017 by Werner Lemberg.
 
   This file is part of the ttfautohint library, and may only be used,
   modified, and distributed under the terms given in `COPYING'.  By
@@ -536,11 +536,12 @@
 <dd><p>ttfautohint offers two different routines to handle (horizontal) stem widths and stem positions: ‘smooth’ and ‘strong’. The former uses discrete values that slightly increase the stem contrast with almost no distortion of the outlines, while the latter snaps both stem widths and stem positions to integer pixel values as much as possible, yielding a crisper appearance at the cost of much more distortion.</p>
 <p>These two routines are mapped onto three possible rendering targets:</p>
 <ul>
-<li><p>grayscale rendering, with or without optimization for subpixel positioning (e.g. Android)</p></li>
-<li><p>‘GDI ClearType’ rendering: the rasterizer version, as returned by the GETINFO bytecode instruction, is in the range 36 &lt;= version &lt; 38 and ClearType is enabled (e.g. Windows XP)</p></li>
-<li><p>‘DirectWrite ClearType’ rendering: the rasterizer version, as returned by the GETINFO bytecode instruction, is &gt;= 38, ClearType is enabled, and subpixel positioning is enabled also (e.g. Internet Explorer 9 running on Windows 7)</p></li>
+<li><p>Grayscale rendering, with or without optimization for subpixel positioning (e.g., Android).</p></li>
+<li><p>‘GDI ClearType’ rendering: the rasterizer version, as returned by the GETINFO bytecode instruction, is in the range 36 &lt;= version &lt;= 38 and ClearType is enabled (e.g., Windows XP).</p></li>
+<li><p>‘DirectWrite ClearType’ rendering: the rasterizer version, as returned by the GETINFO bytecode instruction, is &gt;= 39, ClearType is enabled, and subpixel positioning is enabled also (e.g., Internet Explorer 9 running on Windows 7).</p></li>
 </ul>
 <p>GDI ClearType uses a mode similar to B/W rendering along the vertical axis, while DW ClearType applies grayscale rendering. Additionally, only DW ClearType provides subpixel positioning along the x axis. For what it’s worth, the rasterizers version 36 and version 38 in Microsoft Windows are two completely different rendering engines.</p>
+<p>[Note that the GDI framework on Windows 10 no longer uses B/W rendering along the vertical axis; we consequently treat it as DW ClearType also. We test this by looking at bit 11 of the GETINFO instruction, which was introduced in rasterizer version 40.]</p>
 <p>The command line option expects <em>string</em> to contain up to three letters with possible values ‘<code>g</code>’ for grayscale, ‘<code>G</code>’ for GDI ClearType, and ‘<code>D</code>’ for DW ClearType. If a letter is found in <em>string</em>, the strong stem width routine is used for the corresponding rendering target (and smooth stem width handling otherwise). The default value is ‘<code>G</code>’, which means that strong stem width handling is activated for GDI ClearType only. To use smooth stem width handling for all three rendering targets, use the empty string as an argument, usually connoted with ‘<code>&quot;&quot;</code>’.</p>
 <p>In the GUI, simply set the corresponding check box to select the strong width routine for a given rendering target. If you unset the check box, the smooth width routine gets used.</p>
 <p>The following images again use the font ‘Mertz Bold’.</p>
@@ -602,7 +603,8 @@
 <li><p>Global Analysis</p>
 <p>This affects the hinting of all glyphs, trying to give them a uniform appearance.</p>
 <ul>
-<li><p>Compute standard horizontal stem width of the font. The value is normally taken from glyphs that resemble letter ‘o’.</p></li>
+<li><p>Compute standard horizontal stem width of the font. The value is normally taken from glyphs that resemble letter ‘o’.</p>
+<p>If, for a given script, there is no glyph for at least one standard character in the input font, a fallback stem width gets used. See also option <a href="#fallback-stem-width"><code>--fallback-stem-width</code></a>.</p></li>
 <li><p>Compute blue zones, see <a href="#blue-zones">below</a>.</p></li>
 </ul>
 <p>If the stem widths of single glyphs differ by a large value, or if ttfautohint fails to find proper blue zones, hinting becomes quite poor, possibly leading even to severe shape distortions.</p></li>
@@ -611,206 +613,390 @@
 <caption>script-specific standard characters of the ‘latin’ writing system</caption>
 <thead>
 <tr class="header">
-<th align="center">Script</th>
+<th align="left">Script</th>
 <th align="left">Standard characters</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="center"><code>arab</code></td>
+<td align="left"><code>adlm</code></td>
+<td align="left">‘𞤌’, U+1E90C, ADLAM CAPITAL LETTER O</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">‘𞤮’, U+1E92E, ADLAM SMALL LETTER O</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>arab</code></td>
 <td align="left">‘ـ’, U+0640, ARABIC TATWEEL</td>
 </tr>
 <tr class="even">
-<td align="center"></td>
+<td align="left"></td>
 <td align="left">‘ل’, U+0644, ARABIC LETTER LAM</td>
 </tr>
 <tr class="odd">
-<td align="center"></td>
+<td align="left"></td>
 <td align="left">‘ح’, U+062D, ARABIC LETTER HAH</td>
 </tr>
 <tr class="even">
-<td align="center"><code>armn</code></td>
+<td align="left"><code>armn</code></td>
 <td align="left">‘օ’, U+0585, ARMENIAN SMALL LETTER OH</td>
 </tr>
 <tr class="odd">
-<td align="center"></td>
+<td align="left"></td>
 <td align="left">‘Օ’, U+0555, ARMENIAN CAPITAL LETTER OH</td>
 </tr>
 <tr class="even">
-<td align="center"><code>beng</code></td>
+<td align="left"><code>avst</code></td>
+<td align="left">‘𐬚’, U+10B1A, AVESTAN LETTER THE</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>bamu</code></td>
+<td align="left">‘ꛁ’, U+A6C1, BAMUM LETTER YUQ</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">‘ꛯ’, U+A6EF, BAMUM LETTER KOGHOM</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>beng</code></td>
 <td align="left">‘০’, U+09E6, BENGALI DIGIT ZERO</td>
 </tr>
-<tr class="odd">
-<td align="center"></td>
+<tr class="even">
+<td align="left"></td>
 <td align="left">‘৪’, U+09EA, BENGALI DIGIT FOUR</td>
 </tr>
+<tr class="odd">
+<td align="left"><code>buhd</code></td>
+<td align="left">‘ᝋ’, U+174B, BUHID LETTER MA</td>
+</tr>
 <tr class="even">
-<td align="center"><code>cyrl</code></td>
-<td align="left">‘о’, U+043E, CYRILLIC SMALL LETTER O</td>
+<td align="left"></td>
+<td align="left">‘ᝏ’, U+174F, BUHID LETTER WA</td>
 </tr>
 <tr class="odd">
-<td align="center"></td>
-<td align="left">‘О’, U+041E, CYRILLIC CAPITAL LETTER O</td>
+<td align="left"><code>cakm</code></td>
+<td align="left">‘𑄤’, U+11124, CHAKMA LETTER WAA</td>
 </tr>
 <tr class="even">
-<td align="center"><code>cher</code></td>
+<td align="left"></td>
+<td align="left">‘𑄉’, U+11109, CHAKMA LETTER GAA</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">‘𑄛’, U+1111B, CHAKMA LETTER PAA</td>
+</tr>
+<tr class="even">
+<td align="left"><code>cans</code></td>
+<td align="left">‘ᑌ’, U+144C, CANADIAN SYLLABICS TE</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">‘ᓚ’, U+14DA, CANADIAN SYLLABICS LA</td>
+</tr>
+<tr class="even">
+<td align="left"><code>cari</code></td>
+<td align="left">‘𐊫’, U+102AB, CARIAN LETTER O</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">‘𐋉’, U+102C9, CARIAN LETTER RR</td>
+</tr>
+<tr class="even">
+<td align="left"><code>cher</code></td>
 <td align="left">‘Ꭴ’, U+13A4, CHEROKEE LETTER U</td>
 </tr>
 <tr class="odd">
-<td align="center"></td>
+<td align="left"></td>
 <td align="left">‘Ꮕ’, U+13C5, CHEROKEE LETTER NV</td>
 </tr>
 <tr class="even">
-<td align="center"></td>
+<td align="left"></td>
 <td align="left">‘ꮕ’, U+AB95, CHEROKEE SMALL LETTER NV</td>
 </tr>
 <tr class="odd">
-<td align="center"><code>deva</code></td>
+<td align="left"><code>copt</code></td>
+<td align="left">‘Ⲟ’, U+2C9E, COPTIC CAPITAL LETTER O</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">‘ⲟ’, U+2C9F, COPTIC SMALL LETTER O</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>cprt</code></td>
+<td align="left">‘𐠅’, U+10805, CYPRIOT SYLLABLE JA</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">‘𐠣’, U+10823, CYPRIOT SYLLABLE RA</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>cyrl</code></td>
+<td align="left">‘о’, U+043E, CYRILLIC SMALL LETTER O</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">‘О’, U+041E, CYRILLIC CAPITAL LETTER O</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>deva</code></td>
 <td align="left">‘ठ’, U+0920, DEVANAGARI LETTER TTHA</td>
 </tr>
 <tr class="even">
-<td align="center"></td>
+<td align="left"></td>
 <td align="left">‘व’, U+0935, DEVANAGARI LETTER VA</td>
 </tr>
 <tr class="odd">
-<td align="center"></td>
+<td align="left"></td>
 <td align="left">‘ट’, U+091F, DEVANAGARI LETTER TTA</td>
 </tr>
 <tr class="even">
-<td align="center"><code>ethi</code></td>
+<td align="left"><code>dsrt</code></td>
+<td align="left">‘𐐄’, U+10404, DESERET CAPITAL LETTER LONG O</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">‘𐐬’, U+1042C, DESERET SMALL LETTER LONG O</td>
+</tr>
+<tr class="even">
+<td align="left"><code>ethi</code></td>
 <td align="left">‘ዐ’, U+12D0, ETHIOPIC SYLLABLE PHARYNGEAL A</td>
 </tr>
 <tr class="odd">
-<td align="center"><code>geor</code></td>
+<td align="left"><code>geor</code></td>
 <td align="left">‘ი’, U+10D8, GEORGIAN LETTER IN</td>
 </tr>
 <tr class="even">
-<td align="center"></td>
+<td align="left"></td>
 <td align="left">‘ე’, U+10D4, GEORGIAN LETTER EN</td>
 </tr>
 <tr class="odd">
-<td align="center"></td>
+<td align="left"></td>
 <td align="left">‘ა’, U+10D0, GEORGIAN LETTER AN</td>
 </tr>
 <tr class="even">
-<td align="center"><code>geok</code></td>
+<td align="left"><code>geok</code></td>
 <td align="left">‘Ⴖ’, U+10B6, GEORGIAN CAPITAL LETTER GHAN</td>
 </tr>
 <tr class="odd">
-<td align="center"></td>
+<td align="left"></td>
 <td align="left">‘Ⴑ’, U+10B1, GEORGIAN CAPITAL LETTER SAN</td>
 </tr>
 <tr class="even">
-<td align="center"></td>
+<td align="left"></td>
 <td align="left">‘ⴙ’, U+2D19, GEORGIAN SMALL LETTER CHIN</td>
 </tr>
 <tr class="odd">
-<td align="center"><code>grek</code></td>
+<td align="left"><code>glag</code></td>
+<td align="left">‘Ⱅ’, U+2C15, GLAGOLITIC CAPITAL LETTER TVRIDO</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">‘ⱅ’, U+2C45, GLAGOLITIC SMALL LETTER TVRIDO</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>goth</code></td>
+<td align="left">‘𐌴’, U+10334, GOTHIC LETTER AIHVUS</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">‘𐌾’, U+1033E, GOTHIC LETTER JER</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">‘𐍃’, U+10343, GOTHIC LETTER SAUIL</td>
+</tr>
+<tr class="even">
+<td align="left"><code>grek</code></td>
 <td align="left">‘ο’, U+03BF, GREEK SMALL LETTER OMICRON</td>
 </tr>
-<tr class="even">
-<td align="center"></td>
+<tr class="odd">
+<td align="left"></td>
 <td align="left">‘Ο’, U+039F, GREEK CAPITAL LETTER OMICRON</td>
 </tr>
-<tr class="odd">
-<td align="center"><code>gujr</code></td>
+<tr class="even">
+<td align="left"><code>gujr</code></td>
 <td align="left">‘ટ’, U+0A9F, GUJARATI LETTER TTA</td>
 </tr>
-<tr class="even">
-<td align="center"></td>
+<tr class="odd">
+<td align="left"></td>
 <td align="left">‘૦’, U+0AE6, GUJARATI DIGIT ZERO</td>
 </tr>
-<tr class="odd">
-<td align="center"><code>guru</code></td>
+<tr class="even">
+<td align="left"><code>guru</code></td>
 <td align="left">‘ਠ’, U+0A20, GURMUKHI LETTER TTHA</td>
 </tr>
-<tr class="even">
-<td align="center"></td>
+<tr class="odd">
+<td align="left"></td>
 <td align="left">‘ਰ’, U+0A30, GURMUKHI LETTER RA</td>
 </tr>
-<tr class="odd">
-<td align="center"></td>
+<tr class="even">
+<td align="left"></td>
 <td align="left">‘੦’, U+0A66, GURMUKHI DIGIT ZERO</td>
 </tr>
-<tr class="even">
-<td align="center"><code>hebr</code></td>
+<tr class="odd">
+<td align="left"><code>hebr</code></td>
 <td align="left">‘ם’, U+05DD, HEBREW LETTER FINAL MEM</td>
 </tr>
+<tr class="even">
+<td align="left"><code>kali</code></td>
+<td align="left">‘ꤍ’, U+A90D, KAYAH LI LETTER NGA</td>
+</tr>
 <tr class="odd">
-<td align="center"><code>knda</code></td>
+<td align="left"></td>
+<td align="left">‘꤀’, U+A900, KAYAH LI DIGIT ZERO</td>
+</tr>
+<tr class="even">
+<td align="left"><code>knda</code></td>
 <td align="left">‘೦’, U+0CE6, KANNADA DIGIT ZERO</td>
 </tr>
-<tr class="even">
-<td align="center"></td>
+<tr class="odd">
+<td align="left"></td>
 <td align="left">‘ಬ’, U+0CAC, KANNADA LETTER BA</td>
 </tr>
-<tr class="odd">
-<td align="center"><code>khmr</code></td>
+<tr class="even">
+<td align="left"><code>khmr</code></td>
 <td align="left">‘០’, U+17E0, KHMER DIGIT ZERO</td>
 </tr>
-<tr class="even">
-<td align="center"><code>lao</code></td>
+<tr class="odd">
+<td align="left"><code>lao</code></td>
 <td align="left">‘໐’, U+0ED0, LAO DIGIT ZERO</td>
 </tr>
-<tr class="odd">
-<td align="center"><code>latn</code></td>
+<tr class="even">
+<td align="left"><code>latn</code></td>
 <td align="left">‘o’, U+006F, LATIN SMALL LETTER O</td>
 </tr>
-<tr class="even">
-<td align="center"></td>
+<tr class="odd">
+<td align="left"></td>
 <td align="left">‘O’, U+004F, LATIN CAPITAL LETTER O</td>
 </tr>
-<tr class="odd">
-<td align="center"></td>
+<tr class="even">
+<td align="left"></td>
 <td align="left">‘0’, U+0030, DIGIT ZERO</td>
 </tr>
+<tr class="odd">
+<td align="left"><code>lisu</code></td>
+<td align="left">‘ꓳ’, U+A4F3, LISU LETTER</td>
+</tr>
 <tr class="even">
-<td align="center"><code>mlym</code></td>
+<td align="left"><code>mlym</code></td>
 <td align="left">‘ഠ’, U+0D20, MALAYALAM LETTER TTHA</td>
 </tr>
 <tr class="odd">
-<td align="center"></td>
+<td align="left"></td>
 <td align="left">‘റ’, U+0D31, MALAYALAM LETTER RRA</td>
 </tr>
 <tr class="even">
-<td align="center"><code>mymr</code></td>
+<td align="left"><code>mymr</code></td>
 <td align="left">‘ဝ’, U+101D, MYANMAR LETTER WA</td>
 </tr>
 <tr class="odd">
-<td align="center"></td>
+<td align="left"></td>
 <td align="left">‘င’, U+1004, MYANMAR LETTER NGA</td>
 </tr>
 <tr class="even">
-<td align="center"></td>
+<td align="left"></td>
 <td align="left">‘ဂ’, U+1002, MYANMAR LETTER GA</td>
 </tr>
 <tr class="odd">
-<td align="center"><code>sinh</code></td>
-<td align="left">‘ට’, U+0DA7, SINHALA LETTER ALPAPRAANA TTAYANNA</td>
+<td align="left"><code>nkoo</code></td>
+<td align="left">‘ߋ’, U+07CB, NKO LETTER EE</td>
 </tr>
 <tr class="even">
-<td align="center"><code>taml</code></td>
+<td align="left"></td>
+<td align="left">‘߀’, U+07C0, NKO DIGIT ZERO</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>olck</code></td>
+<td align="left">‘ᱛ’, U+1C5B, OL CHIKI LETTER AT</td>
+</tr>
+<tr class="even">
+<td align="left"><code>orkh</code></td>
+<td align="left">‘𐰗’, U+10C17, OLD TURKIC LETTER YENISEI AY</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>osge</code></td>
+<td align="left">‘𐓂’, U+104C2, OSAGE CAPITAL LETTER O</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">‘𐓪’, U+104EA, OSAGE SMALL LETTER O</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>osma</code></td>
+<td align="left">‘𐒆’, U+10486, OSMANYA LETTER DEEL</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">‘𐒠’, U+104A0, OSMANYA DIGIT ZERO</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>saur</code></td>
+<td align="left">‘ꢝ’, U+A89D, SAURASHTRA LETTER TTHA</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">‘꣐’, U+A8D0, SAURASHTRA DIGIT ZERO</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>shaw</code></td>
+<td align="left">‘𐑴’, U+10474, SHAVIAN LETTER OAK</td>
+</tr>
+<tr class="even">
+<td align="left"><code>sinh</code></td>
+<td align="left">‘ට’, U+0DA7, SINHALA LETTER ALPAPRAANA TTAYANNA</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>sund</code></td>
+<td align="left">‘᮰’, U+1BB0, SUNDANESE DIGIT ZERO</td>
+</tr>
+<tr class="even">
+<td align="left"><code>taml</code></td>
 <td align="left">‘௦’, U+0BE6, TAMIL DIGIT ZERO</td>
 </tr>
 <tr class="odd">
-<td align="center"><code>telu</code></td>
+<td align="left"><code>tavt</code></td>
+<td align="left">‘ꪒ’, U+AA92, TAI VIET LETTER LOW DO</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">‘ꪫ’, U+AAAB, TAI VIET LETTER HIGH VO</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>telu</code></td>
 <td align="left">‘౦’, U+0C66, TELUGU DIGIT ZERO</td>
 </tr>
 <tr class="even">
-<td align="center"></td>
+<td align="left"></td>
 <td align="left">‘౧’, U+0C67, TELUGU DIGIT ONE</td>
 </tr>
 <tr class="odd">
-<td align="center"><code>thai</code></td>
-<td align="left">‘า’, U+0E32, THAI CHARACTER SARA AA</td>
+<td align="left"><code>tfng</code></td>
+<td align="left">‘ⵔ’, U+2D54, TIFINAGH LETTER YAR</td>
 </tr>
 <tr class="even">
-<td align="center"></td>
-<td align="left">‘ๅ’, U+0E45, THAI CHARACTER LAKKHANGYAO</td>
+<td align="left"><code>thai</code></td>
+<td align="left">‘า’, U+0E32, THAI CHARACTER SARA AA</td>
 </tr>
 <tr class="odd">
-<td align="center"></td>
+<td align="left"></td>
+<td align="left">‘ๅ’, U+0E45, THAI CHARACTER LAKKHANGYAO</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
 <td align="left">‘๐’, U+0E50, THAI DIGIT ZERO</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>vaii</code></td>
+<td align="left">‘ꘓ’, U+A613, VAI SYMBOL FEENG</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">‘ꖜ’, U+A59C, VAI SYLLABLE BHU</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">‘ꖴ’, U+A5B4, VAI SYLLABLE KU</td>
 </tr>
 </tbody>
 </table>
@@ -871,7 +1057,39 @@
 <p>‘Round’ characters in blue zones (e.g., the top and bottom of ‘O’ or the bottom of ‘g’) are used to control overshoot handling.</p>
 <p>Blue zones marked with an asterisk are x height blue zones, which are adjusted to be on the pixel grid (to improve rendering at small sizes) by scaling the remaining blue zones before they are adjusted to the grid. See also option <a href="#x-height-increase-limit"><code>--increase-x-height</code></a>.</p>
 <table>
-<caption><code>arab</code> blue zones</caption>
+<caption><code>adlm</code> (Adlam) blue zones</caption>
+<thead>
+<tr class="header">
+<th align="left">ID</th>
+<th align="left">Blue zone</th>
+<th align="left">Characters</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">top of capital letters</td>
+<td align="left">𞤌 𞤅 𞤈 𞤏 𞤔 𞤚</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">bottom of capital letters</td>
+<td align="left">𞤂 𞤖</td>
+</tr>
+<tr class="odd">
+<td align="left">3*</td>
+<td align="left">top of small letters</td>
+<td align="left">𞤬 𞤮 𞤻 𞤼 𞤾</td>
+</tr>
+<tr class="even">
+<td align="left">4</td>
+<td align="left">bottom of small letters</td>
+<td align="left">𞤤 𞤨 𞤩 𞤭 𞤴 𞤸 𞤺 𞥀</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>arab</code> (Arabic) blue zones</caption>
 <thead>
 <tr class="header">
 <th align="left">ID</th>
@@ -898,7 +1116,7 @@
 </tbody>
 </table>
 <table>
-<caption><code>armn</code> blue zones</caption>
+<caption><code>armn</code> (Armenian) blue zones</caption>
 <thead>
 <tr class="header">
 <th align="left">ID</th>
@@ -940,7 +1158,51 @@
 </tbody>
 </table>
 <table>
-<caption><code>beng</code> blue zones</caption>
+<caption><code>avst</code> (Avestan) blue zones</caption>
+<thead>
+<tr class="header">
+<th align="left">ID</th>
+<th align="left">Blue zone</th>
+<th align="left">Characters</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">top of letters</td>
+<td align="left">𐬀 𐬁 𐬐 𐬛</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">bottom of letters</td>
+<td align="left">𐬀 𐬁</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>bamu</code> (Bamum) blue zones</caption>
+<thead>
+<tr class="header">
+<th align="left">ID</th>
+<th align="left">Blue zone</th>
+<th align="left">Characters</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">top of letters</td>
+<td align="left">ꚧ ꚨ ꛛ ꛉ ꛁ ꛈ ꛫ ꛯ</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">bottom of letters</td>
+<td align="left">ꚭ ꚳ ꚶ ꛬ ꚢ ꚽ ꛯ ꛲</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>beng</code> (Bengali) blue zones</caption>
 <thead>
 <tr class="header">
 <th align="left">ID</th>
@@ -973,7 +1235,130 @@
 </table>
 <p>Contrary to scripts like latin, the baseline in Bengali is on the top, and we hint from top to bottom.</p>
 <table>
-<caption><code>cher</code> blue zones</caption>
+<caption><code>buhd</code> (Buhid) blue zones</caption>
+<thead>
+<tr class="header">
+<th align="left">ID</th>
+<th align="left">Blue zone</th>
+<th align="left">Characters</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">top of letters</td>
+<td align="left">ᝐ ᝈ</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">top of large letters</td>
+<td align="left">ᝅ ᝊ ᝎ</td>
+</tr>
+<tr class="odd">
+<td align="left">3*</td>
+<td align="left">top of small letters</td>
+<td align="left">ᝂ ᝃ ᝉ ᝌ</td>
+</tr>
+<tr class="even">
+<td align="left">4</td>
+<td align="left">bottom of letters</td>
+<td align="left">ᝀ ᝃ ᝆ ᝉ ᝋ ᝏ ᝑ</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>cakm</code> (Chakma) blue zones</caption>
+<thead>
+<tr class="header">
+<th align="left">ID</th>
+<th align="left">Blue zone</th>
+<th align="left">Characters</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">top of letters</td>
+<td align="left">𑄃 𑄅 𑄉 𑄙 𑄗</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">bottom of letters</td>
+<td align="left">𑄅 𑄛 𑄝 𑄗 𑄓</td>
+</tr>
+<tr class="odd">
+<td align="left">3</td>
+<td align="left">bottom of descenders of letters</td>
+<td align="left">𑄖𑄳𑄢 𑄘𑄳𑄢 𑄙𑄳𑄢 𑄤𑄳𑄢 𑄥𑄳𑄢</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>cans</code> (Canadian Syllabics) blue zones</caption>
+<thead>
+<tr class="header">
+<th align="left">ID</th>
+<th align="left">Blue zone</th>
+<th align="left">Characters</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">top of letters</td>
+<td align="left">ᗜ ᖴ ᐁ ᒣ ᑫ ᑎ ᔑ ᗰ</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">bottom of letters</td>
+<td align="left">ᗶ ᖵ ᒧ ᐃ ᑌ ᒍ ᔑ ᗢ</td>
+</tr>
+<tr class="odd">
+<td align="left">3*</td>
+<td align="left">top of small letters</td>
+<td align="left">ᓓ ᓕ ᓀ ᓂ ᓄ ᕄ ᕆ ᘣ</td>
+</tr>
+<tr class="even">
+<td align="left">4</td>
+<td align="left">bottom of small letters</td>
+<td align="left">ᕃ ᓂ ᓀ ᕂ ᓗ ᓚ ᕆ ᘣ</td>
+</tr>
+<tr class="odd">
+<td align="left">5</td>
+<td align="left">top of superscript letters</td>
+<td align="left">ᐪ ᙆ ᣘ ᐢ ᒾ ᣗ ᔆ</td>
+</tr>
+<tr class="even">
+<td align="left">6</td>
+<td align="left">bottom of superscript letters</td>
+<td align="left">ᙆ ᗮ ᒻ ᐞ ᔆ ᒡ ᒢ ᓑ</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>cari</code> (Carian) blue zones</caption>
+<thead>
+<tr class="header">
+<th align="left">ID</th>
+<th align="left">Blue zone</th>
+<th align="left">Characters</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">top of letters</td>
+<td align="left">𐊧 𐊫 𐊬 𐊭 𐊱 𐊺 𐊼 𐊿</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">bottom of letters</td>
+<td align="left">𐊣 𐊧 𐊷 𐋀 𐊫 𐊸 𐋉</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>cher</code> (Cherokee) blue zones</caption>
 <thead>
 <tr class="header">
 <th align="left">ID</th>
@@ -1015,7 +1400,71 @@
 </tbody>
 </table>
 <table>
-<caption><code>cyrl</code> blue zones</caption>
+<caption><code>copt</code> (Coptic) blue zones</caption>
+<thead>
+<tr class="header">
+<th align="left">ID</th>
+<th align="left">Blue zone</th>
+<th align="left">Characters</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">top of capital letters</td>
+<td align="left">Ⲍ Ⲏ Ⲡ Ⳟ Ⲟ Ⲑ Ⲥ Ⳋ</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">bottom of capital letters</td>
+<td align="left">Ⳑ Ⳙ Ⳟ Ⲏ Ⲟ Ⲑ Ⳝ Ⲱ</td>
+</tr>
+<tr class="odd">
+<td align="left">3*</td>
+<td align="left">top of small letters</td>
+<td align="left">ⲍ ⲏ ⲡ ⳟ ⲟ ⲑ ⲥ ⳋ</td>
+</tr>
+<tr class="even">
+<td align="left">4</td>
+<td align="left">bottom of small letters</td>
+<td align="left">ⳑ ⳙ ⳟ ⲏ ⲟ ⲑ ⳝ Ⳓ</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>cprt</code> (Cypriot) blue zones</caption>
+<thead>
+<tr class="header">
+<th align="left">ID</th>
+<th align="left">Blue zone</th>
+<th align="left">Characters</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">top of letters</td>
+<td align="left">𐠍 𐠙 𐠳 𐠱 𐠅 𐠓 𐠣 𐠦</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">bottom of letters</td>
+<td align="left">𐠃 𐠊 𐠛 𐠣 𐠳 𐠵 𐠐</td>
+</tr>
+<tr class="odd">
+<td align="left">3</td>
+<td align="left">top of small letters</td>
+<td align="left">𐠈 𐠏 𐠖</td>
+</tr>
+<tr class="even">
+<td align="left">4</td>
+<td align="left">bottom of small letters</td>
+<td align="left">𐠈 𐠏 𐠖</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>cyrl</code> (Cyrillic) blue zones</caption>
 <thead>
 <tr class="header">
 <th align="left">ID</th>
@@ -1052,7 +1501,7 @@
 </tbody>
 </table>
 <table>
-<caption><code>deva</code> blue zones</caption>
+<caption><code>deva</code> (Devanagari) blue zones</caption>
 <thead>
 <tr class="header">
 <th align="left">ID</th>
@@ -1090,7 +1539,39 @@
 </table>
 <p>Contrary to scripts like latin, the baseline in Devanagari is on the top, and we hint from top to bottom. Note that some fonts have extreme variation in the height of the round elements in Zone 3; for this reason we also define Zone 1, which must be always present.</p>
 <table>
-<caption><code>ethi</code> blue zones</caption>
+<caption><code>dsrt</code> (Deseret) blue zones</caption>
+<thead>
+<tr class="header">
+<th align="left">ID</th>
+<th align="left">Blue zone</th>
+<th align="left">Characters</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">top of capital letters</td>
+<td align="left">𐐂 𐐄 𐐋 𐐗 𐐑</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">bottom of capital letters</td>
+<td align="left">𐐀 𐐂 𐐄 𐐗 𐐛</td>
+</tr>
+<tr class="odd">
+<td align="left">3*</td>
+<td align="left">top of small letters</td>
+<td align="left">𐐪 𐐬 𐐳 𐐿 𐐹</td>
+</tr>
+<tr class="even">
+<td align="left">4</td>
+<td align="left">bottom of small letters</td>
+<td align="left">𐐨 𐐪 𐐬 𐐿 𐑃</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>ethi</code> (Ethiopian) blue zones</caption>
 <thead>
 <tr class="header">
 <th align="left">ID</th>
@@ -1112,7 +1593,7 @@
 </tbody>
 </table>
 <table>
-<caption><code>geok</code> blue zones</caption>
+<caption><code>geok</code> (Georgian Khutsuri) blue zones</caption>
 <thead>
 <tr class="header">
 <th align="left">ID</th>
@@ -1155,7 +1636,7 @@
 </table>
 <p>Georgian Asomtavruli and Nuskhuri form the old ecclesiastical script, Khutsuri. Note that fonts show a great variation in height and depth of ascender and descender letter forms.</p>
 <table>
-<caption><code>geor</code> blue zones</caption>
+<caption><code>geor</code> (Georgian Mkhedruli) blue zones</caption>
 <thead>
 <tr class="header">
 <th align="left">ID</th>
@@ -1188,7 +1669,61 @@
 </table>
 <p>Georgian Mkhedruli support is incomplete; it doesn’t yet contain characters for Mtavruli (which are not yet encoded in Unicode), the uppercase glyph variants of Mkhedruli.</p>
 <table>
-<caption><code>grek</code> blue zones</caption>
+<caption><code>glag</code> (Glagolitic) blue zones</caption>
+<thead>
+<tr class="header">
+<th align="left">ID</th>
+<th align="left">Blue zone</th>
+<th align="left">Characters</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">top of capital letters</td>
+<td align="left">Ⰵ Ⱄ Ⱚ Ⰴ Ⰲ Ⰺ Ⱛ Ⰻ</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">bottom of capital letters</td>
+<td align="left">Ⰵ Ⰴ Ⰲ Ⱚ Ⱎ Ⱑ Ⰺ Ⱄ</td>
+</tr>
+<tr class="odd">
+<td align="left">3*</td>
+<td align="left">top of small letters</td>
+<td align="left">ⰵ ⱄ ⱚ ⰴ ⰲ ⰺ ⱛ ⰻ</td>
+</tr>
+<tr class="even">
+<td align="left">4</td>
+<td align="left">bottom of small letters</td>
+<td align="left">ⰵ ⰴ ⰲ ⱚ ⱎ ⱑ ⰺ ⱄ</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>goth</code> (Gothic) blue zones</caption>
+<thead>
+<tr class="header">
+<th align="left">ID</th>
+<th align="left">Blue zone</th>
+<th align="left">Characters</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">top of letters</td>
+<td align="left">𐌲 𐌶 𐍀 𐍄 𐌴 𐍃 𐍈 𐌾</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">bottom of letters</td>
+<td align="left">𐌶 𐌴 𐍃 𐍈</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>grek</code> (Greek) blue zones</caption>
 <thead>
 <tr class="header">
 <th align="left">ID</th>
@@ -1230,7 +1765,7 @@
 </tbody>
 </table>
 <table>
-<caption><code>gujr</code> blue zones</caption>
+<caption><code>gujr</code> (Gujarati) blue zones</caption>
 <thead>
 <tr class="header">
 <th align="left">ID</th>
@@ -1267,7 +1802,7 @@
 </tbody>
 </table>
 <table>
-<caption><code>guru</code> blue zones</caption>
+<caption><code>guru</code> (Gurmukhi) blue zones</caption>
 <thead>
 <tr class="header">
 <th align="left">ID</th>
@@ -1304,7 +1839,7 @@
 </tbody>
 </table>
 <table>
-<caption><code>hebr</code> blue zones</caption>
+<caption><code>hebr</code> (Hebrew) blue zones</caption>
 <thead>
 <tr class="header">
 <th align="left">ID</th>
@@ -1331,7 +1866,7 @@
 </tbody>
 </table>
 <table>
-<caption><code>knda</code> blue zones</caption>
+<caption><code>kali</code> (Kayah Li) blue zones</caption>
 <thead>
 <tr class="header">
 <th align="left">ID</th>
@@ -1341,19 +1876,34 @@
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">1</td>
+<td align="left">1*</td>
 <td align="left">top of letters</td>
-<td align="left">ಇ ಊ ಐ ಣ ಸಾ ನಾ ದಾ ರಾ</td>
+<td align="left">꤅ ꤏ ꤁ ꤋ ꤀ ꤍ</td>
 </tr>
 <tr class="even">
 <td align="left">2</td>
 <td align="left">bottom of letters</td>
-<td align="left">ಅ ಉ ಎ ಲ ೦ ೨ ೬ ೭</td>
+<td align="left">꤈ ꤘ ꤀ ꤍ ꤢ</td>
+</tr>
+<tr class="odd">
+<td align="left">3</td>
+<td align="left">top of ascending letters</td>
+<td align="left">ꤖ ꤡ</td>
+</tr>
+<tr class="even">
+<td align="left">4</td>
+<td align="left">bottom of descending letters</td>
+<td align="left">ꤑ ꤜ ꤞ</td>
+</tr>
+<tr class="odd">
+<td align="left">5</td>
+<td align="left">bottom of large descending letters</td>
+<td align="left">ꤑ꤬ ꤜ꤭ ꤔ꤬</td>
 </tr>
 </tbody>
 </table>
 <table>
-<caption><code>khmr</code> blue zones</caption>
+<caption><code>khmr</code> (Khmer) blue zones</caption>
 <thead>
 <tr class="header">
 <th align="left">ID</th>
@@ -1390,7 +1940,7 @@
 </tbody>
 </table>
 <table>
-<caption><code>khms</code> blue zones</caption>
+<caption><code>khms</code> (Khmer Symbols) blue zones</caption>
 <thead>
 <tr class="header">
 <th align="left">ID</th>
@@ -1413,7 +1963,29 @@
 </table>
 <p>Khmer symbols are used for lunar dates.</p>
 <table>
-<caption><code>lao</code> blue zones</caption>
+<caption><code>knda</code> (Kannada) blue zones</caption>
+<thead>
+<tr class="header">
+<th align="left">ID</th>
+<th align="left">Blue zone</th>
+<th align="left">Characters</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">top of letters</td>
+<td align="left">ಇ ಊ ಐ ಣ ಸಾ ನಾ ದಾ ರಾ</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">bottom of letters</td>
+<td align="left">ಅ ಉ ಎ ಲ ೦ ೨ ೬ ೭</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>lao</code> (Lao) blue zones</caption>
 <thead>
 <tr class="header">
 <th align="left">ID</th>
@@ -1450,7 +2022,7 @@
 </tbody>
 </table>
 <table>
-<caption><code>latb</code> blue zones</caption>
+<caption><code>latb</code> (Latin Subscripts) blue zones</caption>
 <thead>
 <tr class="header">
 <th align="left">ID</th>
@@ -1493,7 +2065,7 @@
 </table>
 <p>Subscript latin characters are similar to normal latin characters.</p>
 <table>
-<caption><code>latn</code> blue zones</caption>
+<caption><code>latn</code> (Latin) blue zones</caption>
 <thead>
 <tr class="header">
 <th align="left">ID</th>
@@ -1520,12 +2092,12 @@
 <tr class="even">
 <td align="left">4*</td>
 <td align="left">top of small letters</td>
-<td align="left">x z r o e s c</td>
+<td align="left">u v x z o e s c</td>
 </tr>
 <tr class="odd">
 <td align="left">5</td>
 <td align="left">bottom of small letters</td>
-<td align="left">x z r o e s c</td>
+<td align="left">n r x z o e s c</td>
 </tr>
 <tr class="even">
 <td align="left">6</td>
@@ -1535,7 +2107,7 @@
 </tbody>
 </table>
 <table>
-<caption><code>latp</code> blue zones</caption>
+<caption><code>latp</code> (Latin Superscripts) blue zones</caption>
 <thead>
 <tr class="header">
 <th align="left">ID</th>
@@ -1578,7 +2150,29 @@
 </table>
 <p>Superscript latin characters are similar to normal latin characters.</p>
 <table>
-<caption><code>mlym</code> blue zones</caption>
+<caption><code>lisu</code> (Lisu) blue zones</caption>
+<thead>
+<tr class="header">
+<th align="left">ID</th>
+<th align="left">Blue zone</th>
+<th align="left">Characters</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">top of letters</td>
+<td align="left">ꓡ ꓧ ꓱ ꓶ ꓩ ꓚ ꓵ ꓳ</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">bottom of letters</td>
+<td align="left">ꓕ ꓜ ꓞ ꓡ ꓛ ꓢ ꓳ ꓴ</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>mlym</code> (Malayalam) blue zones</caption>
 <thead>
 <tr class="header">
 <th align="left">ID</th>
@@ -1600,7 +2194,7 @@
 </tbody>
 </table>
 <table>
-<caption><code>mymr</code> blue zones</caption>
+<caption><code>mymr</code> (Myanmar) blue zones</caption>
 <thead>
 <tr class="header">
 <th align="left">ID</th>
@@ -1632,7 +2226,211 @@
 </tbody>
 </table>
 <table>
-<caption><code>sinh</code> blue zones</caption>
+<caption><code>nkoo</code> (N’Ko) blue zones</caption>
+<thead>
+<tr class="header">
+<th align="left">ID</th>
+<th align="left">Blue zone</th>
+<th align="left">Characters</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">top of letters</td>
+<td align="left">ߐ ߉ ߒ ߟ ߖ ߜ ߠ ߥ</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">bottom of letters</td>
+<td align="left">߀ ߘ ߡ ߠ ߥ</td>
+</tr>
+<tr class="odd">
+<td align="left">3*</td>
+<td align="left">top of small letters</td>
+<td align="left">ߏ ߛ ߋ</td>
+</tr>
+<tr class="even">
+<td align="left">4</td>
+<td align="left">bottom of small letters</td>
+<td align="left">ߎ ߏ ߛ ߋ</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>olck</code> (Ol Chiki) blue zones</caption>
+<thead>
+<tr class="header">
+<th align="left">ID</th>
+<th align="left">Blue zone</th>
+<th align="left">Characters</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">top of letters</td>
+<td align="left">ᱛ ᱜ ᱝ ᱡ ᱢ ᱥ</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">bottom of letters</td>
+<td align="left">ᱛ ᱜ ᱝ ᱡ ᱢ ᱥ</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>orkh</code> (Old Turkic) blue zones</caption>
+<thead>
+<tr class="header">
+<th align="left">ID</th>
+<th align="left">Blue zone</th>
+<th align="left">Characters</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">top of letters</td>
+<td align="left">𐰗 𐰘 𐰧</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">bottom of letters</td>
+<td align="left">𐰉 𐰗 𐰦 𐰧</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>osge</code> (Osage) blue zones</caption>
+<thead>
+<tr class="header">
+<th align="left">ID</th>
+<th align="left">Blue zone</th>
+<th align="left">Characters</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">top of capital letters</td>
+<td align="left">𐒾 𐓍 𐓒 𐓓 𐒻 𐓂 𐒵 𐓆</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">bottom of capital letters</td>
+<td align="left">𐒰 𐓍 𐓂 𐒿 𐓎 𐒹</td>
+</tr>
+<tr class="odd">
+<td align="left">3</td>
+<td align="left">bottom of descenders of capital letters</td>
+<td align="left">𐒼 𐒽 𐒾</td>
+</tr>
+<tr class="even">
+<td align="left">4*</td>
+<td align="left">top of small letters</td>
+<td align="left">𐓵 𐓶 𐓺 𐓻 𐓝 𐓣 𐓪 𐓮</td>
+</tr>
+<tr class="odd">
+<td align="left">5</td>
+<td align="left">bottom of small letters</td>
+<td align="left">𐓘 𐓚 𐓣 𐓵 𐓡 𐓧 𐓪 𐓶</td>
+</tr>
+<tr class="even">
+<td align="left">6</td>
+<td align="left">top of ascenders of small letters</td>
+<td align="left">𐓤 𐓦 𐓸 𐓹 𐓛</td>
+</tr>
+<tr class="odd">
+<td align="left">7</td>
+<td align="left">bottom of descenders of small letters</td>
+<td align="left">𐓤 𐓥 𐓦</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>osma</code> (Osmanya) blue zones</caption>
+<thead>
+<tr class="header">
+<th align="left">ID</th>
+<th align="left">Blue zone</th>
+<th align="left">Characters</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">top of letters</td>
+<td align="left">𐒆 𐒉 𐒐 𐒒 𐒘 𐒛 𐒠 𐒣</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">bottom of letters</td>
+<td align="left">𐒀 𐒂 𐒆 𐒈 𐒊 𐒒 𐒠 𐒩</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>saur</code> (Saurashtra) blue zones</caption>
+<thead>
+<tr class="header">
+<th align="left">ID</th>
+<th align="left">Blue zone</th>
+<th align="left">Characters</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">top of letters</td>
+<td align="left">ꢜ ꢞ ꢳ ꢂ ꢖ ꢒ ꢝ ꢛ</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">bottom of letters</td>
+<td align="left">ꢂ ꢨ ꢺ ꢤ ꢎ</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>shaw</code> (Shavian) blue zones</caption>
+<thead>
+<tr class="header">
+<th align="left">ID</th>
+<th align="left">Blue zone</th>
+<th align="left">Characters</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">top of letters</td>
+<td align="left">𐑕 𐑙</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">bottom of letters</td>
+<td align="left">𐑔 𐑖 𐑗 𐑹 𐑻</td>
+</tr>
+<tr class="odd">
+<td align="left">3</td>
+<td align="left">bottom of descenders of letters</td>
+<td align="left">𐑟 𐑣</td>
+</tr>
+<tr class="even">
+<td align="left">4*</td>
+<td align="left">top of small letters</td>
+<td align="left">𐑱 𐑲 𐑳 𐑴 𐑸 𐑺 𐑼</td>
+</tr>
+<tr class="odd">
+<td align="left">5</td>
+<td align="left">bottom of small letters</td>
+<td align="left">𐑴 𐑻 𐑹</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>sinh</code> (Sinhala) blue zones</caption>
 <thead>
 <tr class="header">
 <th align="left">ID</th>
@@ -1659,7 +2457,34 @@
 </tbody>
 </table>
 <table>
-<caption><code>taml</code> blue zones</caption>
+<caption><code>sund</code> (Sundanese) blue zones</caption>
+<thead>
+<tr class="header">
+<th align="left">ID</th>
+<th align="left">Blue zone</th>
+<th align="left">Characters</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">top of letters</td>
+<td align="left">ᮋ ᮞ ᮮ ᮽ ᮰ ᮈ</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">bottom of letters</td>
+<td align="left">ᮄ ᮔ ᮕ ᮗ ᮰ ᮆ ᮈ ᮉ</td>
+</tr>
+<tr class="odd">
+<td align="left">3</td>
+<td align="left">bottom of descenders of letters</td>
+<td align="left">ᮼ ᳄</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>taml</code> (Tamil) blue zones</caption>
 <thead>
 <tr class="header">
 <th align="left">ID</th>
@@ -1681,7 +2506,7 @@
 </tbody>
 </table>
 <table>
-<caption><code>telu</code> blue zones</caption>
+<caption><code>tavt</code> (Tai Viet) blue zones</caption>
 <thead>
 <tr class="header">
 <th align="left">ID</th>
@@ -1692,18 +2517,62 @@
 <tbody>
 <tr class="odd">
 <td align="left">1</td>
-<td align="left">top</td>
+<td align="left">top of letters</td>
+<td align="left">ꪆ ꪔ ꪒ ꪖ ꪫ</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">bottom of letters</td>
+<td align="left">ꪉ ꪫ ꪮ</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>telu</code> (Telugu) blue zones</caption>
+<thead>
+<tr class="header">
+<th align="left">ID</th>
+<th align="left">Blue zone</th>
+<th align="left">Characters</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">top of letters</td>
 <td align="left">ఇ ఌ ఙ ఞ ణ ఱ ౯</td>
 </tr>
 <tr class="even">
 <td align="left">2</td>
-<td align="left">bottom</td>
+<td align="left">bottom of letters</td>
 <td align="left">అ క చ ర ఽ ౨ ౬</td>
 </tr>
 </tbody>
 </table>
 <table>
-<caption><code>thai</code> blue zones</caption>
+<caption><code>tfng</code> (Tifinagh) blue zones</caption>
+<thead>
+<tr class="header">
+<th align="left">ID</th>
+<th align="left">Blue zone</th>
+<th align="left">Characters</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">top of letters</td>
+<td align="left">ⵔ ⵙ ⵛ ⵞ ⴵ ⴼ ⴹ ⵎ</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">bottom of letters</td>
+<td align="left">ⵔ ⵙ ⵛ ⵞ ⴵ ⴼ ⴹ ⵎ</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>thai</code> (Thai) blue zones</caption>
 <thead>
 <tr class="header">
 <th align="left">ID</th>
@@ -1714,38 +2583,60 @@
 <tbody>
 <tr class="odd">
 <td align="left">1*</td>
-<td align="left">top</td>
+<td align="left">top of letters</td>
 <td align="left">บ เ แ อ ก า</td>
 </tr>
 <tr class="even">
 <td align="left">2</td>
-<td align="left">bottom</td>
+<td align="left">bottom of letters</td>
 <td align="left">บ ป ษ ฯ อ ย ฮ</td>
 </tr>
 <tr class="odd">
 <td align="left">3</td>
-<td align="left">ascender</td>
+<td align="left">top of ascenders of letters</td>
 <td align="left">ป ฝ ฟ</td>
 </tr>
 <tr class="even">
 <td align="left">4</td>
-<td align="left">large ascender</td>
+<td align="left">top of large ascenders of letters</td>
 <td align="left">โ ใ ไ</td>
 </tr>
 <tr class="odd">
 <td align="left">5</td>
-<td align="left">descender</td>
+<td align="left">bottom of descenders of letters</td>
 <td align="left">ฎ ฏ ฤ ฦ</td>
 </tr>
 <tr class="even">
 <td align="left">6</td>
-<td align="left">large descender</td>
+<td align="left">bottom of large descenders of letters</td>
 <td align="left">ญ ฐ</td>
 </tr>
 <tr class="odd">
 <td align="left">7</td>
 <td align="left">top of Thai digits</td>
 <td align="left">๐ ๑ ๓</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>vaii</code> (Vai) blue zones</caption>
+<thead>
+<tr class="header">
+<th align="left">ID</th>
+<th align="left">Blue zone</th>
+<th align="left">Characters</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">top of vai letters</td>
+<td align="left">ꗍ ꘖ ꘙ ꘜ ꖜ ꖝ ꔅ ꕢ</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">bottom of vai letters</td>
+<td align="left">ꗍ ꘖ ꘙ ꗞ ꔅ ꕢ ꖜ ꔆ</td>
 </tr>
 </tbody>
 </table>
@@ -1954,8 +2845,8 @@
 <h2 id="extending-ttfautohint-with-new-scripts">Extending ttfautohint with new scripts</h2>
 <p>Right now, adding new scripts to ttfautohint only works on the source code level, this is, you have to patch the C source code.</p>
 <p>The process itself isn’t very complicated; it is demonstrated best by example. The following commits in ttfautohint add Ethiopian and Armenian, respectively.</p>
-<p><a href="http://repo.or.cz/ttfautohint.git/commitdiff/d14c7c0758539921b58f2854777175fde1267fb1" class="uri">http://repo.or.cz/ttfautohint.git/commitdiff/d14c7c0758539921b58f2854777175fde1267fb1</a><br />
-<a href="http://repo.or.cz/ttfautohint.git/commitdiff/b5022cd9635b8b0d3b910310b69f4a57fe055fd0" class="uri">http://repo.or.cz/ttfautohint.git/commitdiff/b5022cd9635b8b0d3b910310b69f4a57fe055fd0</a></p>
+<p><a href="http://repo.or.cz/ttfautohint.git/commitdiff/d14c7c07" class="uri">http://repo.or.cz/ttfautohint.git/commitdiff/d14c7c07</a><br />
+<a href="http://repo.or.cz/ttfautohint.git/commitdiff/b5022cd9" class="uri">http://repo.or.cz/ttfautohint.git/commitdiff/b5022cd9</a></p>
 <p>It shows that you have to do the following steps.</p>
 <ul>
 <li><p>Add blue zone character data to the file <code>lib/tablue.dat</code>.</p></li>
@@ -1976,7 +2867,7 @@
 <blockquote>
 <p><em>[</em> font-idx <em>]</em>  script  feature  <em><code>@</code></em>  glyph-ids</p>
 </blockquote>
-<p><em>script</em> is a four-letter name of one of the scripts supported by ttfautohint. <em>feature</em> is one of the four-letter names of features supported by ttfautohint.</p>
+<p><em>script</em> is a four-letter name<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a> of one of the scripts supported by ttfautohint. <em>feature</em> is one of the four-letter names of features supported by ttfautohint.</p>
 <p>The elements of <em>glyph-ids</em> are a list of comma separated <em>glyph-id</em> values or value ranges. Note that is not necessary that elements are specified in increasing order.</p>
 <p>Assuming that a font contains superscript digits ‘zero.sups’ to ‘nine.sups’ together with the glyphs ‘a.sups’ and ‘o.sups’, use a line</p>
 <pre><code>    cyrl sups @ zero.sups-nine.sups, a.sups, o.sups</code></pre>
@@ -2023,7 +2914,7 @@
 <em>[</em> font‑idx <em>]</em>  glyph‑id  <em><code>t</code>[<code>ouch</code>]|<code>p</code>[<code>oint</code>]</em>  points  <em>[</em> <em><code>x</code>[<code>shift</code>]</em> x‑shift <em>]</em>  <em>[</em> <em><code>y</code>[<code>shift</code>]</em> y‑shift <em>]</em>  <em><code>@</code></em>  ppems<br />
 
 </blockquote>
-<p>The mutually exclusive parameters <code>touch</code> and <code>point</code> (which can be abbreviated as ‘<code>t</code>’ and ‘<code>p</code>’, respectively) make ttfautohint apply delta exceptions for the given points, shifting them by the given values. Delta exceptions entered with <code>touch</code> are applied before the final ‘IUP’ (<em>interpolate untouched points</em>) instructions in a glyph’s bytecode, exceptions entered with <code>point</code> after ‘IUP’ (please consult Greg Hitchcock’s <a href="http://www.microsoft.com/typography/cleartype/truetypecleartype.aspx">ClearType Whitepaper</a> for more on pre-IUP and post-IUP delta hints). Additionally, the <code>touch</code> parameter makes the bytecode <em>touch</em> the affected points; such points are no longer affected by ‘IUP’ at all. Note that in ClearType mode all deltas along the x axis are discarded, and deltas along the y axis are only executed for touched points. As a consequence, vertical delta exceptions entered with <code>point</code> should not be used in ClearType mode.<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a></p>
+<p>The mutually exclusive parameters <code>touch</code> and <code>point</code> (which can be abbreviated as ‘<code>t</code>’ and ‘<code>p</code>’, respectively) make ttfautohint apply delta exceptions for the given points, shifting them by the given values. Delta exceptions entered with <code>touch</code> are applied before the final ‘IUP’ (<em>interpolate untouched points</em>) instructions in a glyph’s bytecode, exceptions entered with <code>point</code> after ‘IUP’ (please consult Greg Hitchcock’s <a href="http://www.microsoft.com/typography/cleartype/truetypecleartype.aspx">ClearType Whitepaper</a> for more on pre-IUP and post-IUP delta hints). Additionally, the <code>touch</code> parameter makes the bytecode <em>touch</em> the affected points; such points are no longer affected by ‘IUP’ at all. Note that in ClearType mode all deltas along the x axis are discarded, and deltas along the y axis are only executed for touched points. As a consequence, vertical delta exceptions entered with <code>point</code> should not be used in ClearType mode.<a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a></p>
 <p><em>ppems</em>, similar to <em>points</em>, are number ranges, see ‘<a href="#x-height-snapping-exceptions">x Height Snapping Exceptions</a>’ for the syntax.</p>
 <p><em>x‑shift</em> and <em>y‑shift</em> represent real numbers that get rounded to multiples of 1/8 pixels. The entries for <code>xshift</code> (‘<code>x</code>’) and <code>yshift</code> (‘<code>y</code>’) are optional; if missing, the corresponding value is set to zero. If both values are zero, the delta exception entry is ignored as a whole.</p>
 <p>Values for <em>x‑shift</em> and <em>y‑shift</em> must be in the range [−1.0;1.0]. Values for <em>ppems</em> must be in the range [6;53]. Values for <em>points</em> are limited by the number of points in the glyph.</p>
@@ -2032,13 +2923,13 @@
 <pre><code>    Aacute  touch 2-4  yshift 0.25  @ 12, 13</code></pre>
 <p>in a control instructions file. Since we use <code>touch</code> and not <code>point</code>, points 2, 3, and 4 are no longer subject to the final ‘IUP’ instruction, which interpolates weak, untouched point positions between strong, touched ones, cf. the description <a href="https://developer.apple.com/fonts/TrueType-Reference-Manual/RM05/Chap5.html#IUP">here</a>.</p>
 <h1 id="the-ttfautohint-api">The ttfautohint API</h1>
-<p>This section documents the single function of the ttfautohint library, <code>TTF_autohint</code>, together with its callback functions, <code>TA_Progress_Func</code> and <code>TA_Info_Func</code>. All information has been directly extracted from the <code>ttfautohint.h</code> header file.</p>
+<p>This section documents the single function of the ttfautohint library, <code>TTF_autohint</code>, together with its callback functions (<code>TA_Progress_Func</code> <code>TA_Error_Func</code>, <code>TA_Info_Func</code>, and <code>TA_Info_Post_Func</code>). All information has been directly extracted from the <code>ttfautohint.h</code> header file.</p>
 <h2 id="preprocessor-macros-and-typedefs">Preprocessor Macros and Typedefs</h2>
 <p>Some default values.</p>
-<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="ot">#define TA_HINTING_RANGE_MIN 8</span>
-<span class="ot">#define TA_HINTING_RANGE_MAX 50</span>
-<span class="ot">#define TA_HINTING_LIMIT 200</span>
-<span class="ot">#define TA_INCREASE_X_HEIGHT 14</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="pp">#define TA_HINTING_RANGE_MIN 8</span>
+<span class="pp">#define TA_HINTING_RANGE_MAX 50</span>
+<span class="pp">#define TA_HINTING_LIMIT 200</span>
+<span class="pp">#define TA_INCREASE_X_HEIGHT 14</span></code></pre></div>
 <p>An error type.</p>
 <div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="kw">typedef</span> <span class="dt">int</span> TA_Error;</code></pre></div>
 <h2 id="callback-ta_progress_func">Callback: <code>TA_Progress_Func</code></h2>
@@ -2257,7 +3148,7 @@ TTF_autohint(<span class="dt">const</span> <span class="dt">char</span>* options
 <h1 id="compilation-and-installation">Compilation and Installation</h1>
 <p>Please read the files <a href="http://git.savannah.gnu.org/gitweb/?p=gnulib.git;a=blob_plain;f=doc/INSTALL;hb=HEAD"><code>INSTALL</code></a> and <a href="http://repo.or.cz/w/ttfautohint.git/blob_plain/HEAD:/INSTALL.git"><code>INSTALL.git</code></a> (both part of the source code bundle) for instructions how to compile the ttfautohint library together with its front-ends using a POSIX compatible shell and compiler.</p>
 <h2 id="unix-like-platforms">Unix-like Platforms</h2>
-<p>The generic instructions should work just fine. Since ttfautohint depends on <a href="http://qt.io">Qt</a> version 4 or newer, <a href="http://freetype.org">FreeType</a> version 2.4.5 or newer, and <a href="http://harfbuzz.org">HarfBuzz</a> version 0.9.19 or newer, you should install packages for these libraries (called ‘libqt4’ or similar, ‘libfreetype6’<a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a>, and ‘libharfbuzz0’ or similar) together with its development bundles (called ‘libqt4-devel’, ‘freetype2-devel’, and ‘harfbuzz-devel’ or similar) before running ttfautohint’s <code>configure</code> script.</p>
+<p>The generic instructions should work just fine. Since ttfautohint depends on <a href="http://qt.io">Qt</a> version 4 or newer, <a href="http://freetype.org">FreeType</a> version 2.4.5 or newer, and <a href="http://harfbuzz.org">HarfBuzz</a> version 1.3.0 or newer, you should install packages for these libraries (called ‘libqt4’ or similar, ‘libfreetype6’<a href="#fn4" class="footnoteRef" id="fnref4"><sup>4</sup></a>, and ‘libharfbuzz0’ or similar) together with its development bundles (called ‘libqt4-devel’, ‘freetype2-devel’, and ‘harfbuzz-devel’ or similar) before running ttfautohint’s <code>configure</code> script.</p>
 <h2 id="ms-windows">MS Windows</h2>
 <p>Precompiled binaries <code>ttfautohint.exe</code> and <code>ttfautohintGUI.exe</code> are available, being statically linked to <a href="http://qt.io">Qt</a>, <a href="http://freetype.org">FreeType</a>, and <a href="http://harfbuzz.org">HarfBuzz</a>. This means that the two programs are not dependent on any other program-specific DLL, and you can move them to any place you like.</p>
 <p>Hints for compilation with the <a href="http://mingw.org">MinGW</a> environment are given in <code>INSTALL.git</code>.</p>
@@ -2265,13 +3156,13 @@ TTF_autohint(<span class="dt">const</span> <span class="dt">char</span>* options
 <p>Right now, only a precompiled binary <code>ttfautohint</code> is offered; a ready-to-run app bundle for the GUI version is not yet available; however, ttfautohint is part of <a href="http://brew.sh">Homebrew</a>, making compilation and installation very simple.</p>
 <p>Detailed instructions to compile both <code>ttfautohint</code> and <code>ttfautohintGUI</code> can be found on <a href="http://freetype.org/ttfautohint/osx.html">ttfautohint’s homepage</a>.</p>
 <h1 id="authors">Authors</h1>
-<p>Copyright © 2011-2016 by <script type="text/javascript">
+<p>Copyright © 2011-2017 by <script type="text/javascript">
 <!--
 h='&#x67;&#110;&#x75;&#46;&#x6f;&#114;&#x67;';a='&#64;';n='&#x77;&#108;';e=n+a+h;
 document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+'&#x57;&#x65;&#114;&#110;&#x65;&#114;&#32;&#76;&#x65;&#x6d;&#98;&#x65;&#114;&#x67;'+'<\/'+'a'+'>');
 // -->
 </script><noscript>&#x57;&#x65;&#114;&#110;&#x65;&#114;&#32;&#76;&#x65;&#x6d;&#98;&#x65;&#114;&#x67;&#32;&#40;&#x77;&#108;&#32;&#x61;&#116;&#32;&#x67;&#110;&#x75;&#32;&#100;&#x6f;&#116;&#32;&#x6f;&#114;&#x67;&#x29;</noscript>.<br />
-Portions Copyright © 2011-2016 by <script type="text/javascript">
+Portions Copyright © 2011-2017 by <script type="text/javascript">
 <!--
 h='&#x75;&#110;&#100;&#x65;&#114;&#x73;&#116;&#x61;&#110;&#100;&#x69;&#110;&#x67;&#102;&#x6f;&#110;&#116;&#x73;&#46;&#x63;&#x6f;&#x6d;';a='&#64;';n='&#100;&#x61;&#118;&#x65;';e=n+a+h;
 document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+'&#68;&#x61;&#118;&#x65;&#32;&#x43;&#114;&#x6f;&#x73;&#x73;&#108;&#x61;&#110;&#100;'+'<\/'+'a'+'>');
@@ -2287,6 +3178,34 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+'&#x4
 <p>The file <code>COPYING</code> mentioned in the previous paragraph is distributed with the ttfautohint library.</p>
 <h1 id="character-ranges">Character Ranges</h1>
 <p>For the FreeType auto-hinter (and thus ttfautohint), a ‘non-base character’ is something that should not be affected by blue zones, regardless of whether this is a spacing or no-spacing glyph.</p>
+<table>
+<caption><code>adlm</code> base characters</caption>
+<thead>
+<tr class="header">
+<th align="center">Character range</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><code>0x1E900</code> - <code>0x1E95F</code></td>
+<td align="left">Adlam</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>adlm</code> non-base characters</caption>
+<thead>
+<tr class="header">
+<th align="center">Character range</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><code>0x1D944</code> - <code>0x1E94A</code></td>
+</tr>
+</tbody>
+</table>
 <table>
 <caption><code>arab</code> base characters</caption>
 <thead>
@@ -2419,6 +3338,62 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+'&#x4
 </tbody>
 </table>
 <table>
+<caption><code>avst</code> base characters</caption>
+<thead>
+<tr class="header">
+<th align="center">Character range</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><code>0x10B00</code> - <code>0x10B3F</code></td>
+<td align="left">Avestan</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>avst</code> non-base characters</caption>
+<thead>
+<tr class="header">
+<th align="center">Character range</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><code>0x10B39</code> - <code>0x10B3F</code></td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>bamu</code> base characters</caption>
+<thead>
+<tr class="header">
+<th align="center">Character range</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><code>0xA6A0</code> - <code>0xA6FF</code></td>
+<td align="left">Bamum</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>bamu</code> non-base characters</caption>
+<thead>
+<tr class="header">
+<th align="center">Character range</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><code>0xA6F0</code> - <code>0xA6F1</code></td>
+</tr>
+</tbody>
+</table>
+<table>
 <caption><code>beng</code> base characters</caption>
 <thead>
 <tr class="header">
@@ -2459,6 +3434,99 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+'&#x4
 </tbody>
 </table>
 <table>
+<caption><code>buhd</code> base characters</caption>
+<thead>
+<tr class="header">
+<th align="center">Character range</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><code>0x1740</code> - <code>0x175F</code></td>
+<td align="left">Buhid</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>buhd</code> non-base characters</caption>
+<thead>
+<tr class="header">
+<th align="center">Character range</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><code>0x1752</code> - <code>0x1753</code></td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>cakm</code> base characters</caption>
+<thead>
+<tr class="header">
+<th align="center">Character range</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><code>0x11100</code> - <code>0x1114F</code></td>
+<td align="left">Chakma</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>cakm</code> non-base characters</caption>
+<thead>
+<tr class="header">
+<th align="center">Character range</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><code>0x11100</code> - <code>0x11102</code></td>
+</tr>
+<tr class="even">
+<td align="center"><code>0x11127</code> - <code>0x11134</code></td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>cans</code> base characters</caption>
+<thead>
+<tr class="header">
+<th align="center">Character range</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><code>0x1400</code> - <code>0x167F</code></td>
+<td align="left">Unified Canadian Aboriginal Syllabics</td>
+</tr>
+<tr class="even">
+<td align="center"><code>0x18B0</code> - <code>0x18FF</code></td>
+<td align="left">Unified Canadian Aboriginal Syllabics Extended</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>cari</code> base characters</caption>
+<thead>
+<tr class="header">
+<th align="center">Character range</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><code>0x102A0</code> - <code>0x102DF</code></td>
+<td align="left">Carian</td>
+</tr>
+</tbody>
+</table>
+<table>
 <caption><code>cher</code> base characters</caption>
 <thead>
 <tr class="header">
@@ -2474,6 +3542,49 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+'&#x4
 <tr class="even">
 <td align="center"><code>0xAB70</code> - <code>0xABBF</code></td>
 <td align="left">Cherokee Supplement</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>copt</code> base characters</caption>
+<thead>
+<tr class="header">
+<th align="center">Character range</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><code>0x2C80</code> - <code>0x2CFF</code></td>
+<td align="left">Coptic</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>copt</code> non-base characters</caption>
+<thead>
+<tr class="header">
+<th align="center">Character range</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><code>0x2CEF</code> - <code>0x2CF1</code></td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>cprt</code> base characters</caption>
+<thead>
+<tr class="header">
+<th align="center">Character range</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><code>0x10800</code> - <code>0x1083F</code></td>
+<td align="left">Cypriot</td>
 </tr>
 </tbody>
 </table>
@@ -2594,6 +3705,21 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+'&#x4
 </tbody>
 </table>
 <table>
+<caption><code>dsrt</code> base characters</caption>
+<thead>
+<tr class="header">
+<th align="center">Character range</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><code>0x10400</code> - <code>0x1044F</code></td>
+<td align="left">Deseret</td>
+</tr>
+</tbody>
+</table>
+<table>
 <caption><code>ethi</code> base characters</caption>
 <thead>
 <tr class="header">
@@ -2664,6 +3790,53 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+'&#x4
 <tr class="even">
 <td align="center"><code>0x2D00</code> - <code>0x2D2D</code></td>
 <td align="left">Georgian (Nuskhuri)</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>glag</code> base characters</caption>
+<thead>
+<tr class="header">
+<th align="center">Character range</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><code>0x2C00</code> - <code>0x2C5F</code></td>
+<td align="left">Glagolitic</td>
+</tr>
+<tr class="even">
+<td align="center"><code>0x1E000</code> - <code>0x1E02F</code></td>
+<td align="left">Glagolitic Supplement</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>glag</code> non-base characters</caption>
+<thead>
+<tr class="header">
+<th align="center">Character range</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><code>0x1E000</code> - <code>0x1E02F</code></td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>goth</code> base characters</caption>
+<thead>
+<tr class="header">
+<th align="center">Character range</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><code>0x10330</code> - <code>0x1034F</code></td>
+<td align="left">Gothic</td>
 </tr>
 </tbody>
 </table>
@@ -2838,6 +4011,34 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+'&#x4
 </tr>
 <tr class="odd">
 <td align="center"><code>0xFB1E</code> - <code>0xFB1E</code></td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>kali</code> base characters</caption>
+<thead>
+<tr class="header">
+<th align="center">Character range</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><code>0xA900</code> - <code>0xA92F</code></td>
+<td align="left">Kayah Li</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>kali</code> non-base characters</caption>
+<thead>
+<tr class="header">
+<th align="center">Character range</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><code>0xA926</code> - <code>0xA92D</code></td>
 </tr>
 </tbody>
 </table>
@@ -3254,6 +4455,21 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+'&#x4
 </tbody>
 </table>
 <table>
+<caption><code>lisu</code> base characters</caption>
+<thead>
+<tr class="header">
+<th align="center">Character range</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><code>0xA4D0</code> - <code>0xA4FF</code></td>
+<td align="left">Lisu</td>
+</tr>
+</tbody>
+</table>
+<table>
 <caption><code>mlym</code> base characters</caption>
 <thead>
 <tr class="header">
@@ -3357,6 +4573,140 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+'&#x4
 </tbody>
 </table>
 <table>
+<caption><code>nkoo</code> base characters</caption>
+<thead>
+<tr class="header">
+<th align="center">Character range</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><code>0x07C0</code> - <code>0x07FF</code></td>
+<td align="left">N’Ko</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>nkoo</code> non-base characters</caption>
+<thead>
+<tr class="header">
+<th align="center">Character range</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><code>0x07EB</code> - <code>0x07F5</code></td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>olck</code> base characters</caption>
+<thead>
+<tr class="header">
+<th align="center">Character range</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><code>0x1C50</code> - <code>0x1C7F</code></td>
+<td align="left">Ol Chiki</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>orkh</code> base characters</caption>
+<thead>
+<tr class="header">
+<th align="center">Character range</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><code>0x10C00</code> - <code>0x10C4F</code></td>
+<td align="left">Old Turkic</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>osge</code> base characters</caption>
+<thead>
+<tr class="header">
+<th align="center">Character range</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><code>0x104B0</code> - <code>0x104FF</code></td>
+<td align="left">Osage</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>osma</code> base characters</caption>
+<thead>
+<tr class="header">
+<th align="center">Character range</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><code>0x10480</code> - <code>0x104AF</code></td>
+<td align="left">Osmanya</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>saur</code> base characters</caption>
+<thead>
+<tr class="header">
+<th align="center">Character range</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><code>0xA880</code> - <code>0xA8DF</code></td>
+<td align="left">Saurashtra</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>saur</code> non-base characters</caption>
+<thead>
+<tr class="header">
+<th align="center">Character range</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><code>0xA880</code> - <code>0xA881</code></td>
+</tr>
+<tr class="even">
+<td align="center"><code>0xA8B4</code> - <code>0xA8C5</code></td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>shaw</code> base characters</caption>
+<thead>
+<tr class="header">
+<th align="center">Character range</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><code>0x10450</code> - <code>0x1047F</code></td>
+<td align="left">Shavian</td>
+</tr>
+</tbody>
+</table>
+<table>
 <caption><code>sinh</code> base characters</caption>
 <thead>
 <tr class="header">
@@ -3384,6 +4734,41 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+'&#x4
 </tr>
 <tr class="even">
 <td align="center"><code>0x0DD2</code> - <code>0x0DD6</code></td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>sund</code> base characters</caption>
+<thead>
+<tr class="header">
+<th align="center">Character range</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><code>0x1B80</code> - <code>0x1BBF</code></td>
+<td align="left">Sundanese</td>
+</tr>
+<tr class="even">
+<td align="center"><code>0x1CC0</code> - <code>0x1CCF</code></td>
+<td align="left">Sundanese Supplement</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>sund</code> non-base characters</caption>
+<thead>
+<tr class="header">
+<th align="center">Character range</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><code>0x1B80</code> - <code>0x1B82</code></td>
+</tr>
+<tr class="even">
+<td align="center"><code>0x1BA1</code> - <code>0x1BAD</code></td>
 </tr>
 </tbody>
 </table>
@@ -3418,6 +4803,46 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+'&#x4
 </tr>
 <tr class="odd">
 <td align="center"><code>0x0BCD</code> - <code>0x0BCD</code></td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>tavt</code> base characters</caption>
+<thead>
+<tr class="header">
+<th align="center">Character range</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><code>0xAA80</code> - <code>0xAADF</code></td>
+<td align="left">Tai Viet</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>tavt</code> non-base characters</caption>
+<thead>
+<tr class="header">
+<th align="center">Character range</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><code>0xAAB0</code> - <code>0xAAB0</code></td>
+</tr>
+<tr class="even">
+<td align="center"><code>0xAAB2</code> - <code>0xAAB4</code></td>
+</tr>
+<tr class="odd">
+<td align="center"><code>0xAAB7</code> - <code>0xAAB8</code></td>
+</tr>
+<tr class="even">
+<td align="center"><code>0xAABE</code> - <code>0xAABF</code></td>
+</tr>
+<tr class="odd">
+<td align="center"><code>0xAAC1</code> - <code>0xAAC1</code></td>
 </tr>
 </tbody>
 </table>
@@ -3492,7 +4917,45 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+'&#x4
 </tr>
 </tbody>
 </table>
+<table>
+<caption><code>tfng</code> base characters</caption>
+<thead>
+<tr class="header">
+<th align="center">Character range</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><code>0x2D30</code> - <code>0x2D7F</code></td>
+<td align="left">Tifinagh</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption><code>vaii</code> base characters</caption>
+<thead>
+<tr class="header">
+<th align="center">Character range</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><code>0xA500</code> - <code>0xA63F</code></td>
+<td align="left">Vai</td>
+</tr>
+</tbody>
+</table>
 <h1 id="history">History</h1>
+<h2 id="version-1.7-2017-aug-26">Version 1.7 (2017-Aug-26)</h2>
+<ul>
+<li><p>Support for Adlam, Avestan, Bamum, Buhid, Unified Canadian Syllabics, Carian, Chakma, Coptic, Cypriot, Deseret, Glagolitic, Gothic, Kayah Li, Lisu, N’Ko, Ol Chiki, Old Turkic, Osage, Osmanya, Saurashtra, Shavian, Sundanese, Tai Viet, Tifinagh, and Vai scripts.</p>
+<p>Note that the used blue zone characters might not be optimal. Please report any problems so that I can fix issues!</p></li>
+<li><p>Option <code>--fallback-stem-width</code> now works for non-symbol fonts also, as documented.</p></li>
+<li><p>TrueType bytecode generated by ttfautohint now correctly supports most recent MS interpreter versions.</p></li>
+<li><p>A bug with bytecode for composite glyphs with composite subglyphs is now fixed.</p></li>
+</ul>
 <h2 id="version-1.6-2016-nov-27">Version 1.6 (2016-Nov-27)</h2>
 <ul>
 <li><p>A new option <code>--reference</code> (and <code>--reference-index</code> to select a font within a TTC) makes ttfautohint use the blue zones from another font. This helps synchronize the ascenders and descenders of font families.</p></li>
@@ -3542,15 +5005,11 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+'&#x4
 <ul>
 <li><p>Adding segments and changing segment directions.</p></li>
 <li><p>Applying delta exceptions. Note that this doesn’t really work in ClearType.</p></li>
-</ul></li>
 </ul>
 <p>Please see the documentation for a description and a small tutorial.</p>
-<p>In the command-line front-end, use option <code>--control-file</code> to load such a file.</p>
-<ul>
-<li>Support for input file watching in ttfautohintGUI: If the ‘Watch Input File’ box is checked, the program automatically regenerates the output file as soon as the input font or control instructions file gets modified.</li>
-</ul>
-<p>The idea is to dock ttfautohintGUI to your favourite font and text editor instead of adding a cheap text editor to ttfautohintGUI itself.</p>
-<ul>
+<p>In the command-line front-end, use option <code>--control-file</code> to load such a file.</p></li>
+<li><p>Support for input file watching in ttfautohintGUI: If the ‘Watch Input File’ box is checked, the program automatically regenerates the output file as soon as the input font or control instructions file gets modified.</p>
+<p>The idea is to dock ttfautohintGUI to your favourite font and text editor instead of adding a cheap text editor to ttfautohintGUI itself.</p></li>
 <li><p>With the new option <code>--fallback-stem-width</code> it is now possible to set a default stem width for all scripts that lack proper standard characters in the font.</p></li>
 <li><p>Add alias <code>--adjust-subglyphs</code> for option <code>--pre-hinting</code> to better describe its functionality. The short form <code>-p</code> stays unchanged.</p></li>
 <li><p>New option <code>--ttfa-table</code> to add an SFNT table <code>TTFA</code> to the output font, containing an ASCII dump of all used ttfautohint parameters (including control instructions). Right now, this is mainly for archiving purposes. Forthcoming versions of ttfautohint will be able to re-use this data if a font gets re-processed.</p></li>
@@ -3574,10 +5033,8 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+'&#x4
 </ul>
 <h2 id="version-1.00rc1-2014-feb-07">Version 1.00rc1 (2014-Feb-07)</h2>
 <ul>
-<li>OpenType feature support. ttfautohint now uses the HarfBuzz library to analyze data from the <code>GSUB</code> table. This allows the hinting of glyphs that don’t have an entry in a font’s <code>cmap</code> table, for example superscripts or small caps.</li>
-</ul>
-<p>Related to this, the new option <code>--default-script</code> controls the default (fallback) script used for OpenType features.</p>
-<ul>
+<li><p>OpenType feature support. ttfautohint now uses the HarfBuzz library to analyze data from the <code>GSUB</code> table. This allows the hinting of glyphs that don’t have an entry in a font’s <code>cmap</code> table, for example superscripts or small caps.</p>
+<p>Related to this, the new option <code>--default-script</code> controls the default (fallback) script used for OpenType features.</p></li>
 <li><p>More than a single standard character is used. For example, the ‘latin’ script uses characters ‘o’, ‘O’, and digit ‘0’. This improves the hinting of fonts (and features) that have only a partial coverage of a script’s character repertoire.</p></li>
 <li><p>Much better GDI ClearType hinting in the range 30-80ppem (approx.), avoiding overly flat tops and bottoms of round glyphs.</p></li>
 <li><p>Better handling of non-square pixels (this is, horizontal and vertical resolutions differ) in the created TrueType bytecode.</p></li>
@@ -3590,10 +5047,8 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+'&#x4
 </ul>
 <h2 id="version-0.96-2013-aug-06">Version 0.96 (2013-Aug-06)</h2>
 <ul>
-<li>Option <code>--components</code> has been replaced with <code>--composites</code>: By default, the components of a composite glyph are now hinted separately, since tests has shown that this gives good results in most cases. If this option is set, however, the composite glyph itself gets hinted (and the hints of the components are ignored).</li>
-</ul>
-<p>An unfortunate side effect is that ttfautohint’s option <code>-c</code> (which stays as a shorthand for <code>--composites</code>) now does exactly the opposite as in previous releases.</p>
-<ul>
+<li><p>Option <code>--components</code> has been replaced with <code>--composites</code>: By default, the components of a composite glyph are now hinted separately, since tests has shown that this gives good results in most cases. If this option is set, however, the composite glyph itself gets hinted (and the hints of the components are ignored).</p>
+<p>An unfortunate side effect is that ttfautohint’s option <code>-c</code> (which stays as a shorthand for <code>--composites</code>) now does exactly the opposite as in previous releases.</p></li>
 <li><p>Older versions of Monotype’s ‘iType’ bytecode interpreter have a serious bug: The DIV instruction rounds the result, while the correct operation is truncation. This caused ‘exploding characters’ with fonts hinted by ttfautohint. Since many printers contain this rasterizer without any possibility to update to a non-buggy version, ttfautohint now contains work-arounds to circumvent the problem.</p></li>
 <li><p>Better support for glyphs where some points have almost the same position (for example glyph ‘Oslash’ in font ‘Roboto-Thin’).</p></li>
 <li><p>Better support for glyphs that use explicit ‘on’ points around round extrema.</p></li>
@@ -3612,10 +5067,8 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+'&#x4
 </ul>
 <h2 id="version-0.93-2012-oct-09">Version 0.93 (2012-Oct-09)</h2>
 <ul>
-<li>New option <code>--components</code> to treat components of composite glyphs separately. This greatly reduces the bytecode size.</li>
-</ul>
-<p>I’m waiting for reports whether this option works for most fonts; in case this is true I’m inverting the option, making it the default (and the old behaviour optional).</p>
-<ul>
+<li><p>New option <code>--components</code> to treat components of composite glyphs separately. This greatly reduces the bytecode size.</p>
+<p>I’m waiting for reports whether this option works for most fonts; in case this is true I’m inverting the option, making it the default (and the old behaviour optional).</p></li>
 <li><p>Full support of TTCs, this is, all subfonts get auto-hinted now.</p></li>
 <li><p>The upper limit of the <code>--increase-x-height</code> option has been removed.</p></li>
 <li><p>Drag-and-drop support in the GUI.</p></li>
@@ -3692,8 +5145,9 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+'&#x4
 <hr />
 <ol>
 <li id="fn1"><p>To be more precise, the sum of the height and length of a segment must be at least 20 font units, and the height multiplied by 14 must not exceed the length. Thus (19,1) is also a valid minimum (length,height) pair, while (18,2) isn’t. The value 20 is heuristic and hard-coded, as is the value 14 (corresponding to a slope of approx. 4.1°).<a href="#fnref1">↩</a></p></li>
-<li id="fn2"><p>Unfortunately, there is a bug in FreeType prior to version 2.5.4 (released in December 2014) that completely disables vertical delta exceptions if subpixel hinting is activated. For this reason you should expect that the <code>touch</code> parameter fails on older GNU/Linux distributions.<a href="#fnref2">↩</a></p></li>
-<li id="fn3"><p>The number ‘6’ indicates the version of the shared library of FreeType, which is not directly related to the source code version of FreeType.<a href="#fnref3">↩</a></p></li>
+<li id="fn2"><p>The notable exception is the tag ‘lao’, which originally has a trailing space as the fourth character. However, ttfautohint ignores the space.<a href="#fnref2">↩</a></p></li>
+<li id="fn3"><p>Unfortunately, there is a bug in FreeType prior to version 2.5.4 (released in December 2014) that completely disables vertical delta exceptions if subpixel hinting is activated. For this reason you should expect that the <code>touch</code> parameter fails on older GNU/Linux distributions.<a href="#fnref3">↩</a></p></li>
+<li id="fn4"><p>The number ‘6’ indicates the version of the shared library of FreeType, which is not directly related to the source code version of FreeType.<a href="#fnref4">↩</a></p></li>
 </ol>
 </div>
       </div>
@@ -3791,6 +5245,7 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+'&#x4
 <li><a href="#authors">Authors</a></li>
 <li><a href="#character-ranges">Character Ranges</a></li>
 <li><a href="#history">History</a><ul>
+<li><a href="#version-1.7-2017-aug-26">Version 1.7 (2017-Aug-26)</a></li>
 <li><a href="#version-1.6-2016-nov-27">Version 1.6 (2016-Nov-27)</a></li>
 <li><a href="#version-1.5-2016-jan-24">Version 1.5 (2016-Jan-24)</a></li>
 <li><a href="#version-1.4.1-2015-oct-17">Version 1.4.1 (2015-Oct-17)</a></li>
