@@ -94,6 +94,225 @@
           <p>Helper modules are an extreme example of this; all their
             public functionality is made for use in other font drivers
             and hence are in a single service.</p>
+
+
+          <h3>In-depth guide: Creating a service</h3>
+
+          <p>This section will teach you how to write your own
+            service.</p>
+
+          <ol>
+            <li>
+              <p>Make the service interface header.</p>
+
+              <p>We will be calling our service demo for demonstration
+                purposes.  First, create the header file, which goes
+                in <tt>include/freetype/internal/services</tt>, and
+                add the boilerplate.</p>
+
+              <pre>
+#include FT_INTERNAL_SERVICE_H
+FT_BEGIN_HEADER
+#define FT_SERVICE_ID_DEMO  "demo"
+
+/* ...  */
+
+FT_END_HEADER</pre>
+
+              <p>This line in particular is required to register the
+                new service later on.</p>
+
+              <pre>
+#define <em>service-id service-tag</em></pre>
+
+            </li>
+            <li>
+              <p>We will have identified some functions that are
+                needed in another module.  Extract the function
+                signatures of these and place them in the header.</p>
+
+              <pre>
+[typedef <em>return-type</em>
+   (*<em>type-name</em>)(<em>function-signature</em>);]+</pre>
+
+              <p>Example:</p>
+
+              <pre>
+typedef FT_Error
+  (*SampleDoSomethingFunc)( int  foo );
+typedef void
+  (*SampleDoAnotherFunc)( int    foo,
+                          float  bar );</pre>
+
+            </li>
+            <li>
+              <p>Define the service interface.</p>
+
+              <p>Use the <tt>FT_DEFINE_SERVICE</tt> macro to do
+                this.</p>
+
+              <pre>
+FT_DEFINE_SERVICE( <em>service-name</em> )
+{
+  [<em>type-name  interface-entry</em>;]+
+}</pre>
+
+              <p>Example:</p>
+
+              <pre>
+FT_DEFINE_SERVICE( Demo )
+{
+  SampleDoSomethingFunc  doSomething;
+  SampleDoAnotherFunc    doAnother;
+};</pre>
+
+              <p>Here is the definition of the above macro
+                (in <tt>ftserv.h</tt>).</p>
+
+              <pre>
+#define FT_DEFINE_SERVICE( name )            \
+  typedef struct FT_Service_ ## name ## Rec_ \
+    FT_Service_ ## name ## Rec ;             \
+  typedef struct FT_Service_ ## name ## Rec_ \
+    const * FT_Service_ ## name ;            \
+  struct FT_Service_ ## name ## Rec_</pre>
+
+              <p>This defines a new struct
+                called <tt>FT_Service_DemoRec</tt>, along with a
+                handle type for the
+                struct, <tt>FT_Service_Demo</tt>.</p>
+            </li>
+            <li>
+              <p>Register (and/or implement) the functions for the
+              newly created interface.</p>
+
+              <p>In the module implementing the interface, add a
+                definition like the following</p>
+
+              <pre>
+static const <em>service-record  table-name</em> =
+{
+  <em>function-name</em>
+  [,<em>function-name2</em> [,...]]
+}</pre>
+
+              <p>which corresponds to the interface defined in
+                step&nbsp;3.  Example:</p>
+
+              <pre>
+static const FT_Service_DemoRec  demo_service_rec =
+{
+  function1,
+  function2
+};</pre>
+
+              <p>This initializes the function pointers table.  In
+                this example, <tt>function1</tt> has the function
+                signature of <tt>SampleDoSomethingFunc</tt> and
+                implements the <tt>doSomething</tt> functionality, and
+                so on.</p>
+            </li>
+            <li>
+              <p>Register the new service.</p>
+
+              <p>Next, add this code to define the service list in
+                this module, or append the new service to an existing
+                list.</p>
+
+              <pre>
+static const FT_ServiceDescRec <em>service-list-name</em>[] =
+{
+  { <em>service-id</em>, &amp;<em>table-name</em> },
+  [{ <em>service-id2</em>, &amp;<em>table-name2</em> }, [...]]
+  { NULL, NULL }
+}</pre>
+
+              <p>Example:</p>
+
+              <pre>
+static const FT_ServiceDescRec demo_services[] =
+{
+  { FT_SERVICE_ID_DEMO, &amp;demo_service_rec },
+  { NULL, NULL }
+};</pre>
+
+              <p><em>service-id</em> is what we <tt>#define</tt>'d in
+                the service header file in step&nbsp;1. Note that
+                the <tt>{NULL,&nbsp;NULL}</tt> sentinel value at the
+                end is required.</p>
+
+              <p>Now we need a way for other modules to find this
+                service.  First, we need to implement
+                the <tt>get_interface</tt> function in
+                <tt>FT_Module_Class</tt>.  Here is a minimal example
+                that does not do any validation.</p>
+
+              <pre>
+FT_CALLBACK_DEF( FT_Module_Interface )
+<em>get-interface-name</em>( FT_Module    module,
+                    const char*  module_interface )
+{
+  return ft_service_list_lookup( <em>service-list-name</em>,
+                                 module_interface );
+}</pre>
+
+              <p>Then, pass it into the <tt>FT_DEFINE_MODULE</tt>
+                macro for this module.</p>
+
+              <pre>
+(FT_Module_Requester) <em>get-interface-name</em></pre>
+
+              <p>The last step is optional but recommended, which is
+                to register the new service header
+                in <tt>ftserv.h</tt>.
+
+                <pre>
+#define FT_SERVICE_DEMO_H  &lt;freetype/internal/services/svdemo.h&gt;</pre>
+
+            </li>
+            <li>
+              <p>Use the new service.</p>
+
+              <p>Now, in the file that wants to use the service, add
+                the following code to get the service.</p>
+
+              <pre>
+<em>service-record-handle</em>  service;
+
+
+FT_FACE_FIND_GLOBAL_SERVICE( face,
+                             service,
+                             <em>service-id-tail</em> );</pre>
+
+              <p><tt>face</tt> should be of type <tt>FT_Face</tt>,
+                which is usually the current face instance being used
+                in the driver, and FreeType tries to find the service
+                in the driver of this face first, before searching all
+                other modules.</p>
+
+              <p><em>service-id-tail</em> is the part
+                of <em>service-id</em>
+                following <tt>FT_SERVICE_ID_</tt>.
+
+              <p>Now to call some function in the service.</p>
+
+              <pre>
+service-><em>interface-entry</em>( <em>params</em> );</pre>
+
+              <p>Example:</p>
+
+              <pre>
+FT_Service_Demo  demo;
+FT_Error         error;
+
+
+FT_FACE_FIND_GLOBAL_SERVICE( face, demo, DEMO );
+
+error = demo->doSomething(0);
+</pre>
+
+            </li>
+          </ol>
         </div>
 
         <!-- ************************************************** -->
