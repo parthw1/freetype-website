@@ -56,10 +56,10 @@
         <!-- ************************************************** -->
 
         <div>
-          <p>The FreeType project is part
+          <p>The FreeType project was part
               of <a href="https://developers.google.com/open-source/gsoc/">Google
-              Summer of Code 2017</a>!  Here is our ideas list – if
-              you have another one, please write to
+              Summer of Code 2017</a>!  Here is our ideas list for
+              future GSoCs – if you have another one, please write to
               our <a href="mailto:freetype-devel@nongnu.org">mailing
               list</a> so that we can discuss your suggestions,
               eventually adding them to the list.</p>
@@ -218,7 +218,7 @@ int LLVMFuzzerTestOneInput(const uint8_t* data,
 
           <dl>
             <dt>Develop a test framework for checking FreeType's
-              rendering output</dt>
+              rendering output (started as a GSoC 2017 project)</dt>
             <dd>
               <p>Right now, FreeType's rendering results of the
                 current development version are not systematically
@@ -278,28 +278,28 @@ int LLVMFuzzerTestOneInput(const uint8_t* data,
           </dl>
 
           <dl>
-            <dt>Make FreeType use the new CFF driver for Type&nbsp;1
-              fonts also</dt>
+            <dt>Convert FreeType's HTML documentation to markdown</dt>
             <dd>
-              <p>Since Adobe's contribution of a new CFF driver,
-                FreeType has excellent hinting support for this font
-                format.</p>
+              <p>Right now, FreeType's global documentation is
+                directly written in HTML; the API documentation uses a
+                selfmade Python script to convert a very limited,
+                markdown-like syntax to HTML.</p>
 
-              <p>On the other hand, FreeType's hinting of PostScript
-                Type&nbsp;1 fonts is rather bad, mainly for historical
-                reasons and lack of maintainance.</p>
+              <p>Writing HTML manually is inconvenient and not very
+                flexible.  Today, there are excellent converters
+                available that can be used for conversion from
+                markdown to HTML, for
+                example <a href="https://pandoc.org">pandoc</a>.</p>
 
-              <p>Since both CFF and Type&nbsp;1 are PostScript font
-                formats, the similarity (after decoding) is large.
-                The idea is now to make the CFF driver understand
-                Type&nbsp;1 fonts; this would automatically yield
-                much better hinting.</p>
+              <p>This project would convert the complete documentation
+                to markdown, extending the selfmade Python script to
+                emit markdown also, and setting up a Makefile that
+                statically generates the complete HTML code of the
+                FreeType web pages.</p>
 
-              <p><em>Difficulty:</em> hard (because of getting
-                acquainted to FreeType internals, not the coding
-                itself).  <em>Requirements:</em> C, Unix build
-                tools.  <em>Potential mentor:</em> Werner Lemberg
-                (FreeType).</p>
+              <p><em>Difficulty:</em> medium.  <em>Requirements:</em>
+                markdown, python, Unix build tools.  <em>Potential
+                mentor:</em> Werner Lemberg (FreeType).</p>
             </dd>
           </dl>
 
@@ -312,7 +312,7 @@ int LLVMFuzzerTestOneInput(const uint8_t* data,
         <!-- ************************************************** -->
 
         <div class="updated">
-          <p>Last update: 28-Feb-2017</p>
+          <p>Last update: 13-Sep-2017</p>
         </div>
       </div>
     </div>
