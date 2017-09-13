@@ -33,7 +33,7 @@
           src="../../../js/freetype2.js">
   </script>
 
-  <title>FreeType Design</title>
+  <title>FreeType Design / V</title>
 </head>
 
 
@@ -41,7 +41,8 @@
 
 <div id="top"
      class="bar">
-  <h1><a href="../../../index.html">FreeType</a> Design</h1>
+  <h1><a href="../../../index.html">FreeType</a>
+    Design&nbsp;/&nbsp;V</h1>
 </div>
 
 
@@ -55,89 +56,44 @@
 
         <!-- ************************************************** -->
 
-        <div id="introduction">
-          <p>This document gives an overview of some FreeType&nbsp;2
-            internals.  Read this carefully if you want to understand
-            the innards of the library in order to hack or extend
-            it.</p>
+        <div id="module-classes">
+          <h2>V. Interfaces and Services</h2>
 
-          <p>Note that many, quite important details are still
-            missing, which are hopefully addressed in the not too
-            distant future.  Volunteers to help with this task are
-            highly welcomed!</p>
-        </div>
+          <p>We shall now go into detail about interfaces and services
+            in FreeType.</p>
 
-        <!-- ************************************************** -->
+          <p><em>Interfaces</em> in FreeType are analogous to those
+            found in object-oriented programming.  They can be thought
+            of as internal public APIs, and are essentially tables of
+            function pointers.</p>
 
-        <div id="contents">
-          <h3><a href="design-1.html">Introduction</a></h3>
+          <p>Interfaces only describe the form and functionality, but
+            the actual function body may be implemented elsewhere.
+            The module that is implementing the interface will then
+            pass the required function pointers to the table.  This
+            gives modularity and easy extendability.</p>
 
-          <h3><a href="design-2.html">I. Components and APIs</a></h3>
+          <p>There are two main kinds of interfaces: <em>module</em>
+            interfaces, and <em>services</em>.</p>
 
-          <h3><a href="design-3.html">II. Public Objects and
-              Classes</a></h3>
-          <ul>
-            <li>
-              <a href="design-3.html#section-1">1. Object Orientation
-                in FreeType&nbsp;2</a>
-            </li>
-            <li>
-              <a href="design-3.html#section-2">2. The <tt>FT_Library</tt>
-                class</a>
-            </li>
-            <li>
-              <a href="design-3.html#section-3">3. The <tt>FT_Face</tt>
-                class</a>
-            </li>
-            <li>
-              <a href="design-3.html#section-4">4. The <tt>FT_Size</tt>
-              class</a>
-            </li>
-            <li>
-              <a href="design-3.html#section-5">5. The <tt>FT_GlyphSlot</tt>
-                class</a>
-            </li>
-            <li>
-              <a href="design-3.html#section-6">6. The <tt>FT_CharMap</tt>
-                class</a>
-            </li>
-            <li>
-              <a href="design-3.html#section-7">7. Objects
-                Relationship</a>
-            </li>
-          </ul>
+          <p>Module interfaces are defined for each module.  For
+            example, every font driver provides its own set of
+            procedures for use in the base layer, which are registered
+            in an <tt>FT_Driver</tt>.  This way, very different font
+            drivers can be used in the same way in the base layer.</p>
 
-          <h3><a href="design-4.html">III. Internal Objects and
-              Classes</a></h3>
-          <ul>
-            <li>
-              <a href="design-4.html#section-1">1. Memory Management</a>
-            </li>
-            <li>
-              <a href="design-4.html#section-2">2. Input Streams</a>
-            </li>
-            <li>
-              <a href="design-4.html#section-3">3. Modules</a>
-            </li>
-            <li>
-              <a href="design-4.html#section-4">4. Summary</a>
-            </li>
-          </ul>
+          <p>Services are cross-module interfaces.  These provide
+            functionality needed in several font drivers. </p>
 
-          <h3><a href="design-5.html">IV. Module Classes</a></h3>
-          <ul>
-            <li>
-              <a href="design-5.html#section-1">1. The <tt>FT_Module_Class</tt>
-                Structure</a>
-            </li>
-            <li>
-              <a href="design-5.html#section-2">2. The <tt>FT_Module</tt>
-              Type</a>
-            </li>
-          </ul>
+          <p>Services are created when code from one module needs to
+            be used in another.  Rather than include files from
+            another module, a service is created instead.  Now, the
+            other module just needs to include the header defining the
+            interface.</p>
 
-          <h3><a href="design-6.html">V. Interfaces and
-              Services</a></h3>
+          <p>Helper modules are an extreme example of this; all their
+            public functionality is made for use in other font drivers
+            and hence are in a single service.</p>
         </div>
 
         <!-- ************************************************** -->
@@ -204,7 +160,7 @@
     </li>
 
     <li class="secondary">
-      <a href="index.html" class="current">FreeType Design</a>
+      <a href="index.html">FreeType Design</a>
     </li>
     <li class="tertiary">
       <a href="design-1.html">Introduction</a>
@@ -222,7 +178,8 @@
       <a href="design-5.html">Module Classes</a>
     </li>
     <li class="tertiary">
-      <a href="design-6.html">Interfaces and Services</a>
+      <a href="design-6.html" class="current">Interfaces and
+        Services</a>
     </li>
   </ul>
 </div>
