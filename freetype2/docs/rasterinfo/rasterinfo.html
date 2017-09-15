@@ -42,6 +42,11 @@
       text-rendering: optimizeLegibility; }	
 
     span.RasterInfo { font-family: "RasterInfo"; }
+
+    div.zebra {
+      float: right;
+      font-family: "RasterInfo";
+      font-size: 96px; }
   </style>
 
   <title>The RasterInfo Font</title>
@@ -79,7 +84,12 @@
           parentheses gives the character to be used in the RasterInfo
           font.  For more details on the various parameters, please
           consult the source code file for the font, to be found
-          on <a href="https://github.com/lemzwerg/RasterInfo/blob/master/RasterInfo.m4">github</a>.</p>
+          on <a href="https://github.com/lemzwerg/RasterInfo/blob/master/RasterInfo.m4">github</a>.
+          The special zebra glyphs (&lsquo;#$&rsquo;) are designed
+          to test gamma correction and LCD filtering; they should not,
+          ideally, have any moir&eacute; or color fringes.</p>
+
+        <div class="zebra">#$</div>
 
         <div class="quote">
           <p>The current PPEM value used in this paragraph
@@ -123,11 +133,6 @@
 
           <p>If Gray ClearType is active, digit&nbsp;1 is shown
             (&lsquo;;&rsquo;): <span class="RasterInfo">;</span></p>
-
-          <p style=line-height:96px>These glyphs should ideally appear
-            without Moir&eacute; pattern and color fringes
-            (&lsquo;#$%&rsquo;): <span class="RasterInfo"
-            style=font-size:96px>#$%</span></p>
         </div>
 
         <p>As an example, the image below shows the values as
@@ -136,8 +141,8 @@
 
         <p align="center">
           <img src="RasterInfo Windows 10 Edge 40.png"
-               height="411"
-               width="450"
+               height="384"
+               width="424"
                alt="RasterInfo display on Windows 10 using Edge 40">
         </p>
 
@@ -172,7 +177,7 @@
           License</a>. The current version is 1.02.</p>
 
         <div class="updated">
-          <p>Last update: 13-Sep-2017</p>
+          <p>Last update: 14-Sep-2017</p>
         </div>
       </div>
     </div>
