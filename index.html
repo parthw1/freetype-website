@@ -100,19 +100,25 @@
         <div id="news">
           <h2>News &amp; Updates</h2>
 
-          <h4>GSoC</h4>
-          <div class="date">2017-02-28</div>
+          <h4>FreeType 2.8.1</h4>
+          <div class="date">2017-09-16</div>
 
-          <p>The FreeType project was accepted to be part
-            of <a href="https://developers.google.com/open-source/gsoc/">Google
-            Summer of Code</a> 2017!  Here's <a href="gsoc.html">a
-            link</a> to our ideas list – if you have another one,
-            please write to
-            our <a href="mailto:freetype-devel@nongnu.org">mailing
-            list</a> so that we can discuss your suggestions,
-            eventually adding them to the list.  And if you want to
-            participate as a student, now is the time to discuss
-            everything, again using the mailing list.</p>
+          <p>FreeType 2.8.1 has been released.  This is mainly a
+            maintenance release with one important change: By default,
+            FreeType now offers high quality LCD-optimized output
+            without resorting to ClearType techniques of resolution
+            tripling and filtering.  In this method,
+            called <em>Harmony</em>, each color channel is generated
+            separately after shifting the glyph outline, capitalizing
+            on the fact that the color grids on LCD panels are shifted
+            by a third of a pixel.  This output is indistinguishable
+            from ClearType with a light 3-tap filter.</p>
+
+          <p>See
+            <a href="https://sourceforge.net/projects/freetype/files/freetype2/2.8.1/">here</a>
+            for a extensive list of changes; noteworthy bug fixes are
+            correct handling of B/W TrueType hinting and some OpenType
+            variation font handling issues.</p>
 
 
           <h4>FreeType 2.8</h4>
@@ -129,6 +135,21 @@
             handling of TrueType fonts: unhinted loading didn't work
             as expected, and the light auto-hinter used incorrect
             metrics.</p>
+
+
+          <h4>GSoC</h4>
+          <div class="date">2017-02-28</div>
+
+          <p>The FreeType project was accepted to be part
+            of <a href="https://developers.google.com/open-source/gsoc/">Google
+            Summer of Code</a> 2017!  Here's <a href="gsoc.html">a
+            link</a> to our ideas list – if you have another one,
+            please write to
+            our <a href="mailto:freetype-devel@nongnu.org">mailing
+            list</a> so that we can discuss your suggestions,
+            eventually adding them to the list.  And if you want to
+            participate as a student, now is the time to discuss
+            everything, again using the mailing list.</p>
 
 
           <h4>FreeType 2.7.1</h4>
@@ -482,7 +503,7 @@
             want to thank Adobe, which has contributed to half the
             total pledgie amount.</p>
 
-          <h4>Pledgie Campaign for Development and Maintainance</h4>
+          <h4>Pledgie Campaign for Development and Maintenance</h4>
           <div class="date">2012-12-20</div>
 
           <p><a href="https://pledgie.com/campaigns/18808">
@@ -493,7 +514,7 @@
           </a></p>
 
           <p>I've started a pledgie campaign for FreeType development
-            and maintainance.  While no single company employs me
+            and maintenance.  While no single company employs me
             (Werner Lemberg) directly to work on it, I am constantly
             improving it, adding new features, relentlessly driving up
             quality, and responding to other developers’ requests.</p>
@@ -588,7 +609,7 @@
           <h4>FreeType 2.4.5</h4>
           <div class="date">2011-06-24</div>
 
-          <p>FreeType 2.4.5 has been released.  This is a maintainance
+          <p>FreeType 2.4.5 has been released.  This is a maintenance
             release.  All users should upgrade, especially if you
             still experience rendering degradations with version
             2.4.4.
@@ -634,7 +655,7 @@
           <h3>Font Tools</h3>
 
           <div class="quote">
-            <p><a href="http://sourceforge.net/projects/fonttools/">TTX</a>
+            <p><a href="https://github.com/fonttools/fonttools">TTX</a>
                 &ndash; an OpenType assembler and disassembler<br>
 
               <a href="http://fontforge.org">FontForge</a> &ndash;
