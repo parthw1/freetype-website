@@ -41,12 +41,17 @@
       font-style: normal;
       text-rendering: optimizeLegibility; }	
 
-    span.RasterInfo { font-family: "RasterInfo"; }
+    span.RasterInfo {
+      font-family: "RasterInfo"; }
+    span.RasterInfo-large {
+      font-family: "RasterInfo";
+      font-size: 96px;
+      line-height: 100%; }
 
     div.zebra {
       float: right;
-      font-family: "RasterInfo";
-      font-size: 96px; }
+      text-align:center;
+      line-height: 300%; }
   </style>
 
   <title>The RasterInfo Font</title>
@@ -89,7 +94,8 @@
           to test gamma correction and LCD filtering; they should not,
           ideally, have any moir&eacute; or color fringes.</p>
 
-        <div class="zebra">#$</div>
+        <div class="zebra"><span class="RasterInfo-large">#$</span><br>
+          #$</div>
 
         <div class="quote">
           <p>The current PPEM value used in this paragraph
