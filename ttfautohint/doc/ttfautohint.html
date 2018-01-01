@@ -13,7 +13,7 @@
   <meta name="author"
         content="Werner Lemberg" />
   <meta name="version"
-        content="1.8" />
+        content="1.8.1" />
 
   <title>ttfautohint</title>
 
@@ -283,7 +283,7 @@
 <div id="header">
 <h1 class="title">ttfautohint</h1>
 <h2 class="author">Werner Lemberg</h2>
-<h3 class="date">Version 1.8</h3>
+<h3 class="date">Version 1.8.1</h3>
 </div>
 
 <!--
@@ -3206,13 +3206,13 @@ TTF_autohint(<span class="dt">const</span> <span class="dt">char</span>* options
 <p>These three macros give the major, minor, and revision number of the library, respectively. See function <a href="#function-ttf_autohint_version"><code>TTF_autohint_version</code></a> for more details.</p>
 <div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="pp">#define TTFAUTOHINT_MAJOR 1</span>
 <span class="pp">#define TTFAUTOHINT_MINOR 8</span>
-<span class="pp">#define TTFAUTOHINT_REVISION 0</span></code></pre></div>
+<span class="pp">#define TTFAUTOHINT_REVISION 1</span></code></pre></div>
 <h2 id="macro-ttfautohint_version">Macro: <code>TTFAUTOHINT_VERSION</code></h2>
 <p>This macro holds the ttfautohint version string.</p>
 <p>For tarball releases it has the form <em>X</em>.<em>Y</em>[.<em>Z</em>], with <em>X</em>, <em>Y</em>, and <em>Z</em> the major, minor, and revision numbers, respectively. If the revision number is zero, it is omitted. Examples: <code>2.7</code>, <code>2.7.1</code>.</p>
 <p>If compiling directly from the git repository, ttfautohint’s bootstrap script derives the version number from the <code>git describe</code> output, appending the number of commits after a tag together with a shortened commit ID. Example: <code>2.7.1.23-379b</code>.</p>
 <p>See function <a href="#function-ttf_autohint_version"><code>TTF_autohint_version</code></a> for more details.</p>
-<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="pp">#define TTFAUTOHINT_VERSION &quot;1.8&quot;</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="pp">#define TTFAUTOHINT_VERSION &quot;1.8.1&quot;</span></code></pre></div>
 <h2 id="function-ttf_autohint_version">Function: <code>TTF_autohint_version</code></h2>
 <p>Return the ttfautohint version triplet. This function is useful when dynamically linking to the library, since the macros <code>TTFAUTOHINT_MAJOR</code>, <code>TTFAUTOHINT_MINOR</code>, and <code>TTFAUTOHINT_PATCH</code> cannot be used in that case.</p>
 <p>The returned integer triplet is <em>not</em> the same as the shared library’s version triplet (which the dynamic linker uses to resolve runtime dependencies). For example, hypothetical ttfautohint versions 2.27 and 2.27.1 might both correspond to shared library version 1.0.38 in case there are only, say, documentation or packaging differences that don’t affect the library code.</p>
@@ -5030,6 +5030,10 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+'&#x4
 </tbody>
 </table>
 <h1 id="history">History</h1>
+<h2 id="version-1.8.1-2018-jan-01">Version 1.8.1 (2018-Jan-01)</h2>
+<ul>
+<li>Bug fix: The <code>configure</code> script couldn’t recognize Qt 5.10.x.</li>
+</ul>
 <h2 id="version-1.8-2017-dec-31">Version 1.8 (2017-Dec-31)</h2>
 <ul>
 <li><p>A third, ‘natural’ stem width mode has been added: No adjustments to stem widths, discrete blue zone positioning. This is what FreeType uses for its ‘light’ (auto-)hinting mode.</p></li>
@@ -5346,6 +5350,7 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+'&#x4
 <li><a href="#authors">Authors</a></li>
 <li><a href="#character-ranges">Character Ranges</a></li>
 <li><a href="#history">History</a><ul>
+<li><a href="#version-1.8.1-2018-jan-01">Version 1.8.1 (2018-Jan-01)</a></li>
 <li><a href="#version-1.8-2017-dec-31">Version 1.8 (2017-Dec-31)</a></li>
 <li><a href="#version-1.7-2017-aug-26">Version 1.7 (2017-Aug-26)</a></li>
 <li><a href="#version-1.6-2016-nov-27">Version 1.6 (2016-Nov-27)</a></li>
