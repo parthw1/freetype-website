@@ -102,43 +102,13 @@
 <table class="index-toc-link"><tr><td class="left">[<a href="ft2-index.html">Index</a>]</td><td class="right">[<a href="ft2-toc.html">TOC</a>]</td></tr></table>
 <h1>FreeType-2.9 API Reference</h1>
 
-<h1 id="error_enumerations">Error Enumerations</h1>
+<h1 id="t1_cid_driver">The Type 1 and CID drivers</h1>
 
-<p>The header file &lsquo;fterrors.h&rsquo; (which is automatically included by &lsquo;freetype.h&rsquo; defines the handling of FreeType's enumeration constants. It can also be used to generate error message strings with a small macro trick explained below.</p>
-<p><b>Error</b> <b>Formats</b></p>
-<p>The configuration macro FT_CONFIG_OPTION_USE_MODULE_ERRORS can be defined in &lsquo;ftoption.h&rsquo; in order to make the higher byte indicate the module where the error has happened (this is not compatible with standard builds of FreeType&nbsp;2, however). See the file &lsquo;ftmoderr.h&rsquo; for more details.</p>
-<p><b>Error</b> <b>Message</b> <b>Strings</b></p>
-<p>Error definitions are set up with special macros that allow client applications to build a table of error message strings. The strings are not included in a normal build of FreeType&nbsp;2 to save space (most client applications do not use them).</p>
-<p>To do so, you have to define the following macros before including this file.</p>
-<pre class="colored">
-  FT_ERROR_START_LIST
-</pre>
-<p>This macro is called before anything else to define the start of the error list. It is followed by several FT_ERROR_DEF calls.</p>
-<pre class="colored">
-  FT_ERROR_DEF( e, v, s )
-</pre>
-<p>This macro is called to define one single error. &lsquo;e&rsquo; is the error code identifier (e.g., &lsquo;Invalid_Argument&rsquo;), &lsquo;v&rsquo; is the error's numerical value, and &lsquo;s&rsquo; is the corresponding error string.</p>
-<pre class="colored">
-  FT_ERROR_END_LIST
-</pre>
-<p>This macro ends the list.</p>
-<p>Additionally, you have to undefine &lsquo;FTERRORS_H_&rsquo; before #including this file.</p>
-<p>Here is a simple example.</p>
-<pre class="colored">
-  #undef FTERRORS_H_
-  #define FT_ERRORDEF( e, v, s )  { e, s },
-  #define FT_ERROR_START_LIST     {
-  #define FT_ERROR_END_LIST       { 0, NULL } };
-
-  const struct
-  {
-    int          err_code;
-    const char*  err_msg;
-  } ft_errors[] =
-
-  #include FT_ERRORS_H
-</pre>
-<p>Note that &lsquo;FT_Err_Ok&rsquo; is <i>not</i> defined with &lsquo;FT_ERRORDEF&rsquo; but with &lsquo;FT_NOERRORDEF&rsquo;; it is always zero.</p>
+<p>It is possible to control the behaviour of FreeType's Type&nbsp;1 and Type&nbsp;1 CID drivers with <a href="ft2-module_management.html#FT_Property_Set">FT_Property_Set</a> and <a href="ft2-module_management.html#FT_Property_Get">FT_Property_Get</a>.</p>
+<p>Behind the scenes, both drivers use the Adobe CFF engine for hinting; however, the used properties must be specified separately.</p>
+<p>The Type&nbsp;1 driver's module name is &lsquo;type1&rsquo;; the CID driver's module name is &lsquo;t1cid&rsquo;.</p>
+<p>Available properties are <a href="ft2-properties.html#hinting-engine">hinting-engine</a>, <a href="ft2-properties.html#no-stem-darkening">no-stem-darkening</a>, <a href="ft2-properties.html#darkening-parameters">darkening-parameters</a>, and <a href="ft2-properties.html#random-seed">random-seed</a>, as documented in the &lsquo;<a href="ft2-properties.html#properties">Driver properties</a>&rsquo; section.</p>
+<p>Please see the &lsquo;<a href="ft2-cff_driver.html#cff_driver">The CFF driver</a>&rsquo; section for more details on the new hinting engine.</p>
 
 </body>
 </html>
