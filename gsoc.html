@@ -56,18 +56,22 @@
         <!-- ************************************************** -->
 
         <div>
-          <p>The FreeType project was part
+          <p>The FreeType project will be part
               of <a href="https://developers.google.com/open-source/gsoc/">Google
-              Summer of Code 2017</a>!  Here is our ideas list for
-              future GSoCs – if you have another one, please write to
+              Summer of Code 2018</a>!  Here is our ideas list – if
+              you have another one, please write to
               our <a href="mailto:freetype-devel@nongnu.org">mailing
               list</a> so that we can discuss your suggestions,
-              eventually adding them to the list.</p>
+              eventually adding them to this page.</p>
 
           <p>If you are interested to participate as a student, please
             also contact us via
             the <a href="mailto:freetype-devel@nongnu.org">mailing
-            list</a>.</p>
+            list</a>.  Before doing so, however, you should get
+            <em>really</em> acquainted with the topic you would like
+            to start with!  We don't want to answer questions like
+            &ldquo;I'm interested in your project, please tell me what
+            to do!&rdquo; again and again&hellip;</p>
 
           <dl>
             <dt>Improve fuzzing for FreeType</dt>
@@ -300,6 +304,26 @@ int LLVMFuzzerTestOneInput(const uint8_t* data,
               <p><em>Difficulty:</em> medium.  <em>Requirements:</em>
                 markdown, python, Unix build tools.  <em>Potential
                 mentor:</em> Werner Lemberg (FreeType).</p>
+            </dd>
+          </dl>
+
+          <dl>
+            <dt>Integrate VFlib's TeX format drivers into
+              FreeType</dt>
+            <dd>
+              <p>The <a href="http://www-masu.ist.osaka-u.ac.jp/~kakugawa/VFlib/">VFLib
+                library</a> contains mature support for TeX's bitmap
+                formats (in particular <code>GF</code>
+                and <code>PK</code> fonts, together
+                with <code>TFM</code> metric files and <code>VF</code>
+                virtual fonts).  It would be helpful if its code could
+                be added to FreeType, providing new modules to handle
+                them.</p>
+
+              <p><em>Difficulty:</em> medium (hard for VF
+                support).  <em>Requirements:</em> C, Unix build
+                tools.  <em>Potential mentor:</em> Werner Lemberg
+                (FreeType).</p>
             </dd>
           </dl>
 
