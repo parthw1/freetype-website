@@ -325,10 +325,26 @@ int LLVMFuzzerTestOneInput(const uint8_t* data,
                 be added to FreeType, providing new modules to handle
                 them.</p>
 
+              <p>The canonic reference of
+                the <code>PK</code>, <code>GF</code>, <code>TFM</code>,
+                and <code>VF</code> font formats is the source code of
+                the TeX
+                tools <a href="https://www.tug.org/svn/texlive/trunk/Master/texmf-dist/doc/generic/knuth/mfware/gftopk.pdf?view=co">gftopk</a>
+                (for
+                <code>PK</code>), <a href="https://www.tug.org/svn/texlive/trunk/Master/texmf-dist/doc/generic/knuth/mfware/gftype.pdf?view=co">gftype</a>
+                (for
+                <code>GF</code>), <a href="https://www.tug.org/svn/texlive/trunk/Master/texmf-dist/doc/generic/knuth/texware/tftopl.pdf?view=co">tftopl</a>
+                (for <code>TFM</code>),
+                and <a href="https://www.tug.org/svn/texlive/trunk/Master/texmf-dist/doc/generic/knuth/etc/vftovp.pdf?view=co">vftovp</a>
+                (for <code>VF</code>).
+                </p>
+
               <p><em>Difficulty:</em> medium (hard for VF
-                support).  <em>Requirements:</em> C, Unix build
-                tools.  <em>Potential mentor:</em> Werner Lemberg
-                (FreeType).</p>
+                support).  <em>Requirements:</em> C, Unix build tools,
+                knowledge of TeX infrastructure
+                (using <a href="https://www.tug.org/texlive/">TeXLive</a>
+                is recommended).  <em>Potential mentor:</em> Werner
+                Lemberg (FreeType).</p>
             </dd>
           </dl>
 
@@ -341,7 +357,7 @@ int LLVMFuzzerTestOneInput(const uint8_t* data,
         <!-- ************************************************** -->
 
         <div class="updated">
-          <p>Last update: 13-Feb-2018</p>
+          <p>Last update: 23-Feb-2018</p>
         </div>
       </div>
     </div>
