@@ -287,7 +287,7 @@ int LLVMFuzzerTestOneInput(const uint8_t* data,
           </dl>
 
           <dl>
-            <dt>Convert FreeType's HTML documentation to markdown</dt>
+            <dt>Redevelop FreeType's documentation website using markdown</dt>
             <dd>
               <p>Right now, FreeType's global documentation is
                 directly written in HTML; the API documentation uses a
@@ -298,13 +298,18 @@ int LLVMFuzzerTestOneInput(const uint8_t* data,
                 flexible.  Today, there are excellent converters
                 available that can be used for conversion from
                 markdown to HTML, for
-                example <a href="https://pandoc.org">pandoc</a>.</p>
+                example <a href="https://pandoc.org">pandoc</a>,
+                <a href="https://jekyllrb.com/">Jekyll</a>,
+                or <a href="http://www.mkdocs.org">MkDocs</a>.</p>
 
-              <p>This project would convert the complete documentation
-                to markdown, extending the selfmade Python script to
-                emit markdown also, and setting up a Makefile that
-                statically generates the complete HTML code of the
-                FreeType web pages.</p>
+              <p>This project would investigate how to convert the
+                complete documentation to markdown (using a one-time
+                automated approach), extending the selfmade Python
+                script to emit markdown also, and setting up a
+                Makefile that statically generates the complete HTML
+                code of the FreeType web pages, also adding automatic
+                generation of navigation bars and search
+                facilities.</p>
 
               <p><em>Difficulty:</em> medium.  <em>Requirements:</em>
                 markdown, python, Unix build tools.  <em>Potential
@@ -357,7 +362,7 @@ int LLVMFuzzerTestOneInput(const uint8_t* data,
         <!-- ************************************************** -->
 
         <div class="updated">
-          <p>Last update: 23-Feb-2018</p>
+          <p>Last update: 27-Feb-2018</p>
         </div>
       </div>
     </div>
