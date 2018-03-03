@@ -386,9 +386,9 @@
             <li>Further improvements to the auto-hinter.  Right now,
               the module for Indic support is a dummy, and support for
               the family of Arabic scripts is completely
-              missing. <span class="comment">[FreeType 2.6.1 comes
-              with auto-hinting support for Devanagari, Telugu,
-              Arabic, Thai, and Lao.]</span>  Both investigation and
+              missing. <span class="comment">[FreeType 2.9 comes with
+              auto-hinting support for almost all scripts where
+              hinting makes sense.]</span>  Both investigation and
               research is necessary to find out how much auto-hinting
               is possible and useful, and whether other, completely
               different scripts can be supported at all.</li>
@@ -397,7 +397,10 @@
               brand-new module for handling CFF.  Given that CFF is
               very similar to Type&nbsp;1, it should be not too
               difficult to use and/or extend the CFF code so that
-              Type&nbsp;1 fonts can be handled, too.</li>
+              Type&nbsp;1 fonts can be handled,
+              too.  <span class="comment">[This was a GSoC project in
+              2017, and the resulting code has been merged into
+              FreeType 2.9.]</span></li>
             <li>Explore whether it makes sense to merge FreeType with
               (parts of)
               the <a href="http://harfbuzz.org">HarfBuzz</a> library.
